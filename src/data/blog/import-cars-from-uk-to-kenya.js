@@ -134,6 +134,12 @@ ${cta('Found a car on a UK website?', 'Send us the link for a free landed-cost c
       ['What year of car can I import from the UK in ' + YEAR + '?', `In ${YEAR}, you can import cars first registered in ${MIN_YEAR} or later under the KEBS 8-year rule. The car must also be right-hand drive.`],
       ['Is RoRo or container shipping better from the UK?', 'RoRo is cheaper and suits most cars. Container shipping adds protection for high-value cars and lets you share space. We quote both options.'],
       ['Can I import a car I found on a UK website?', 'Yes. Send us the link. We will verify the seller, check history and mileage, and send a full landed-cost quote before you pay anything.'],
+      ['What is the difference between CIF and FOB for a UK car import?', 'FOB covers the car loaded at the UK port. CIF adds marine insurance and freight to Mombasa. Neither includes KRA duty, clearing or registration.'],
+      ['Do I need an IDF for a UK car import?', 'Yes. An Import Declaration Form is lodged through Kenya\'s customs systems before or around shipment, and the IDF fee is charged on the customs value.'],
+      ['How much does it cost to import a car from London to Nairobi?', 'The total is the car price, UK collection and export costs, shipping to Mombasa, KRA taxes, clearing, registration and delivery to Nairobi. We give one all-inclusive landed quote.'],
+      ['Can I clear an ex-UK Range Rover at Mombasa myself?', 'Customs entries go through a licensed clearing agent. We handle clearing for every car we import.'],
+      ['Do UK cars need anti-rust treatment in Kenya?', 'UK roads are salted in winter, so check the underside before buying. Anti-rust treatment after arrival can protect cars that show early surface rust.'],
+      ['Can a Kenyan living in the UK bring a car home duty free?', 'Genuine returning residents may qualify for relief on one car under strict conditions. Read our returning residents guide and confirm with KRA before shipping.'],
     ],
   };
 };

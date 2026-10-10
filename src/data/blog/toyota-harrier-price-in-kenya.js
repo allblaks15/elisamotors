@@ -148,6 +148,9 @@ ${h.specs('toyota-rav4', 'Toyota RAV4: the Harrier\'s practical sibling')}
       ['What is the Harrier fuel consumption?', 'The 2.0 petrol returns about 13–15 km/L in mixed driving. The hybrid returns over 20 km/L.'],
       ['Is the Harrier expensive to maintain?', 'No. Toyota parts are widely available and affordable. Change the CVT fluid on time and use a hybrid-experienced garage for hybrid models.'],
       ['Harrier or CX-5: which is better?', 'The Harrier is more comfortable and offers a very efficient hybrid. The CX-5 drives better and costs less. Both are reliable.'],
+      ['What is the Toyota Harrier Elegance grade?', 'Elegance was a mid grade on the older XU60 Harrier, above the base grade and below Premium. On the new XU80, grades run S, G, Z and Z Leather Package.'],
+      ['How big is the Toyota Harrier boot and how many seats does it have?', 'The Harrier seats five, with a practical boot suitable for family luggage. It is not a seven-seater.'],
+      ['Can I buy a Toyota Harrier from Toyota Kenya?', 'Toyota\'s Kenyan distribution network sells selected new models. Most Harriers in Kenya are ex-Japan imports, which cost less.'],
     ],
   };
 };

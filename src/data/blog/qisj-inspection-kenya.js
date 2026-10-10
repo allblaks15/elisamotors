@@ -162,6 +162,9 @@ ${h.specs('nissan-note')}
       ['Do UK cars need pre-shipment inspection?', 'Yes. Used cars from the UK and other markets need inspection by the KEBS-appointed agent for that country.'],
       ['How long does pre-shipment inspection take?', 'Usually a few days once the car reaches the inspection centre. Re-inspections can add several days.'],
       ['Is the inspection certificate checked at Mombasa?', 'Yes. KRA and KEBS check the certificate and verify the vehicle during clearing.'],
+      ['What happens if a car fails QISJ inspection in Japan?', 'It cannot be shipped to Kenya until the faults are fixed and it passes re-inspection. Overage cars cannot pass at all, so the exporter must sell them elsewhere.'],
+      ['How do I book QISJ inspection in Japan?', 'The exporter or agent books the inspection at an approved yard before shipping. You receive the certificate with the shipping documents.'],
+      ['Can I verify mileage through the QISJ certificate?', 'The inspection records the odometer reading at export. Compare it with the auction sheet and export certificate to spot inconsistencies.'],
     ],
   };
 };

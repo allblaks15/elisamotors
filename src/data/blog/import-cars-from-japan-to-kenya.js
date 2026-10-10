@@ -128,6 +128,12 @@ ${cta('Saw a car on a Japanese export site?', 'Send us the link for a free lande
       ['What year of car can I import from Japan in ' + YEAR + '?', `Under the KEBS 8-year rule, you can import cars first registered in ${MIN_YEAR} or later in ${YEAR}.`],
       ['What does auction grade 4.5 mean?', 'Grade 4.5 means the car is in very good condition, with only minor marks. Grade 4 is good, 3.5 shows more wear, and R or RA means the car has had structural repairs.'],
       ['Who inspects cars from Japan for Kenya?', 'Every car must pass the KEBS-appointed pre-shipment inspection in Japan, which checks roadworthiness, age and radiation. At the time of writing, the appointed agent is QISJ.'],
+      ['What does FOB price mean for a Kenyan buyer?', 'FOB (free on board) is the price of the car loaded on the ship in Japan. It excludes shipping, marine insurance, KRA duty, clearing and registration.'],
+      ['What does CIF Mombasa mean on Japanese car dealer websites?', 'CIF Mombasa includes the car, marine insurance and freight to Mombasa. It excludes KRA duty, port charges, clearing and NTSA registration.'],
+      [`What is the oldest car year I can import from Japan in ${YEAR}?`, `Cars first registered in ${MIN_YEAR} or later. Older cars fail the KEBS 8-year rule and cannot be cleared.`],
+      ['What happens if I import an overage car from Japan?', 'An overage car cannot be cleared for use in Kenya. It may face penalties, re-export or forfeiture, and you lose the shipping costs. Always confirm the first registration date before buying.'],
+      ['Can I pay a Japanese dealer by telegraphic transfer from KCB or Equity Bank?', 'Yes, Kenyan banks such as KCB, Equity and Co-op send telegraphic transfers to Japan. Verify the exporter and confirm the bank details by phone first, because transfers are hard to reverse.'],
+      ['Do I need the original Japanese export certificate?', 'Yes. KRA and NTSA need the export (deregistration) certificate, usually with an English translation, to confirm the car\'s details and first registration date.'],
     ],
   };
 };

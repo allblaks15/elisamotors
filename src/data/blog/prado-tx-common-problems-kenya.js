@@ -131,6 +131,9 @@ ${h.specs('toyota-land-cruiser-250', 'Land Cruiser 250: the new Prado')}
       ['How do I prevent DPF problems on a Prado diesel?', 'Drive on the highway regularly so the filter can regenerate, use quality diesel and the correct low-ash oil, and avoid only short town trips.'],
       ['Is the Prado petrol more reliable than the diesel?', 'The 2.7 petrol is simpler and has fewer issues. The diesel is reliable too when given clean fuel, the right oil and regular highway drives.'],
       ['How can I avoid buying a problem Prado?', `Buy a younger, low-mileage car with verified history and inspect the engine, KDSS, suspension and underbody. Compliant Prados land from about ${F(p)}.`],
+      ['What is KDSS on a Toyota Prado?', 'KDSS (Kinetic Dynamic Suspension System) adjusts the anti-roll bars for better stability on road and more wheel travel off road. Cars without KDSS are simpler and cheaper to repair.'],
+      ['What are the signs of injector failure on a Prado D4D?', 'Rough idle, knocking, black smoke, hard starting and higher fuel use. Get the injectors tested by a diesel specialist.'],
+      ['How do I check a Prado chassis for structural damage?', 'Inspect the frame rails for welding, kinks or rust, check panel gaps and paint, and compare with the auction sheet. A specialist inspection is wise.'],
     ],
   };
 };

@@ -135,6 +135,9 @@ ${h.specs('toyota-land-cruiser-prado', 'Example: Toyota Prado landed prices incl
       ['Can I get personalised number plates?', 'Yes. NTSA offers personalised plates for an extra fee, subject to approval. They take longer to process.'],
       ['Is the logbook digital in Kenya?', 'Kenya has moved to digital logbook records managed through NTSA systems, which owners can view online.'],
       ['How do I transfer ownership when selling?', 'Through NTSA\'s online system, with both seller and buyer completing their parts and paying the transfer fee.'],
+      ['What number plate series is current in Kenya?', 'Kenya issues plates in sequence through NTSA, currently in the K-series with the latest letters assigned as registrations continue. Your plate is allocated automatically when the car is registered.'],
+      ['How long does logbook processing take for an imported car?', 'Registration usually completes within days of clearing, but the physical logbook can take longer. NTSA now issues digital logbooks visible on eCitizen.'],
+      ['How do I get an e-sticker for an imported car?', 'The insurance sticker is issued digitally by your insurer once cover starts. NTSA records registration details on eCitizen.'],
     ],
   };
 };

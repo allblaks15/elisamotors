@@ -125,6 +125,9 @@ ${h.specs('toyota-corolla-cross')}
       ['How long do hybrid batteries last?', 'Usually many years. Heat, age and heavy use reduce capacity. Check for warning lights and battery health before buying.'],
       ['Can I charge an electric car at home in Kenya?', 'Yes. Most owners charge overnight using a home socket or wall charger installed by a qualified electrician.'],
       ['How much is a Nissan Leaf in Kenya?', `The Nissan Leaf 40 kWh lands at about ${P('nissan-leaf', 's-40-kwh')}.`],
+      ['Do hybrid cars pay lower duty in Kenya?', 'Hybrids are taxed by engine capacity like other cars. Smaller petrol engines fall into lower excise bands, which helps many hybrids. Fully electric cars have their own treatment, so check current KRA rules.'],
+      ['Where can I fix a hybrid car in Nairobi?', 'Choose a garage that specialises in hybrids, with diagnostic tools and battery experience. Prius and Aqua batteries are available from parts dealers along Kirinyaga Road.'],
+      ['Do ex-Japan hybrids need a software update?', 'Some cars benefit from updates or recalibration after battery or inverter work. Hybrid specialists in Nairobi can scan and update systems.'],
     ],
   };
 };

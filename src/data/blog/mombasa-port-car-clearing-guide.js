@@ -138,6 +138,14 @@ ${h.specs('toyota-aqua', 'Example: Toyota Aqua landed prices including clearing'
       ['Can I clear my own car at Mombasa?', 'Customs entries are lodged through licensed clearing agents. You can choose and supervise your agent, but you still need one.'],
       ['How do I avoid storage charges at Mombasa?', 'Prepare documents before arrival, pay duty promptly and use an experienced clearing agent.'],
       ['What happens during verification?', 'Officers check the chassis number, model, engine and condition against the documents and confirm compliance.'],
+      ['What is the shore handling fee at Mombasa port?', 'It is a KPA charge for handling the vehicle at the port, separate from KRA taxes. Your clearing agent pays it as part of the port charges.'],
+      ['What is a port delivery order fee?', 'The shipping line charges a delivery order fee to release the car to you or your agent after the freight is confirmed paid.'],
+      ['What is a UCR number in car imports?', 'The Unique Consignment Reference is generated through Kenya\'s customs systems for each import and links the IDF, customs entry and payments.'],
+      ['What is the Kenya single window system?', 'The Kenya National Electronic Single Window (KenTrade) lets importers and agents lodge documents and permits for different agencies in one place.'],
+      ['What is a customs bonded warehouse at Mombasa?', 'A bonded warehouse or CFS holds goods before duty is paid. Cars can be stored there until clearing, but storage charges apply after free days.'],
+      ['How much commission does a clearing agent charge for a Japanese car?', 'Agent fees vary by agent and vehicle. Ask for a written breakdown separating the agent fee from KRA taxes, KPA charges and shipping line fees.'],
+      ['How long does it take to clear a car at Mombasa port?', 'Usually about a week once the ship has docked and documents are complete. Missing documents or KRA queries can add days.'],
+      ['Can I clear a car at Mombasa myself as an individual?', 'Customs entries are normally lodged through a licensed clearing agent. Individuals can supervise the process, but using a licensed agent is the practical route.'],
     ],
   };
 };

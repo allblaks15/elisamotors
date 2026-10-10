@@ -161,6 +161,9 @@ ${cta('Want a G-Wagon with full history?', 'We will shortlist cars with verified
       ['Where can I service a G-Wagon in Nairobi?', 'The authorised Mercedes dealer and several independent Mercedes specialists in Nairobi service the G-Class. Choose a garage with Mercedes diagnostic tools and G-Class experience.'],
       ['Which G-Wagon is cheapest to run?', `The G400d diesel is the cheapest G-Class to run. It lands at about ${P(g, 'g400d')} and uses far less fuel than the V8 models.`],
       ['What are common problems on older G-Wagons?', 'Older W463 models can suffer from oil leaks, body and chassis rust, worn seals and electrical faults. Many also have unknown histories, so inspect carefully.'],
+      ['Where can I fix a G-Wagon gearbox in Nairobi?', 'Use a Mercedes specialist with transmission experience and diagnostic equipment. Many gearbox faults are caused by fluid or software issues.'],
+      ['How big is the G-Wagon fuel tank?', 'The new W463A G-Class has a fuel tank of roughly 100 litres, giving good range even on the thirsty G63.'],
+      ['Can G-Wagon leather seats be restored in Nairobi?', 'Yes. Specialist upholsterers can clean, re-colour and repair Mercedes leather.'],
     ],
   };
 };

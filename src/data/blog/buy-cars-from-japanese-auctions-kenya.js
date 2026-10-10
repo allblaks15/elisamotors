@@ -138,6 +138,11 @@ ${h.specs('nissan-x-trail')}
       ['Do I need to pay a deposit to bid?', 'Many agents ask for a refundable deposit. Always get the deposit and refund terms in writing before paying.'],
       ['How long does it take to win a car at auction?', 'Most buyers win a matching car within one to two weeks, because auctions run daily.'],
       ['Which Japanese auctions are the biggest?', 'Large groups include USS, TAA, JU, CAA and HAA, with sites across Japan.'],
+      ['Can I buy a car from USS Tokyo, JCA or TPC auctions from Kenya?', 'Yes, through an auction agent or exporter with membership. USS Tokyo is one of the largest auction sites, while JCA and TPC are other established auction groups. The agent bids for you and handles payment, inspection and shipping.'],
+      ['Can I bid directly on Japanese car auctions from Nairobi?', 'Japanese auctions only accept registered members, so Kenyan buyers bid through an agent or exporter who has membership. You choose the cars and your maximum bid, and the agent bids live.'],
+      ['How much is the token or deposit for a Japanese car auction?', 'Agents usually ask for a deposit before bidding. The amount varies by agent and car value. Ask for the refund policy in writing before paying.'],
+      ['Is the auction deposit refundable if I do not win?', 'With most reputable agents, an unused deposit is refunded or carried to your next bid. Terms differ, so confirm the refund policy and timeline in writing first.'],
+      ['How much does a Nairobi broker charge to buy at a Japanese auction?', 'Brokers charge a fixed fee or a percentage, on top of the car price, inspection, shipping and Kenyan taxes. Ask for an all-inclusive landed quote so you can compare brokers fairly.'],
     ],
   };
 };

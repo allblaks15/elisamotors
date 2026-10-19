@@ -329,9 +329,14 @@ const baseCars = [
     variants: [V('Cayenne 3.0 V6', 2995, 'Petrol', 340, '8-speed Tiptronic', 'AWD', '10 km/L', 11.0, 13.0), V('Cayenne S 2.9 V6 Twin-Turbo', 2894, 'Petrol', 440, '8-speed Tiptronic', 'AWD', '9 km/L', 13.0, 15.0), V('Cayenne E-Hybrid', 2995, 'Hybrid', 462, '8-speed Tiptronic', 'AWD', '40 km EV range', 13.5, 16.0), V('Cayenne GTS 4.0 V8', 3996, 'Petrol', 460, '8-speed Tiptronic', 'AWD', '8 km/L', 16.0, 19.0, 'Sport Chrono, PASM sport suspension, sports exhaust, Alcantara'), V('Cayenne Turbo 4.0 V8', 3996, 'Petrol', 550, '8-speed Tiptronic', 'AWD', '7.5 km/L', 18.0, 22.0, 'Air suspension, adaptive roof spoiler, 21" wheels'), V('Cayenne Coupe 3.0 V6', 2995, 'Petrol', 340, '8-speed Tiptronic', 'AWD', '10 km/L', 12.5, 14.5, 'Coupe roofline, fixed panoramic glass roof, adaptive rear spoiler')] },
 ];
 
-const MAKE_ORDER = ['Toyota', 'Lexus', 'Nissan', 'Mazda', 'Honda', 'Subaru', 'Mitsubishi', 'Suzuki', 'Daihatsu', 'Isuzu', 'Ford', 'Volkswagen', 'Mercedes-Benz', 'BMW', 'Audi', 'Land Rover', 'Jaguar', 'Volvo', 'Mini', 'Porsche', 'Hyundai', 'Kia', 'Tesla'];
+// Range Rover, Mercedes-Benz and Porsche lead every listing on the site.
+export const LEAD_MAKES = ['Land Rover', 'Mercedes-Benz', 'Porsche'];
+const MAKE_ORDER = [...LEAD_MAKES, 'Toyota', 'Lexus', 'Nissan', 'Mazda', 'Honda', 'Subaru', 'Mitsubishi', 'Suzuki', 'Daihatsu', 'Isuzu', 'Ford', 'Volkswagen', 'BMW', 'Audi', 'Jaguar', 'Volvo', 'Mini', 'Hyundai', 'Kia', 'Tesla'];
+// Flagship models shown first, in this order (by make + model)
+const LEAD_MODELS = ['Range Rover Sport', 'Range Rover Vogue', 'Range Rover Velar', 'Range Rover Evoque', 'G-Class', 'S-Class', 'GLE', 'GLS', 'C-Class', 'E-Class', '911', 'Cayenne', 'Macan', 'Panamera', 'Taycan'];
+const leadIdx = (c) => { const i = LEAD_MODELS.indexOf(c.model); return i < 0 ? 999 : i; };
 export const cars = [...baseCars, ...moreCars, ...moreCars2].map((c, i) => ({ ...c, _i: i }))
-  .sort((a, b) => MAKE_ORDER.indexOf(a.make) - MAKE_ORDER.indexOf(b.make) || a._i - b._i);
+  .sort((a, b) => MAKE_ORDER.indexOf(a.make) - MAKE_ORDER.indexOf(b.make) || leadIdx(a) - leadIdx(b) || a._i - b._i);
 
 for (const c of cars) {
   c.slug = slugify(`${c.make} ${c.model}`);
@@ -344,3 +349,10 @@ for (const c of cars) {
   c.features = (features[c.slug] || c.f || '').split('|').filter(Boolean);
   if (!c.features.length) console.warn('No features for', c.slug);
 }
+
+// Default "featured" order: Range Rover → Mercedes-Benz → Porsche, then popular imports, then the rest
+const lead = cars.filter((c) => LEAD_MAKES.includes(c.make));
+const popularRest = cars.filter((c) => !LEAD_MAKES.includes(c.make) && c.popular);
+const others = cars.filter((c) => !LEAD_MAKES.includes(c.make) && !c.popular);
+[...lead, ...popularRest, ...others].forEach((c, i) => { c.rank = i; });
+export const byRank = (a, b) => a.rank - b.rank;

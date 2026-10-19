@@ -110,7 +110,7 @@
       if (activeEl) activeEl.textContent = active ? `(${active})` : '';
       // sort
       const mode = sortSel?.value || 'pop';
-      const key = { pop: (c) => -c.dataset.pop, 'price-asc': (c) => +c.dataset.price, 'price-desc': (c) => -c.dataset.price, name: (c) => c.dataset.name }[mode];
+      const key = { pop: (c) => +c.dataset.pop, 'price-asc': (c) => +c.dataset.price, 'price-desc': (c) => -c.dataset.price, name: (c) => c.dataset.name }[mode];
       [...cards].sort((a, b) => { const x = key(a), y = key(b); return x < y ? -1 : x > y ? 1 : 0; }).forEach((c) => grid.appendChild(c));
       // reflect in URL
       const u = new URLSearchParams();

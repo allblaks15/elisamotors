@@ -3,7 +3,7 @@ import { mkdir, writeFile, readFile, cp, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { site } from './config.js';
-import { cars, slugify } from './data/cars.js';
+import { cars, slugify, byRank, LEAD_MAKES } from './data/cars.js';
 import { makeRenderCar } from './render-car.js';
 import { blogPosts, CLUSTERS } from './data/blog/index.js';
 import { readdir, rename } from 'node:fs/promises';
@@ -142,7 +142,7 @@ ${body}
     <div class="foot-brand"><a class="logo" href="/">${I.logo}<span>${site.name}<small>Car Imports Kenya</small></span></a>
       <p>We import quality used and new cars from Japan, the United Kingdom and South Africa for customers across Kenya. You pick the model and exact spec, and we handle sourcing, inspection, shipping, KRA clearing and registration.</p>
       <p>📞 <a href="tel:${site.phone.replace(/\s/g, '')}">${site.phone}</a><br>✉️ <a href="mailto:${site.email}">${site.email}</a><br>📍 ${site.address}<br>🕘 ${site.hours}</p></div>
-    <div><h4>Popular imports</h4><ul>${cars.filter((c) => c.popular).slice(0, 8).map((c) => `<li><a href="/cars/${c.slug}/">${c.name}</a></li>`).join('')}</ul></div>
+    <div><h4>Popular imports</h4><ul>${[...cars].sort(byRank).slice(0, 8).map((c) => `<li><a href="/cars/${c.slug}/">${c.name}</a></li>`).join('')}</ul></div>
     <div><h4>Browse</h4><ul>${Object.values(BODIES).map((b) => `<li><a href="/body-type/${b.slug}/">${b.plural}</a></li>`).join('')}${Object.values(FUELS).map((f) => `<li><a href="/fuel/${f.slug}/">${f.slug[0].toUpperCase() + f.slug.slice(1)} cars</a></li>`).join('')}</ul></div>
     <div><h4>Elisa Motors</h4><ul><li><a href="/import-request/">Request a car</a></li><li><a href="/how-to-import-a-car-to-kenya/">How to import a car to Kenya</a></li><li><a href="/blog/">Blog & price guides</a></li>${Object.entries(ORIGINS).map(([n, o]) => `<li><a href="/import-from/${o.slug}/">Import from ${n}</a></li>`).join('')}<li><a href="/about/">About us</a></li><li><a href="/contact/">Contact</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/credits/">Image credits</a></li><li><a href="/sitemap/">Sitemap</a></li></ul></div>
   </div>
@@ -168,7 +168,7 @@ const faqHtml = (qa) => `<div class="faq">${qa.map(([q, a], i) => `<details${i =
 // ---------------------------------------------------------------- components
 function card(c, { eager = false } = {}) {
   const fuelTxt = c.fuels.join(' / ');
-  return `<article class="car-card" data-make="${esc(c.make)}" data-body="${esc(c.body)}" data-fuel="${esc(c.fuels.join('|'))}" data-origin="${esc(c.origin.join('|'))}" data-price="${c.priceFrom}" data-seats="${c.seats}" data-drive="${esc(c.drives.join('|'))}" data-name="${esc(c.name.toLowerCase())}" data-pop="${c.popular ? 1 : 0}">
+  return `<article class="car-card" data-make="${esc(c.make)}" data-body="${esc(c.body)}" data-fuel="${esc(c.fuels.join('|'))}" data-origin="${esc(c.origin.join('|'))}" data-price="${c.priceFrom}" data-seats="${c.seats}" data-drive="${esc(c.drives.join('|'))}" data-name="${esc(c.name.toLowerCase())}" data-pop="${c.rank}">
   ${c.popular ? '<span class="badge">Popular in Kenya</span>' : ''}
   <div class="ph"><img src="${mainImg(c.slug, true)}" alt="${esc(`${c.name} ${c.body.toLowerCase()} for sale in Kenya, import from ${listJoin(c.origin)}`)}" title="${esc(`${c.name} price in Kenya`)}" width="600" height="400" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></div>
   <div class="body">
@@ -252,6 +252,7 @@ const add = (path, html) => pages.push({ path, html });
 // HOME
 {
   const popular = cars.filter((c) => c.popular);
+  const showcase = [...LEAD_MAKES.flatMap((m) => cars.filter((c) => c.make === m).sort(byRank).slice(0, 3)), ...cars.filter((c) => c.popular && !LEAD_MAKES.includes(c.make)).sort(byRank).slice(0, 9)];
   const bodyCounts = Object.keys(BODIES).map((b) => [b, cars.filter((c) => c.body === b).length]);
   const heroImg = mainImg('toyota-land-cruiser-prado');
   const body = `
@@ -281,8 +282,8 @@ const add = (path, html) => pages.push({ path, html });
 </div></section>
 
 <section class="block alt"><div class="wrap">
-  <div class="section-head"><div><h2>Most imported cars in Kenya</h2><p>Tap any car to see every version, full specs and landed prices, then order the spec you want.</p></div><a class="link-arrow" href="/cars/">View all ${cars.length} models →</a></div>
-  ${grid(popular.slice(0, 12))}
+  <div class="section-head"><div><h2>Range Rover, Mercedes, Porsche &amp; Kenya's most imported cars</h2><p>Tap any car to see every version, full specs and landed prices, then order the spec you want.</p></div><a class="link-arrow" href="/cars/">View all ${cars.length} models →</a></div>
+  ${grid(showcase)}
 </div></section>
 
 <section class="block dark"><div class="wrap">
@@ -358,7 +359,7 @@ function listingPage({ path, h1, intro, list, crumbsArr, title, description, ext
 listingPage({
   path: '/cars/', h1: 'Cars to import to Kenya', crumbsArr: [['Home', '/'], ['All cars', '/cars/']],
   intro: `<p>Browse ${cars.length} of the most popular models Kenyans import from Japan, the UK and South Africa. Filter by make, body type, fuel and budget, then open any car to compare versions and order the exact spec.</p>`,
-  list: [...cars].sort((a, b) => (b.popular ? 1 : 0) - (a.popular ? 1 : 0)),
+  list: [...cars].sort(byRank),
   title: `Cars for Import to Kenya: ${cars.length}+ Models, Prices & Specs | ${site.name}`,
   description: `Compare ${cars.length}+ cars you can import to Kenya: Toyota, Nissan, Mazda, Honda, Subaru, Mercedes, Land Rover and more. Filter by body type, fuel and budget. Landed prices in KES.`,
 });

@@ -15,7 +15,7 @@ let imgCount = 0, altMissing = 0, imgTitle = 0, brokenImg = new Set(), brokenLin
 
 for (const f of pages) {
   const url = urlOf(f); const h = readFileSync(f, 'utf8');
-  if (url === '/404.html') continue;
+  if (url === '/404.html' || /^\/google[0-9a-f]+\.html$/.test(url)) continue; // 404 and search-engine verification files aren't pages
   const title = h.match(/<title>(.*?)<\/title>/)?.[1];
   const desc = h.match(/name="description" content="(.*?)"/)?.[1];
   const canon = h.match(/rel="canonical" href="(.*?)"/)?.[1];

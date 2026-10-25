@@ -98,6 +98,9 @@ ${cta('Comparing Harrier petrol and hybrid?', 'We can quote both side by side.',
 <h2>Harrier resale value</h2>
 <p>The Harrier holds its value strongly in Kenya. Pearl white and black are the fastest-selling colours. Moreover, hybrids attract strong demand from fuel-conscious buyers. A full service record adds real value.</p>
 
+<h2>Harrier seating capacity and boot space</h2>
+<p>The Toyota Harrier seats five adults. Its boot comfortably takes a family's weekly shopping or several suitcases, and the rear seats fold 60:40 for longer items. However, it has no third row, so larger families often compare it with the seven-seat ${h.c('mazda-cx-8', 'Mazda CX-8')}.</p>
+
 <h2>Harrier buying checklist</h2>
 <p>First, confirm the first registration date is ${MIN_YEAR} or later. Second, verify the mileage against the auction sheet. Third, test the CVT for smooth acceleration. Then test the hybrid system, cameras and screens. Finally, compare with a fresh import quote.</p>
 
@@ -151,6 +154,9 @@ ${h.specs('toyota-rav4', 'Toyota RAV4: the Harrier\'s practical sibling')}
       ['What is the Toyota Harrier Elegance grade?', 'Elegance was a mid grade on the older XU60 Harrier, above the base grade and below Premium. On the new XU80, grades run S, G, Z and Z Leather Package.'],
       ['How big is the Toyota Harrier boot and how many seats does it have?', 'The Harrier seats five, with a practical boot suitable for family luggage. It is not a seven-seater.'],
       ['Can I buy a Toyota Harrier from Toyota Kenya?', 'Toyota\'s Kenyan distribution network sells selected new models. Most Harriers in Kenya are ex-Japan imports, which cost less.'],
+      [`What are the Harrier Progress, Premium and Elegance grades?`, `They are grades of the old-shape Harrier (sold until 2020): Elegance is the base grade, Premium adds more equipment, and Progress is the top grade with JBL audio and more safety tech. The new-shape Harrier uses grades such as Premium and Z.`],
+      [`What is the Toyota Harrier fuel consumption per km?`, `The 2.0 petrol Harrier returns about 14 km/L (roughly 7 litres per 100 km), and the 2.5 hybrid about 21 km/L. Nairobi traffic lowers these figures.`],
+      [`What is the Harrier ex-Japan price in Kenya?`, `A ${h.MIN_YEAR}+ ex-Japan Toyota Harrier lands at about ${h.F('toyota-harrier')} to ${h.T('toyota-harrier')}, including shipping, KRA duty, clearing and registration.`],
     ],
   };
 };

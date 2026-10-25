@@ -44,6 +44,10 @@ ${cta('Planning to finance your import?', 'Ask us for a pro-forma invoice your b
 <p>Crossovers are the easiest cars to finance. A ${v('toyota-harrier', 'premium-2-0', 'Toyota Harrier Premium')} lands at about <b>${P('toyota-harrier', 'premium-2-0')}</b>. Likewise, a ${v('mazda-cx-5', '20s-2-0', 'Mazda CX-5 20S')} lands at <b>${P('mazda-cx-5', '20s-2-0')}</b>, and a ${v('toyota-land-cruiser-prado', 'tx-2-7-petrol-5-seat', 'Prado TX')} at <b>${P('toyota-land-cruiser-prado', 'tx-2-7-petrol-5-seat')}</b>. Banks know these models well, so approvals tend to be quick.</p>
 <p>Buying a Japanese car on instalments directly from an exporter is rarely possible, because exporters want full payment before shipping. Instead, use a Kenyan bank or SACCO. That way, your money is protected by a regulated lender.</p>
 
+<h2>Buying an imported car on instalments in Kenya</h2>
+<p>Many Kenyans buy imported cars on instalments through bank or SACCO asset finance. Typically, you pay a deposit, the lender pays the balance, and you repay monthly over an agreed period. The car is registered jointly with the lender until the loan is cleared.</p>
+<p>For direct imports, lenders usually want a pro forma invoice, the landed cost breakdown and proof of the car's age. Therefore, choose a finance-ready importer. ${h.site.name} provides these documents for every car, from a ${h.c('mazda-cx-5', 'Mazda CX-5')} to a ${h.c('toyota-land-cruiser-300', 'Land Cruiser V8')}.</p>
+
 <h2>Logbook loans: when they make sense</h2>
 <p>A logbook loan uses a car you already own as security. The lender is added to the logbook, and you keep driving. Logbook loans are fast. However, they usually cost much more than bank asset finance. Moreover, missed payments can lead to repossession quickly.</p>
 <p>So, should you use a <b>logbook loan for a Range Rover, V8 or G-Wagon</b>? Usually only as a short-term bridge, for example to fund a deposit while a bank loan is processed. For long-term financing, bank asset finance is almost always cheaper. Read the full cost, not just the monthly figure.</p>
@@ -93,6 +97,7 @@ ${cta('Need finance documents?', 'We prepare a bank-ready pro-forma for any car 
       ['Is a logbook loan a good way to buy a car?', 'Usually not for long-term financing. Logbook loans are fast but cost much more than bank asset finance. Use them only as short-term bridges, if at all.'],
       ['How much is comprehensive insurance for a car in Kenya?', 'Premiums are a percentage of the car\'s value, with a minimum premium. The rate depends on the insurer, model, security and your history. Luxury SUVs like G-Wagons and Range Rovers cost the most to insure.'],
       ['Can I buy a car from Japan on instalments?', 'Japanese exporters normally want full payment before shipping. Instead, finance through a Kenyan bank or SACCO, which also protects your money.'],
+      [`Can I buy an imported Japanese car on instalments in Kenya?`, `Yes. Banks and SACCOs offer asset finance for imported cars: you pay a deposit and repay the balance monthly. Lenders need a pro forma invoice and landed cost breakdown, which ${h.site.name} provides.`],
     ],
   };
 };

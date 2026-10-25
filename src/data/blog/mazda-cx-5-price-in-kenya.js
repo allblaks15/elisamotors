@@ -150,6 +150,8 @@ ${h.specs('subaru-forester', 'Subaru Forester: the all-weather rival')}
       ['What is the Mazda CX-5 XD L Package?', 'The XD L Package is the diesel CX-5 with leather and more equipment. It sits above the standard XD grade.'],
       ['Is a Mazda CX-5 good for rural roads in Kenya?', 'Yes, on most murram roads. It has about 200 mm of ground clearance, and AWD versions handle mud better. It is not a full off-roader like a Prado.'],
       ['What is the difference between the KE and KF CX-5?', 'The KE is the first generation (2012–2017). The KF is the second generation from 2017, with a better cabin, quieter ride and newer technology.'],
+      [`What is the Mazda CX-5 ex-Japan price in Kenya?`, `A ${h.MIN_YEAR}+ ex-Japan CX-5 lands at about ${h.F('mazda-cx-5')} to ${h.T('mazda-cx-5')}, making it one of the cheapest mid-size SUVs to import.`],
+      [`Mazda CX-5 petrol vs diesel: which is better in Kenya?`, `The 2.2 diesel is more economical and stronger on highways, but it needs good-quality fuel and regular long drives. The 2.0 and 2.5 petrols are simpler and suit mostly town driving.`],
     ],
   };
 };

@@ -100,6 +100,10 @@ ${cta('Comparing LC200 and LC300?', 'We can quote both on one page.', 'Hi Elisa 
 <p>The LC300 arrived in Kenya in numbers from 2022. It is about 200 kg lighter than the LC200, with a 10-speed automatic gearbox. Moreover, it has modern safety systems and a far better infotainment screen.</p>
 <p>Early cars from 2022 and 2023 now appear at auction with low mileage. As a result, a used LC300 can cost far less than a brand-new one from a local showroom.</p>
 
+<h2>What can KES 12 million or KES 15 million buy?</h2>
+<p>Budgets around <b>KES 12 million</b> fit a Land Cruiser 200 V8, such as the ${h.v('toyota-land-cruiser-200', 'gx-r-4-5-v8-diesel', 'LC200 GX-R')} at about ${h.P('toyota-land-cruiser-200', 'gx-r-4-5-v8-diesel')}. Around <b>KES 15 million</b>, you can choose a well-specified ${h.v('toyota-land-cruiser-200', 'vx-4-5-v8-diesel', 'LC200 VX')} (about ${h.P('toyota-land-cruiser-200', 'vx-4-5-v8-diesel')}).</p>
+<p>The newer Land Cruiser 300 starts higher. For example, the ${h.v('toyota-land-cruiser-300', 'ax-3-3-twin-turbo-diesel', 'LC300 AX diesel')} lands at about ${h.P('toyota-land-cruiser-300', 'ax-3-3-twin-turbo-diesel')}. Therefore, tell us your budget and we will find the newest, lowest-mileage V8 within it.</p>
+
 <h2>Toyota V8 buying checklist</h2>
 <p>Use this checklist before you pay for any V8. First, confirm the first registration date and chassis number. Second, check the auction sheet or service history for mileage. Third, look for signs of hard off-road use, such as scraped underbody panels and worn bushes.</p>
 <p>Next, check whether the car has had a "face upgrade". Older bodies dressed as newer models are common in local yards. Then test the 4WD system, including low range and the centre diff lock. Finally, compare the price with a fresh import quote.</p>
@@ -129,6 +133,16 @@ ${cta('Comparing LC200 and LC300?', 'We can quote both on one page.', 'Hi Elisa 
       ['Is the Land Cruiser 300 a V8?', 'No. The LC300 uses a 3.3 twin-turbo V6 diesel or a 3.5 twin-turbo V6 petrol. However, it is more powerful and more efficient than the old V8, and Kenyans still call it the new V8.'],
       ['What is the fuel consumption of a Toyota V8 in Kenya?', 'The LC200 4.5 V8 diesel returns about 8–10 km/L on the highway. The LC300 3.3 diesel returns about 10–11 km/L. Town driving in Nairobi traffic will be lower.'],
       ['Should I buy a Land Cruiser 200 or 300?', 'Choose the LC200 if you want the proven V8 at a lower price. Choose the LC300 if you want better fuel economy, newer safety tech and the highest resale value. We can quote both for comparison.'],
+      [`What Toyota Land Cruiser V8 can I get for KES 12 million?`, `About KES 12 million buys a Land Cruiser 200 V8 such as the GX-R or an entry VX (around ${h.P('toyota-land-cruiser-200', 'gx-r-4-5-v8-diesel')} for the GX-R). The Land Cruiser 300 starts from about ${h.F('toyota-land-cruiser-300')}.`],
+      [`Does colour change the Toyota V8 price in Kenya?`, `Slightly. White, pearl white and black V8s are the most demanded in Kenya, so they can cost a little more at auction and resell faster. Other colours can save money on the same grade and year.`],
+      [`How much is a Toyota V8 in Kenya shillings?`, `A ${h.MIN_YEAR}+ Land Cruiser 200 V8 lands at about ${h.F('toyota-land-cruiser-200')} to ${h.T('toyota-land-cruiser-200')}, and the newer Land Cruiser 300 at about ${h.F('toyota-land-cruiser-300')} to ${h.T('toyota-land-cruiser-300')}.`],
+      [`What is the brand new Toyota V8 price in Kenya?`, `A brand new Land Cruiser 300 from a Nairobi showroom costs well above an imported ${h.MIN_YEAR}+ unit. Importing a nearly new LC300 from Japan or the UK is the usual way to save, from about ${h.F('toyota-land-cruiser-300')} landed.`],
+      [`Is a locally used Toyota V8 cheaper than an import?`, `Locally used V8s can be cheaper, especially older ones, but history and mileage are harder to verify. A direct import gives you a ${h.MIN_YEAR}+ car with an auction sheet or service records and a fresh inspection.`],
+      [`How much is a 2019 Toyota V8 ZX or VX?`, `For 2019 units, a Land Cruiser 200 VX diesel lands at about ${h.P('toyota-land-cruiser-200', 'vx-4-5-v8-diesel')} and the ZX petrol at about ${h.P('toyota-land-cruiser-200', 'zx-4-6-v8-petrol')}. 2018 and older V8s cannot be imported in ${h.YEAR}; they are only available locally used.`],
+      [`What is the Toyota V8 twin turbo diesel price in Kenya?`, `Both diesel V8 generations are twin-turbo: the LC200 4.5 V8 diesel (from about ${h.P('toyota-land-cruiser-200', 'gx-r-4-5-v8-diesel')}) and the LC300 3.3 twin-turbo V6 diesel (from about ${h.P('toyota-land-cruiser-300', 'ax-3-3-twin-turbo-diesel')}).`],
+      [`Is a Toyota V8 cheaper ex-Japan or ex-UK?`, `Ex-Japan V8s are usually cheaper to buy and ship, with auction sheets showing condition. Ex-UK V8s often have full dealer service history and higher trims. We compare both for you and quote the landed price.`],
+      [`What is the Land Cruiser V8 Sahara?`, `Sahara is the top Land Cruiser 200 grade name in some markets. The Japanese equivalents are the ZX and VX grades, which are what we usually import for Kenya.`],
+      [`What is the Toyota Land Cruiser V8 diesel fuel consumption?`, `The Land Cruiser 200 4.5 V8 diesel returns about 9 km/L and the LC300 3.3 twin-turbo diesel about 10 km/L, depending on traffic, load and driving style.`],
     ],
   };
 };

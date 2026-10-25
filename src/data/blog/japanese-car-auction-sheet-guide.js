@@ -57,7 +57,7 @@ ${cta('Have an auction sheet you want checked?', 'Send it to us on WhatsApp for 
 <h2>Inspector comments</h2>
 <p>A section for handwritten comments notes extra details. Examples include engine noises, warning lights, smells, aftermarket parts or missing items. These comments are often the most revealing part of the sheet. Therefore, we always translate them in full.</p>
 
-<h2>How to spot a fake or edited auction sheet</h2>
+<h2>Auction sheet verification: how to spot a fake or edited sheet</h2>
 <p>Some sellers alter sheets to hide damage or roll back mileage. Warning signs include inconsistent fonts, blurred areas around the grade or mileage, and missing auction details. Moreover, a sheet that does not match the car's chassis number is a red flag.</p>
 <p>The safest approach is to obtain the sheet directly from the auction record using the chassis number. Verification services can retrieve the original. We verify every sheet before you pay.</p>
 
@@ -141,6 +141,10 @@ ${h.specs('toyota-corolla-fielder')}
       ['What do A1, U2 and W1 mean?', 'A means scratch, U means dent and W means wave or ripple from repair. The number shows size, from 1 (small) to 3 (large).'],
       ['How can I verify an auction sheet from Kenya?', 'Use the chassis number to retrieve the original auction record through a verification service. We verify every sheet before you pay.'],
       ['Which auction grade should I buy?', 'Grade 4 and 4.5 cars with interior grade A or B offer the best balance of quality and price for most Kenyan buyers.'],
+      [`How do I verify an authentic Japan car auction sheet?`, `Ask for the original sheet image with the auction house name and lot number, then have it checked against the auction's own records. ${h.site.name} verifies every auction sheet before purchase, including for Land Cruiser V8s and G-Wagons.`],
+      [`Can you import a grade R car from Japan to Kenya?`, `Yes, a grade R (repaired) car can be imported if it meets the 8-year rule and passes inspection. However, it should cost noticeably less, and the repair history must be checked carefully.`],
+      [`What does auction sheet grade 4B mean?`, `Grade 4 is a good car with minor wear, and the letter after it is the interior grade, where B means good condition. A 4B car is a solid buy for Kenya.`],
+      [`What does auction sheet grade 3.5 mean?`, `Grade 3.5 means average condition with more visible wear or small dents. It can be good value, but check the body map and inspector comments carefully.`],
     ],
   };
 };

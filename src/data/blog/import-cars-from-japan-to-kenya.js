@@ -134,6 +134,12 @@ ${cta('Saw a car on a Japanese export site?', 'Send us the link for a free lande
       ['What happens if I import an overage car from Japan?', 'An overage car cannot be cleared for use in Kenya. It may face penalties, re-export or forfeiture, and you lose the shipping costs. Always confirm the first registration date before buying.'],
       ['Can I pay a Japanese dealer by telegraphic transfer from KCB or Equity Bank?', 'Yes, Kenyan banks such as KCB, Equity and Co-op send telegraphic transfers to Japan. Verify the exporter and confirm the bank details by phone first, because transfers are hard to reverse.'],
       ['Do I need the original Japanese export certificate?', 'Yes. KRA and NTSA need the export (deregistration) certificate, usually with an English translation, to confirm the car\'s details and first registration date.'],
+      [`How many days does a car take to ship from Japan to Kenya?`, `Shipping from Japanese ports such as Yokohama or Nagoya to Mombasa usually takes about 4 to 6 weeks, plus about one week for clearing and registration.`],
+      [`What are the main Japanese car auction sites for Kenyan buyers?`, `Major Japanese auctions include USS (the largest), TAA, JU and CAA groups. Kenyan buyers bid through a licensed exporter or importer, who shares the auction sheet before bidding.`],
+      [`Is the token deposit for a Japan car auction refundable?`, `Policies differ between agents. Typically the deposit is refunded or carried forward if you do not win, but it can be lost if you win and then cancel. Always get the refund terms in writing.`],
+      [`What is the IDF fee for Japanese car imports in Kenya?`, `The Import Declaration Fee is charged by KRA as a percentage of the customs value, alongside import duty, excise duty, VAT and the Railway Development Levy. Our landed price already includes it.`],
+      [`Does KRA need a translation of the Japanese export certificate?`, `Yes, an English translation of the Japanese export certificate is needed for registration in Kenya. ${h.site.name} provides it with every car we import.`],
+      [`What is the total landed cost of a car from Japan?`, `It is the car price, shipping and insurance to Mombasa, KRA duty, port charges, clearing and registration. For example, a Toyota Harrier lands from about ${h.F('toyota-harrier')} and a Mazda CX-5 from about ${h.F('mazda-cx-5')}.`],
     ],
   };
 };

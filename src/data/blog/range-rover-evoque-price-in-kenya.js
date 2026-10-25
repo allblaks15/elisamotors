@@ -149,6 +149,7 @@ ${cta('Comparing an Evoque and a Discovery Sport?', 'We can quote both side by s
       ['Can I import an old-shape Evoque in ' + YEAR + '?', `No. Old-shape Evoques were built until 2018. In ${YEAR} you can only import cars first registered in ${MIN_YEAR} or later, which means the new-shape L551.`],
       ['Is the Evoque diesel or petrol better for Kenya?', 'The diesel is better for highway driving and fuel economy. The petrol suits short town trips in Nairobi traffic.'],
       ['Is the Range Rover Evoque reliable?', 'The new-shape L551 is much more reliable than the first generation. Regular servicing at a Land Rover specialist and quality fuel keep it healthy.'],
+      [`What is the price of a Range Rover Evoque in KSh?`, `A ${h.MIN_YEAR}+ Range Rover Evoque lands at about ${h.F('land-rover-range-rover-evoque')} to ${h.T('land-rover-range-rover-evoque')}, making it the most affordable Range Rover to import.`],
     ],
   };
 };

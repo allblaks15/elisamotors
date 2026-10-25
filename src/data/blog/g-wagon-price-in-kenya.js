@@ -105,6 +105,10 @@ ${cta('Comparing a G400d and a G63?', 'We can quote both side by side.', 'Hi Eli
 <h3>2024 onwards G-Class</h3>
 <p>The 2024 update brought mild-hybrid tech, new screens and refreshed styling. It costs much more. Still, a low-mileage 2024 G63 holds its value very well.</p>
 
+<h2>What G-Wagon can KES 20, 30 or 40 million buy?</h2>
+<p>At about <b>KES 20 million</b>, the diesel ${h.v('mercedes-benz-g-class', 'g400d', 'G400d')} is the entry point (about ${h.P('mercedes-benz-g-class', 'g400d')}). Around <b>KES 30 million</b>, you reach the ${h.v('mercedes-benz-g-class', 'g63-amg', 'G63 AMG')}, which lands at about ${h.P('mercedes-benz-g-class', 'g63-amg')}.</p>
+<p>With <b>KES 40 million</b>, you can choose a late, low-mileage G63 with premium options such as the AMG Night package or carbon trim. Above that, special editions and customised cars are quoted individually.</p>
+
 <h2>G-Wagon buying checklist</h2>
 <p>Run through this list before paying for any G-Class. First, confirm the first registration date is ${MIN_YEAR} or later. Second, check the exact version on the VIN, because body kits can disguise older or lower models.</p>
 <p>Third, review the service history and mileage records. Fourth, test all three differential locks and the low-range gearbox. Then inspect the brakes, tyres and paint depth for hidden repairs. Finally, compare the total with a fresh import quote from us.</p>
@@ -142,6 +146,15 @@ ${cta('Comparing a G400d and a G63?', 'We can quote both side by side.', 'Hi Eli
       ['Which G-Wagon years can I import in ' + YEAR + '?', `Under the KEBS 8-year rule, you can import G-Wagons first registered in ${MIN_YEAR} or later in ${YEAR}. That means the new-shape W463A G-Class.`],
       ['How much duty is paid on a G-Wagon in Kenya?', 'Duty depends on KRA\'s CRSP value for the exact version, the engine size and the car\'s age. Because the G-Class has a high CRSP value, taxes are a large part of the landed cost. We include every tax in our quote.'],
       ['Is a G-Wagon good for Kenyan roads?', 'Yes. It has a ladder frame, three locking differentials and strong ground clearance. It handles rough roads well, although the G63 rides firmly and uses a lot of fuel.'],
+      [`What G-Wagon can I buy for KES 20 million in Kenya?`, `About KES 20 million buys a G400d diesel G-Class (around ${h.P('mercedes-benz-g-class', 'g400d')}). A G63 AMG lands at about ${h.P('mercedes-benz-g-class', 'g63-amg')}.`],
+      [`Does a black G-Wagon cost more in Kenya?`, `Black and matte finishes are popular, especially on the G63, so they can cost slightly more and resell quickly. The grade, year and mileage affect the price far more than colour.`],
+      [`What is the cheapest G-Wagon in Kenya?`, `The most affordable new-shape G-Wagon to import is the ${h.v('mercedes-benz-g-class', 'g350d-2019-2021', 'G350d diesel')}, from about ${h.P('mercedes-benz-g-class', 'g350d-2019-2021')} landed. The G400d follows from about ${h.P('mercedes-benz-g-class', 'g400d')}.`],
+      [`What is the Mercedes G350d price in Kenya?`, `A 2019 to 2021 G350d lands at about ${h.P('mercedes-benz-g-class', 'g350d-2019-2021')}. It has the same three locking differentials as the G400d with a slightly less powerful inline-6 diesel.`],
+      [`How much is a G-Wagon in Kenya shillings?`, `A ${h.MIN_YEAR}+ G-Class lands at about ${h.F('mercedes-benz-g-class')} to ${h.T('mercedes-benz-g-class')}, from the G350d diesel to a fully loaded G63 AMG.`],
+      [`What is the price of a used vs brand new G-Wagon in Kenya?`, `A brand new G-Class from a showroom costs well above a ${h.MIN_YEAR}+ second hand import. Importing a used G-Wagon from the UK or Japan saves money and still gets you the current W463A model.`],
+      [`Is a G-Wagon cheaper ex-UK or ex-Japan?`, `Both work well. Ex-UK G-Wagons usually come with full Mercedes service history and UK-spec options, while ex-Japan cars often have low mileage. We compare both and quote one duty-paid price.`],
+      [`What does a Brabus G63 cost in Kenya?`, `Brabus G-Wagons are rare, highly customised cars, so prices vary widely. We source and quote them individually. A standard G63 AMG lands at about ${h.P('mercedes-benz-g-class', 'g63-amg')}.`],
+      [`What is the G63 AMG fuel consumption in Kenya?`, `Expect about 6 to 7 km/L from the G63's 4.0 twin-turbo V8, less in heavy Nairobi traffic. The G350d and G400d diesels return about 10 km/L.`],
     ],
   };
 };

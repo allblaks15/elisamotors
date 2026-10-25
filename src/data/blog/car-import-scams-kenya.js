@@ -81,6 +81,7 @@ ${cta('Worried about a deal?', 'Send us the listing and we will tell you if it l
       ['How can I check if a car exporter is genuine?', 'Check company registration, a physical address, long-term reviews, a company-name bank account and willingness to share auction sheets and export certificates before shipping.'],
       ['Can I pay KRA duty in cash at Mombasa?', 'No. KRA duty is paid through official systems. Anyone asking for cash duty payments is a red flag.'],
       ['What is the safest way to import a car to Kenya?', 'Use a Kenyan importer that shows you the car before purchase, quotes one all-inclusive price and registers the car in your name.'],
+      [`What are the risks of a direct wire transfer to Japanese car brokers?`, `A telegraphic transfer is hard to reverse, so if the broker does not ship, recovering money abroad is slow and costly. Verify the company, confirm bank details by phone and keep every document, or use a Kenyan importer who is accountable locally.`],
     ],
   };
 };

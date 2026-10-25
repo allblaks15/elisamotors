@@ -98,6 +98,10 @@ ${cta('Not sure which SUV fits your budget?', 'Tell us how you drive, and we wil
 <h3>Prado: ${MIN_YEAR}–2023 J150 and the new Land Cruiser 250</h3>
 <p>Most importable Prados are the facelifted J150, with the 2.8 diesel and 2.7 petrol. In 2024, Toyota replaced it with the ${c('toyota-land-cruiser-250', 'Land Cruiser 250')}. The new model costs more, but it is far more modern.</p>
 
+<h2>What KES 2.8 million, 3.5 million and 7 million buy</h2>
+<p>About <b>KES 2.8 million</b> buys a fresh-import ${h.v('mazda-cx-5', '20s-2-0', 'Mazda CX-5 20S')} (about ${h.P('mazda-cx-5', '20s-2-0')}). At <b>KES 3.5 million</b>, you can choose a better-specified diesel ${h.v('mazda-cx-5', 'xd-2-2-diesel-4wd', 'CX-5 XD')}. A new-shape Toyota Harrier starts higher, from about ${h.F('toyota-harrier')}.</p>
+<p>Around <b>KES 7 million</b> duty paid gets you a ${h.v('toyota-land-cruiser-prado', 'tx-2-7-petrol-7-seat', 'Prado TX 2.7 petrol')} (about ${h.P('toyota-land-cruiser-prado', 'tx-2-7-petrol-7-seat')}). The diesel TX starts from about ${h.P('toyota-land-cruiser-prado', 'tx-2-8-diesel')}.</p>
+
 <h2>Buying checklist for Harrier, CX-5 and Prado</h2>
 <p>Before paying for any of these SUVs, check a few key points. First, confirm the first registration date is ${MIN_YEAR} or later. Second, verify the mileage with the auction sheet. Third, test the gearbox for smooth shifts, especially on CVT-equipped Harriers.</p>
 <p>On a CX-5 diesel, ask about recent highway use and check for warning lights. On a Prado, look underneath for off-road damage and check the suspension. Finally, compare the price with a fresh import quote from us.</p>
@@ -134,6 +138,11 @@ ${cta('Not sure which SUV fits your budget?', 'Tell us how you drive, and we wil
       ['How much is a Prado TX in Kenya?', `A Toyota Prado TX 2.7 petrol lands from about ${P(pr, 'tx-2-7-petrol-5-seat')}. The TX 2.8 diesel costs about ${P(pr, 'tx-2-8-diesel')}.`],
       ['Which is better, Harrier or CX-5?', 'The CX-5 is cheaper and drives better. The Harrier is more comfortable, more stylish and offers a very economical hybrid. Both are reliable when well maintained.'],
       ['Is the Prado TX worth the extra cost?', 'Yes, if you need seven seats, real 4WD or frequent rough-road travel. It also has the best resale value of the three. For tarmac-only use, a Harrier or CX-5 is more economical.'],
+      [`Can I get a Toyota Harrier for KES 3.5 million?`, `A ${h.MIN_YEAR}+ new-shape Harrier lands from about ${h.F('toyota-harrier')}, so KES 3.5 million is below its import price. At that budget, a Mazda CX-5 or Toyota RAV4 is the closer match.`],
+      [`Does colour affect the Harrier, CX-5 or Prado price?`, `A little. White, pearl and black are most in demand, and Mazda's Soul Red is a popular paid option. Colour matters less than year, grade and mileage.`],
+      [`Which is cheapest: Toyota Harrier, Mazda CX-5 or Prado TX?`, `The Mazda CX-5 is the cheapest to import (from about ${h.F('mazda-cx-5')}), followed by the Toyota Harrier (from about ${h.F('toyota-harrier')}) and the Prado TX (from about ${h.F('toyota-land-cruiser-prado')}).`],
+      [`Where can I buy a Harrier, CX-5 or Prado TX for sale in Nairobi?`, `You can buy locally used in Nairobi, or import a ${h.MIN_YEAR}+ unit with ${h.site.name} and have it delivered to Nairobi, Mombasa or upcountry. Imports come with a verified auction sheet and fresh inspection.`],
+      [`Are showroom prices in Nairobi higher than imports?`, `Usually yes. Showroom and brand new prices include dealer margins and newer stock, while a ${h.MIN_YEAR}+ direct import from Japan is typically the best value for a Harrier, CX-5 or Prado TX.`],
     ],
   };
 };

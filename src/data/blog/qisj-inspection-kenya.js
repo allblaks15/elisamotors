@@ -39,7 +39,7 @@ ${cta('Need a car inspected and shipped?', 'We book the inspection and handle ev
 <p>Most failures are simple and fixable. For example, worn tyres, broken lights, cracked windscreens, faulty wipers or worn brake pads. Other reasons include oil leaks, excessive smoke and damaged seat belts.</p>
 <p>More serious failures include structural damage, incorrect chassis numbers, age limit problems or radiation. These cars usually cannot be shipped to Kenya.</p>
 
-<h2>What happens if a car fails?</h2>
+<h2>Failed QISJ inspection in Japan: what happens next?</h2>
 <p>If a car fails for a fixable reason, the exporter repairs the fault and books a re-inspection. Therefore, minor failures cause short delays and small costs. In contrast, serious failures such as age or radiation mean the car cannot be exported to Kenya. Your importer should then refund or replace the car according to your agreement.</p>
 <p>This is why we pre-check every car before booking inspection. As a result, our cars usually pass first time.</p>
 

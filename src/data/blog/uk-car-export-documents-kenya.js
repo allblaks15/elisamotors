@@ -48,6 +48,9 @@ ${cta('Buying a car in the UK?', 'We prepare every export document for you.', 'H
 <p>Some UK dealer cars are "VAT qualifying". When exported correctly, the VAT element may be removed or refunded under UK export rules. This can reduce the purchase price significantly. However, the rules are strict, and the dealer must handle the export paperwork properly.</p>
 <p>Private sellers and "VAT margin" cars do not qualify in the same way. Therefore, ask the dealer whether a car is VAT qualifying and how they handle export.</p>
 
+<h2>Do you need a UK export licence?</h2>
+<p>No. Ordinary used cars do not need an export licence to leave the UK. However, the DVLA must be told that the car is being permanently exported, using the V5C logbook. The seller or exporter completes this step.</p>
+
 <h2>Documents needed in Kenya</h2>
 <p>At Mombasa, the clearing agent needs the bill of lading, invoice, export documents, inspection certificate and your KRA PIN and ID or passport. KRA lodges the customs entry, assesses duty and verifies the vehicle. Read our <a href="/blog/mombasa-port-car-clearing-guide/">Mombasa clearing guide</a>.</p>
 <p>For NTSA registration, customs release documents and the vehicle details are used to issue the logbook. Read our <a href="/blog/ntsa-registration-imported-car-kenya/">NTSA registration guide</a>.</p>
@@ -138,6 +141,7 @@ ${h.specs('land-rover-defender', 'Example: Land Rover Defender from the UK')}
       ['Can I get VAT back on a UK car exported to Kenya?', 'Some VAT-qualifying dealer cars can have VAT removed or refunded when exported correctly under UK rules. Private and margin-scheme cars do not qualify in the same way.'],
       ['Should I do a history check on a UK car?', 'Yes. A history check reveals outstanding finance, write-offs, theft markers and identity issues.'],
       ['Does KRA use the UK invoice price for duty?', 'No. KRA uses its CRSP values, adjusted for age, not the invoice price.'],
+      [`Do I need an export licence to ship a car from the UK to Kenya?`, `No. Ordinary used cars do not need a UK export licence. The DVLA must be notified of the permanent export using the V5C, and the car needs its export and inspection documents for Kenya.`],
     ],
   };
 };

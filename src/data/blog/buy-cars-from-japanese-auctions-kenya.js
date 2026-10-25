@@ -23,7 +23,7 @@ ${cta('Want us to bid for you?', 'Tell us the car, grade and budget.', 'Hi Elisa
 <p>Japan's auction groups, such as USS, TAA, JU, CAA, HAA and many others, run sites across the country. Dealers who are members bid in person or online. Sales are fast: a car may sell in under a minute.</p>
 <p>Before the sale, inspectors grade each car and publish the auction sheet. Member dealers and exporters see photos and sheets online. Consequently, buyers anywhere can review cars before bidding, as long as they work through a member.</p>
 
-<h2>Who can bid?</h2>
+<h2>Who can bid? Direct bidding on Japanese auctions from Kenya</h2>
 <p>Only registered members can bid. Most are Japanese dealers and exporters. Overseas buyers access auctions through exporters or agents who hold memberships. The agent places bids on your behalf, within the limit you set.</p>
 
 <h2>Step by step: buying at auction from Nairobi</h2>
@@ -143,6 +143,7 @@ ${h.specs('nissan-x-trail')}
       ['How much is the token or deposit for a Japanese car auction?', 'Agents usually ask for a deposit before bidding. The amount varies by agent and car value. Ask for the refund policy in writing before paying.'],
       ['Is the auction deposit refundable if I do not win?', 'With most reputable agents, an unused deposit is refunded or carried to your next bid. Terms differ, so confirm the refund policy and timeline in writing first.'],
       ['How much does a Nairobi broker charge to buy at a Japanese auction?', 'Brokers charge a fixed fee or a percentage, on top of the car price, inspection, shipping and Kenyan taxes. Ask for an all-inclusive landed quote so you can compare brokers fairly.'],
+      [`Can I bid directly on Japanese car auctions from Kenya?`, `Japanese auctions such as USS only admit registered members, so Kenyan buyers bid through a licensed exporter or agent. ${h.site.name} places bids for you and shares the auction sheet first.`],
     ],
   };
 };

@@ -5,6 +5,7 @@ import { V, J, U, JU, UJ, SA, ALL, SU, JSA, slugify } from './helpers.js';
 import { moreCars } from './more-cars.js';
 import { moreCars2 } from './more-cars-2.js';
 import { features } from './features.js';
+import { searchNames, discontinued } from './search-names.js';
 export { slugify };
 
 const baseCars = [
@@ -347,6 +348,9 @@ for (const c of cars) {
   c.priceTo = Math.max(...c.variants.map((v) => v.price[1]));
   c.variants.forEach((v, i) => { v.id = slugify(v.name) || `v${i}`; });
   c.features = (features[c.slug] || c.f || '').split('|').filter(Boolean);
+  // Names Kenyans search for this model (e.g. 'Toyota V8'), excluding ones identical to the model name
+  c.aka = (searchNames[c.slug] || []).filter((n) => !c.name.toLowerCase().includes(n.toLowerCase()));
+  c.discontinued = discontinued.has(c.slug);
   if (!c.features.length) console.warn('No features for', c.slug);
 }
 

@@ -131,6 +131,8 @@ ${cta('Comparing a diesel and a hybrid Sport?', 'We can quote both on one page.'
       ['Is the diesel or petrol Range Rover Sport better for Kenya?', 'The diesel suits most buyers thanks to strong torque and better fuel economy on long trips. The petrol suits town-only drivers. Plug-in hybrids suit buyers with home charging.'],
       ['How much is a Range Rover Sport SVR in Kenya?', 'The SVR is a special order. It costs more than an Autobiography because of its supercharged V8 and performance parts. Send us the year you want for an exact landed quote.'],
       ['Is a locally used Range Rover Sport cheaper?', 'Upfront it can be. However, older local cars often need suspension, timing or electrical work soon after purchase. A fresh import with verified history is often cheaper over three years.'],
+      [`Where can I buy a Range Rover Sport for sale in Kenya?`, `You can buy a locally used Range Rover Sport in Nairobi or Mombasa, or import a ${h.MIN_YEAR}+ unit from the UK or Japan with ${h.site.name}. Imports land from about ${h.F('land-rover-range-rover-sport')}, delivered to Nairobi, Mombasa or upcountry.`],
+      [`How much is a Range Rover Sport diesel in Kenya?`, `A Range Rover Sport HSE 3.0 SDV6 diesel lands at about ${h.P('land-rover-range-rover-sport', 'hse-3-0-sdv6')}. The newer Autobiography D350 diesel lands at about ${h.P('land-rover-range-rover-sport', 'autobiography-d350-l461')}.`],
     ],
   };
 };

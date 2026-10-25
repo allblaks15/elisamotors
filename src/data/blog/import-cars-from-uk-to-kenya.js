@@ -92,6 +92,12 @@ ${cta('Found a car on a UK website?', 'Send us the link for a free landed-cost c
 <p>Choose the UK for European brands, higher specs and service history. In contrast, choose Japan for Toyota, Nissan, Mazda, Honda, Subaru and hybrids. Japanese cars are usually cheaper and ship slightly faster.</p>
 <p>For a full comparison, read our <a href="/blog/import-cars-from-japan-to-kenya/">Japan import guide</a>. You can also browse cars from <a href="/import-from/japan/">Japan</a> and <a href="/import-from/south-africa/">South Africa</a>.</p>
 
+<h2>Check UK cars for road-salt rust underneath</h2>
+<p>UK roads are salted in winter, and salt speeds up corrosion. Therefore, check the undercarriage of every ex-UK car: brake lines, subframes, sills and suspension mounts. Light surface rust is normal, but heavy corrosion is expensive to fix.</p>
+<p>${h.site.name} asks for underbody photos and inspection notes before buying any UK car. As a result, you avoid rusty cars that look clean from above.</p>
+<h2>A full turnkey UK car import service</h2>
+<p>You do not have to manage the UK side yourself. With our turnkey service, you choose the car or custom-order a specific spec, and we buy, inspect, ship, clear and register it. You receive one all-inclusive landed price before you commit.</p>
+
 <h2>Common UK import mistakes to avoid</h2>
 <p>First, do not buy before checking the first registration date. A car that misses the 8-year rule cannot be cleared. Second, never send money to an unknown "exporter" without verification. Scam websites copy real dealer listings.</p>
 <p>Third, do not ignore duty. A cheap UK price can still land expensive once KRA applies its CRSP value. Finally, avoid cars with gaps in MOT history. Those gaps often hide problems.</p>
@@ -140,6 +146,12 @@ ${cta('Found a car on a UK website?', 'Send us the link for a free landed-cost c
       ['Can I clear an ex-UK Range Rover at Mombasa myself?', 'Customs entries go through a licensed clearing agent. We handle clearing for every car we import.'],
       ['Do UK cars need anti-rust treatment in Kenya?', 'UK roads are salted in winter, so check the underside before buying. Anti-rust treatment after arrival can protect cars that show early surface rust.'],
       ['Can a Kenyan living in the UK bring a car home duty free?', 'Genuine returning residents may qualify for relief on one car under strict conditions. Read our returning residents guide and confirm with KRA before shipping.'],
+      [`How long does it take to import a car from the UK to Kenya?`, `Shipping from the UK to Mombasa takes about 5 to 7 weeks, plus about one week for clearing and registration. Allow roughly 6 to 9 weeks from purchase to collection.`],
+      [`What is the age limit for importing a car from the UK to Kenya?`, `The 8-year rule applies to UK imports too: in ${h.YEAR}, only cars first registered in ${h.MIN_YEAR} or later qualify. A ${h.MIN_YEAR - 1} car cannot be imported this year.`],
+      [`Can I get a VAT refund on a UK car exported to Kenya?`, `Some UK dealers sell VAT-qualifying cars at a lower export price because the car leaves the UK. Ask whether a car is VAT-qualifying; it can make UK prices more competitive.`],
+      [`Should I do an HPI and mileage check on a UK car?`, `Yes. An HPI or history check shows finance owed, write-off categories and mileage records, and MOT history confirms mileage over time. We run these checks before buying any UK car.`],
+      [`What UK cars can I import for under KES 3 million or 5 million?`, `Under KES 3 million fits compact cars such as a ${h.c('volkswagen-polo', 'VW Polo')} or ${h.c('volkswagen-golf', 'Golf')}. Under KES 5 million opens up SUVs such as a ${h.c('land-rover-discovery-sport', 'Discovery Sport')} or ${h.c('volkswagen-tiguan', 'Tiguan')}.`],
+      [`Is RoRo or container shipping better from the UK to Mombasa?`, `RoRo (roll-on roll-off) is usually cheaper for a single car. Container shipping costs more but protects high-value cars such as a Range Rover. Read our ${h.a('/blog/roro-vs-container-shipping-to-mombasa/', 'RoRo vs container guide')}.`],
     ],
   };
 };

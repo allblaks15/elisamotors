@@ -97,6 +97,11 @@ ${cta('Petrol or diesel Prado?', 'Tell us how you drive and we will advise.', 'H
 <h2>Prado resale value</h2>
 <p>The Prado holds its value exceptionally well in Kenya. White and pearl are the fastest-selling colours. Moreover, diesel TX-L and TZ-G versions attract strong demand. A full service record adds real value.</p>
 
+<h2>Is the Prado TX good off-road?</h2>
+<p>Yes. Every Prado TX has full-time four-wheel drive with a low-range transfer case, so it handles murram, mud and steep farm roads with ease. Higher grades add features such as crawl control and adaptive suspension. Moreover, its ground clearance and tough suspension suit rough upcountry roads.</p>
+<h2>Is there a manual Prado TX?</h2>
+<p>Japan-market Prados are automatic, so manual-gearbox Prados are rare in our source markets. If you specifically need a manual for heavy-duty work, ask us to search. Otherwise, the ${h.c('toyota-land-cruiser-70', 'Land Cruiser 70')} is the classic tough alternative.</p>
+
 <h2>Prado buying checklist</h2>
 <p>First, confirm the registration date is ${MIN_YEAR} or later. Second, verify the mileage. Third, check the KDSS for leaks. Then test the 4WD, low range and centre diff lock. Finally, look underneath for off-road damage.</p>
 
@@ -126,6 +131,12 @@ ${cta('Petrol or diesel Prado?', 'Tell us how you drive and we will advise.', 'H
       ['Is the Prado TX good off road?', 'Yes. It has full-time 4WD, low range, good ground clearance and strong suspension, which make it excellent on murram and rough upcountry roads.'],
       ['Is there a manual Prado TX for sale in Kenya?', 'Most Prados imported from Japan are automatic. Manual Prados exist in some markets but are rare in Kenya.'],
       ['Can I hire or lease a Prado TX in Nairobi?', 'Many hire companies offer self-drive and chauffeur Prados, and companies lease them for staff. We import Prados for buyers who want to own.'],
+      [`Does the Prado TX hold its value in Kenya?`, `Yes. The Prado TX is one of the best value-retaining cars in Kenya because demand is strong and parts are widely available. Diesel units and higher grades resell especially well.`],
+      [`Prado TX petrol vs diesel: which is better in Kenya?`, `The 2.8 diesel is stronger, more economical and resells better, so most Kenyans prefer it (from about ${h.P('toyota-land-cruiser-prado', 'tx-2-8-diesel')}). The 2.7 petrol is cheaper to buy (from about ${h.P('toyota-land-cruiser-prado', 'tx-2-7-petrol-5-seat')}) and simpler to maintain.`],
+      [`What is the Prado TX-L package price in Kenya?`, `The TX-L adds leather, a sunroof and power seats. The TX-L 2.8 diesel lands at about ${h.P('toyota-land-cruiser-prado', 'tx-l-2-8-diesel')} and the TX-L 2.7 petrol at about ${h.P('toyota-land-cruiser-prado', 'tx-l-2-7-petrol')}.`],
+      [`What is the Toyota Prado TZ-G (TX-G) price in Kenya?`, `The top TZ-G 2.8 diesel, sometimes called TXG in Kenya, lands at about ${h.P('toyota-land-cruiser-prado', 'tz-g-2-8-diesel')}. It adds adaptive suspension, KDSS and a multi-terrain monitor.`],
+      [`Is there a 3.0 D-4D Prado I can import?`, `The 3.0 D-4D diesel was replaced by the 2.8 diesel in 2015, so ${h.MIN_YEAR}+ Prados you can import have the 2.8. Older 3.0 D-4D Prados are only available locally used.`],
+      [`What is the brand new Toyota Prado price in Kenya?`, `A brand new Prado from a showroom costs considerably more than a ${h.MIN_YEAR}+ import. The newest Prado generation is the ${h.c('toyota-land-cruiser-250', 'Land Cruiser 250')}, which lands from about ${h.F('toyota-land-cruiser-250')} as a nearly new import.`],
     ],
   };
 };

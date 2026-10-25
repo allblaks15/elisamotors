@@ -56,6 +56,10 @@ ${table(['toyota-aqua', 'toyota-corolla-fielder', 'mazda-cx-5', 'toyota-harrier'
 <h2>How engine choice affects duty</h2>
 <p>Smaller engines usually fall into lower excise bands. For example, a 1.5-litre ${c('toyota-corolla-fielder', 'Fielder')} pays much less than a 2.8 diesel ${c('toyota-land-cruiser-prado', 'Prado')}. Similarly, hybrid versions may be treated differently. Therefore, compare duty on two versions before deciding. Read our <a href="/blog/hybrid-and-electric-car-imports-kenya/">hybrid import guide</a>.</p>
 
+<h2>FOB and CIF Mombasa prices explained</h2>
+<p>Japanese and UK exporters quote prices in two common ways. <b>FOB</b> (free on board) is the price of the car loaded onto the ship at the export port. It does not include sea freight or insurance. <b>CIF Mombasa</b> (cost, insurance and freight) adds shipping and marine insurance to Mombasa.</p>
+<p>Neither figure is your final cost. After CIF, you still pay KRA taxes, port charges, clearing and registration. Moreover, KRA calculates duty from its CRSP value, not from the FOB or CIF invoice. That is why ${h.site.name} quotes one landed price instead.</p>
+
 <h2>Other costs besides KRA taxes</h2>
 <p>Your landed cost also includes the purchase price, shipping, marine insurance, port charges, shipping line fees, clearing agent fees, storage if any and NTSA registration. Read our <a href="/blog/mombasa-port-car-clearing-guide/">Mombasa clearing guide</a> and <a href="/blog/ntsa-registration-imported-car-kenya/">NTSA registration guide</a>.</p>
 
@@ -133,6 +137,8 @@ ${h.specs('mazda-cx-5', 'Example: Mazda CX-5 petrol vs diesel landed prices')}
       ['Does the price I paid affect duty?', 'No. KRA uses the CRSP value adjusted for age, not your purchase invoice.'],
       ['Do older cars pay less duty?', 'Yes. Older vehicles within the 8-year window receive more depreciation, so they usually pay less duty.'],
       ['Are online duty calculators accurate?', 'They give rough estimates but may use outdated values and exclude port and clearing costs. Confirm with an importer.'],
+      [`What does FOB price mean for a Kenyan car buyer?`, `FOB is the price of the car loaded onto the ship in Japan or the UK. It excludes sea freight, insurance, KRA duty, port charges and registration, so it is always well below the landed price in Kenya.`],
+      [`What does CIF Mombasa mean?`, `CIF Mombasa is the car's price plus sea freight and marine insurance to Mombasa port. You still pay KRA duty, port charges, clearing and registration on top.`],
     ],
   };
 };

@@ -23,7 +23,7 @@ ${cta('Not sure if a car qualifies?', 'Send us the chassis number and we will ch
 <p>KEBS standard KS 1515 sets requirements for imported used road vehicles. One requirement is the age limit: used vehicles must be less than eight years old from the year of first registration. Moreover, vehicles must be right-hand drive and pass pre-shipment inspection.</p>
 <p>The rule aims to keep Kenya's vehicle fleet safer and cleaner. Older vehicles tend to have higher emissions and more safety risks. Consequently, the rule shapes the entire used car market in Kenya.</p>
 
-<h2>The cut-off year for ${YEAR}</h2>
+<h2>The cut-off year for ${YEAR}: the oldest car you can import</h2>
 <p>In ${YEAR}, the oldest importable cars are those first registered in ${MIN_YEAR}. Cars first registered in ${MIN_YEAR - 1} or earlier do not qualify. In ${YEAR + 1}, the cut-off moves to ${MIN_YEAR + 1}. Therefore, the window shifts forward every year.</p>
 
 <h2>Registration date vs manufacture date</h2>
@@ -34,7 +34,7 @@ ${cta('Not sure if a car qualifies?', 'Send us the chassis number and we will ch
 <p>Timing matters. A car that qualifies when bought may not qualify on arrival if the cut-off changes in between. For example, a ${MIN_YEAR} car bought in November and shipped in December may arrive in January ${YEAR + 1}, when ${MIN_YEAR} cars no longer qualify. Consequently, cars near the cut-off must be bought and shipped early.</p>
 <p>We plan purchases so compliant cars arrive well within their window. Read our <a href="/blog/roro-vs-container-shipping-to-mombasa/">shipping guide</a> for transit times.</p>
 
-<h2>What happens to overage cars?</h2>
+<h2>What happens to overage cars? KRA penalties and re-export</h2>
 <p>Overage cars can be refused entry, held at the port or ordered to be re-exported at the importer's cost. Storage charges build up during the process. In addition, penalties may apply. As a result, an overage car can become an expensive loss. Never risk it.</p>
 
 <h2>Are there exceptions?</h2>
@@ -124,6 +124,9 @@ ${h.specs('toyota-corolla-fielder', 'Example: Corolla Fielder versions within th
       ['Does the 8-year rule use manufacture or registration year?', 'The rule refers to the year of first registration, but authorities can also examine the manufacture date. Check both before buying.'],
       ['What happens if my car is over the age limit?', 'It can be refused entry, held or ordered to be re-exported at your cost, with storage charges and possible penalties.'],
       [`Can I import a ${MIN_YEAR - 1} car in ${YEAR}?`, `No. In ${YEAR}, cars first registered in ${MIN_YEAR - 1} or earlier do not qualify under the 8-year rule.`],
+      [`What is the oldest car year allowed to import to Kenya in ${h.YEAR}?`, `In ${h.YEAR}, the oldest cars you can import are those first registered in ${h.MIN_YEAR}. Cars registered in ${h.MIN_YEAR - 1} or earlier do not meet the 8-year rule.`],
+      [`When is the deadline to import a ${h.MIN_YEAR} car to Kenya?`, `A ${h.MIN_YEAR} car qualifies during ${h.YEAR}. From January ${h.YEAR + 1}, the cut-off moves to ${h.MIN_YEAR + 1}, so a ${h.MIN_YEAR} car should be shipped early enough to clear Mombasa before the year ends.`],
+      [`What is the KRA penalty for importing an overage car?`, `An overage car is not cleared for local use. Depending on the case, it may have to be re-exported at the owner's cost or face forfeiture, and port storage keeps adding up meanwhile. Always confirm the registration year before you pay.`],
     ],
   };
 };

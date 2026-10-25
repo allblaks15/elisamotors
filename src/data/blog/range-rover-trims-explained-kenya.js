@@ -73,6 +73,9 @@ ${cta('Ready for a quote?', 'Tell us the trim and engine you want.', 'Hi Elisa M
       ['Is there a Range Rover SSVR?', 'The official name is SVR, the high-performance Range Rover Sport with a supercharged 5.0 V8. "SSVR" and "SRV" are common misspellings.'],
       ['How much is a Range Rover Autobiography in Kenya?', `A Range Rover Sport Autobiography D350 lands at about ${P(S, 'autobiography-d350-l461')}, while a full-size P530 Autobiography reaches ${P(V, 'range-rover-p530-autobiography-v8-l460')}.`],
       ['Is a diesel or petrol Range Rover better for Kenya?', 'Diesel suits most buyers because of better economy and torque. Petrol or plug-in hybrid suits mostly short town trips.'],
+      [`What is the Range Rover SVR or Supercharged price in Kenya?`, `The V8 supercharged and SVR models are rare special-order cars. We quote them individually based on the exact car, year and mileage you want.`],
+      [`What do TDV6, SDV6 and SDV8 mean on a Range Rover?`, `They are Land Rover diesel engines: TDV6 and SDV6 are 3.0-litre V6 diesels (SDV6 is the stronger, twin-turbo version) and SDV8 is the 4.4-litre V8 diesel used in the full-size Range Rover.`],
+      [`What is the Range Rover Autobiography price in Kenya?`, `The Autobiography is the top luxury trim. For example, a new-shape Range Rover P530 Autobiography lands at about ${h.P('land-rover-range-rover-vogue', 'range-rover-p530-autobiography-v8-l460')}, and a Range Rover Sport Autobiography D350 at about ${h.P('land-rover-range-rover-sport', 'autobiography-d350-l461')}.`],
     ],
   };
 };

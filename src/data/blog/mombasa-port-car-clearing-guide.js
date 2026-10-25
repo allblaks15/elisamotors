@@ -46,10 +46,15 @@ ${cta('Need a car cleared at Mombasa?', 'Our clearing team handles every step.',
 <h2>Step 7: Leaving the port</h2>
 <p>The car can be collected in Mombasa or transported inland. Many buyers use car carriers to Nairobi and upcountry towns. Read our <a href="/blog/mombasa-to-nairobi-car-transport/">Mombasa to Nairobi transport guide</a>.</p>
 
+<h2>IDF, UCR number and the customs release order</h2>
+<p>Three documents control every car import. First, the <b>Import Declaration Form (IDF)</b> is lodged through the KenTrade single window before the car arrives. Lodging it generates a <b>Unique Consignment Reference (UCR)</b> number, which follows the car through every step.</p>
+<p>Next, the customs entry is lodged with KRA using the UCR, and duty is assessed and paid. Finally, after verification, KRA issues the <b>release order</b> that lets the car leave the port or the container freight station where it is held.</p>
+<p>Private buyers can lodge these themselves through a licensed clearing agent. However, errors in names, chassis numbers or values cause delays. ${h.site.name} handles the IDF, UCR, entry and release for every car we import.</p>
+
 <h2>How long does clearing take?</h2>
 <p>With correct documents and prompt payment, clearing often takes several working days to about a week after discharge. However, missing documents, payment delays or verification issues can stretch it much longer. Consequently, preparation matters.</p>
 
-<h2>Storage charges and how to avoid them</h2>
+<h2>Storage charges: how to avoid port delay charges at Mombasa</h2>
 <p>Ports and CFS operators allow a short free storage period. After that, daily storage charges apply and grow quickly. To avoid them, prepare documents before arrival, pay duty promptly and book verification early. Moreover, use an experienced clearing agent.</p>
 
 <h2>Clearing agent fees</h2>
@@ -146,6 +151,8 @@ ${h.specs('toyota-aqua', 'Example: Toyota Aqua landed prices including clearing'
       ['How much commission does a clearing agent charge for a Japanese car?', 'Agent fees vary by agent and vehicle. Ask for a written breakdown separating the agent fee from KRA taxes, KPA charges and shipping line fees.'],
       ['How long does it take to clear a car at Mombasa port?', 'Usually about a week once the ship has docked and documents are complete. Missing documents or KRA queries can add days.'],
       ['Can I clear a car at Mombasa myself as an individual?', 'Customs entries are normally lodged through a licensed clearing agent. Individuals can supervise the process, but using a licensed agent is the practical route.'],
+      [`What is a UCR number for car imports in Kenya?`, `The Unique Consignment Reference (UCR) is generated when the Import Declaration Form is lodged on KenTrade. It links the car to its customs entry, duty payment and release order.`],
+      [`How do I avoid port delay charges at Mombasa?`, `Lodge the IDF before the ship arrives, have the bill of lading, inspection certificate and logbook ready, and pay duty promptly. Storage charges start after the free period, so delays cost money every day.`],
     ],
   };
 };

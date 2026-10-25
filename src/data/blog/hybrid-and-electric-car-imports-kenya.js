@@ -128,6 +128,7 @@ ${h.specs('toyota-corolla-cross')}
       ['Do hybrid cars pay lower duty in Kenya?', 'Hybrids are taxed by engine capacity like other cars. Smaller petrol engines fall into lower excise bands, which helps many hybrids. Fully electric cars have their own treatment, so check current KRA rules.'],
       ['Where can I fix a hybrid car in Nairobi?', 'Choose a garage that specialises in hybrids, with diagnostic tools and battery experience. Prius and Aqua batteries are available from parts dealers along Kirinyaga Road.'],
       ['Do ex-Japan hybrids need a software update?', 'Some cars benefit from updates or recalibration after battery or inverter work. Hybrid specialists in Nairobi can scan and update systems.'],
+      [`Is there a KRA duty reduction for hybrid cars from Japan?`, `Hybrids pay the same import duty structure as petrol cars, with excise based mainly on engine size, so a small-engine hybrid often pays less than a large petrol car. Fully electric cars have attracted lower excise duty, but rates change, so confirm current rates before you buy.`],
     ],
   };
 };

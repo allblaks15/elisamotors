@@ -143,6 +143,7 @@ ${cta('Comparing a Velar and an Evoque?', 'We can quote both side by side.', 'Hi
       ['Which Velar years can I import in ' + YEAR + '?', `You can import Velars first registered in ${MIN_YEAR} or later under the KEBS 8-year rule.`],
       ['Is the Range Rover Velar reliable?', 'A well-maintained, younger Velar is reliable. Post-2021 cars have improved infotainment and engines. Regular servicing at a specialist is important.'],
       ['Velar or Range Rover Sport: which should I buy?', 'Choose the Velar for style, comfort and lower cost. Choose the Sport for more space, better off-road ability and a stronger road presence.'],
+      [`What is the price of a Range Rover Velar in KSh?`, `A ${h.MIN_YEAR}+ Range Rover Velar lands at about ${h.F('land-rover-range-rover-velar')} to ${h.T('land-rover-range-rover-velar')}, depending on engine, trim, year and mileage. We deliver to Nairobi, Mombasa and upcountry.`],
     ],
   };
 };

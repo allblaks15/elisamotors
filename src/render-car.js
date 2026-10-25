@@ -21,6 +21,13 @@ export function makeRenderCar(h) {
     const econ = [...new Set(c.variants.map((x) => x.economy))];
     const vUrl = (x) => `${base}${x.id}/`;
     const multi = c.variants.length > 1;
+    const aka = c.aka || [];
+    const akaText = aka.length ? `also searched as ${listJoin(aka.map((n) => `"${n}"`))}` : '';
+    // Importable model years this year (8-year rule), limited to the years this model was made
+    const [y0, y1] = (c.years.match(/\d{4}/g) || [MIN_YEAR]).map(Number).concat([]).slice(0, 2);
+    const yearsOk = []; for (let y = Math.max(MIN_YEAR, y0); y <= Math.min(YEAR, y1 || y0); y++) yearsOk.push(y);
+    const tooOld = [MIN_YEAR - 2, MIN_YEAR - 1].filter((y) => y >= y0 - 3);
+    const priceTxt = v ? range(...v.price) : range(c.priceFrom, c.priceTo);
 
     const faq = v ? [
       [`How much is the ${full} in Kenya?`, `The ${full} costs about ${range(...v.price)} landed in Kenya for a ${MIN_YEAR}+ unit, including shipping, KRA duty, clearing and registration. The exact price depends on year, mileage and auction grade.`],
@@ -33,11 +40,14 @@ export function makeRenderCar(h) {
       ...(multi ? [[`Which ${c.name} version should I buy?`, `For the lowest price, choose the ${cheapest.name}. ${frugal !== cheapest && kmL(frugal) ? `For the best fuel economy, the ${frugal.name} returns about ${frugal.economy}. ` : ''}${strongest !== cheapest ? `For the most power, the ${strongest.name} makes ${strongest.hp} hp.` : ''} Our team can advise based on how and where you drive.`]] : []),
       [`What features does the ${c.name} have?`, `Key ${c.name} features include: ${c.features.join(', ')}.`],
       [`Where do you import the ${c.name} from?`, `We import the ${c.name} from ${listJoin(c.origin)}. The fastest route is about ${fastest.transit} shipping to Mombasa.`],
-      [`Can I import a ${c.name} under the 8-year rule?`, `Yes. In ${YEAR} you can import a ${c.name} first registered in ${MIN_YEAR} or later. We only source compliant units.`],
+      ...aka.slice(0, 1).map((n) => [`How much is a ${n} in Kenya?`, `In Kenya, "${n}" refers to the ${c.name}. A ${MIN_YEAR}+ unit costs about ${priceTxt} landed, depending on the version, year, mileage and grade.`]),
+      [`What is the ${c.name} price in Nairobi and Mombasa?`, `Our ${c.name} prices (about ${priceTxt}) are landed at Mombasa: car, shipping, KRA duty, clearing and registration. You can collect in Mombasa, or we deliver to Nairobi and other towns at cost, quoted upfront before you order.`],
+      [`Is this a used or brand new ${c.name} price?`, `These are prices for used ${c.name}s first registered in ${MIN_YEAR} or later, imported ${c.origin.map((o) => `ex-${o}`).join(', ').replace(/, (?=[^,]*$)/, ' or ')} and fully duty paid. ${c.discontinued ? `The ${c.name} is no longer made new, so a well-kept imported unit is the best way to buy one; we can also source the newest, lowest-mileage examples on request.` : `A brand new ${c.name} from a franchise showroom costs considerably more. We can also quote for nearly new or brand new units on request.`}`],
+      [`Which ${c.name} model years can I import in ${YEAR}?`, yearsOk.length ? `Under the 8-year rule you can import ${c.name} units first registered ${yearsOk.length > 1 ? `from ${yearsOk[0]} to ${yearsOk.at(-1)}` : `in ${yearsOk[0]}`}.${tooOld.length ? ` Older models such as ${tooOld.join(' and ')} cannot be imported in ${YEAR}; they are only available locally used.` : ''} Newer years cost more, so tell us your preferred year and we quote for it.` : `In ${YEAR} you can import units first registered in ${MIN_YEAR} or later.`],
       [`What is the fuel consumption of the ${c.name}?`, `Depending on the version, the ${c.name} returns about ${econ.join(', ')}. Real-world figures depend on traffic and driving style.`],
     ];
 
-    const photoAlt = (i) => `${full} ${c.body.toLowerCase()} for sale in Kenya, import from ${listJoin(c.origin)}${i ? `, photo ${i + 1}` : ''}`;
+    const photoAlt = (i) => `${full}${aka[0] && !v ? ` (${aka[0]})` : ''} ${c.body.toLowerCase()} for sale in Kenya, import from ${listJoin(c.origin)}${i ? `, photo ${i + 1}` : ''}`;
     const photoTitle = `${full} price in Kenya | ${site.name}`;
     const vName = (x) => multi ? `<a href="${vUrl(x)}" title="${esc(`${c.name} ${x.name} price in Kenya`)}">${esc(x.name)}</a>` : esc(x.name);
     const variantRows = c.variants.map((x) => `<tr${x === v ? ' class="current"' : ''}><th scope="row">${vName(x)}</th><td class="num nowrap"><b>${range(...x.price)}</b></td><td>${x.cc ? (x.cc / 1000).toFixed(1) + 'L ' : ''}${x.fuel}</td><td class="num nowrap">${x.hp} hp</td><td>${x.trans.replace('Automatic', 'Auto')}</td><td>${x.drive}</td><td class="nowrap">${x.economy}</td><td class="small">${esc(x.note || '–')}</td></tr>`).join('');
@@ -56,7 +66,8 @@ export function makeRenderCar(h) {
   <aside class="side">
     <div class="detail-head">
       <span class="make"><a href="/make/${slugify(c.make)}/" style="text-decoration:none">${esc(c.make)}</a> · <a href="/body-type/${BODIES[c.body].slug}/" style="text-decoration:none">${esc(c.body)}</a></span>
-      <h1>${esc(full)}${v ? '<span class="h1-sub">Price in Kenya & full specs</span>' : ''}</h1>
+      <h1>${esc(full)}<span class="h1-sub">${v ? 'Price in Kenya & full specs' : `Price in Kenya (${YEAR}): import & specs`}</span></h1>
+      ${akaText && !v ? `<p class="small muted" style="margin:0 0 6px">${esc(akaText.charAt(0).toUpperCase() + akaText.slice(1))}</p>` : ''}
       <p class="muted" style="margin:0">${esc(v && v.note ? `${v.note}. ` : '')}${esc(c.blurb)}</p>
     </div>
     <dl class="facts">
@@ -128,10 +139,10 @@ ${orderModal(c)}
     };
     const title = v
       ? fit(`${full} Price in Kenya & Specs | ${site.name}`, `${full} Price in Kenya | ${site.name}`, `${full} Price in Kenya`, `${full} Kenya`)
-      : fit(`${c.name} Import Kenya: Price, Specs & Versions | ${site.name}`, `${c.name} Import Kenya: Prices & Specs | ${site.name}`, `${c.name} Import Kenya: Price & Specs`, `${c.name} Import to Kenya`);
+      : fit(...(aka[0] ? [`${c.name} (${aka[0]}) Price in Kenya ${YEAR} | ${site.name}`, `${c.name} (${aka[0]}) Price in Kenya ${YEAR}`] : []), `${c.name} Price in Kenya ${YEAR}: Import & Specs | ${site.name}`, `${c.name} Price in Kenya ${YEAR} | ${site.name}`, `${c.name} Price in Kenya ${YEAR}`, `${c.name} Price in Kenya`);
     const description = v
       ? `${full} price in Kenya: ${range(...v.price)} landed. ${cc(v)} ${v.fuel.toLowerCase()}, ${v.hp} hp, ${v.trans}, ${v.drive}. ${v.note ? v.note + '. ' : ''}Import from ${listJoin(c.origin)}.`
-      : `Import a ${c.name} to Kenya from ${listJoin(c.origin)}. ${plural(c.variants.length, 'version')} (${c.fuels.join('/')}) from ${M(c.priceFrom)} landed. Features, specs & order on WhatsApp.`;
+      : `${c.name}${aka[0] ? ` (${aka[0]})` : ''} price in Kenya: from ${M(c.priceFrom)} landed for ${MIN_YEAR}+ units imported from ${listJoin(c.origin)}. ${plural(c.variants.length, 'version')}, specs & features. Order on WhatsApp.`;
     add(path, layout({ path, bar: 'car', image: mainImg(c.slug), preload: mainImg(c.slug), priority: v ? 0.7 : c.popular ? 0.9 : 0.8, images, title, description, body, jsonld: [cr.ld, productLd, faqLd(faq)] }));
   };
 }

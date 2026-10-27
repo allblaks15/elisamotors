@@ -402,3 +402,8 @@ table.spec th a { color: inherit; }
 .post-card .body p { overflow-wrap: break-word; }
 table.spec.post-table { width: 100%; min-width: 520px; }
 table.spec.post-table th[scope="row"] { font-weight: 600; }
+
+/* ---------- Related searches (keyword tags) ---------- */
+.kw-tags { padding-top: 8px; padding-bottom: 40px; scroll-margin-top: 90px; }
+.kw-tags h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 12px; }
+.kw-tags .chip { font-weight: 500; font-size: .85rem; min-height: 36px; text-transform: none; }

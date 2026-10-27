@@ -5,6 +5,7 @@ import { join, dirname } from 'node:path';
 import { site } from './config.js';
 import { cars, slugify, byRank, LEAD_MAKES } from './data/cars.js';
 import { makeRenderCar } from './render-car.js';
+import { addKeywordTags } from './keyword-tags.js';
 import { blogPosts, CLUSTERS } from './data/blog/index.js';
 import { readdir, rename } from 'node:fs/promises';
 
@@ -100,6 +101,7 @@ function layout({ path, title, description, body, jsonld = [], image, bar = 'glo
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description = clip(description))}">
+${noindex ? '' : '<!--KW_META-->'}
 <link rel="canonical" href="${abs(path)}">
 ${noindex ? '<meta name="robots" content="noindex, follow">' : '<meta name="robots" content="index, follow, max-image-preview:large">'}
 <meta name="theme-color" content="#0e2a3a">
@@ -136,6 +138,7 @@ ${ld}
 </nav></div>
 <main id="main">
 ${body}
+${noindex ? '' : '<!--KW_TAGS-->'}
 </main>
 <footer class="site"><div class="wrap">
   <div class="foot-grid">
@@ -639,6 +642,9 @@ simplePage('/privacy/', 'Privacy policy', `Privacy Policy | ${site.name}`, `How 
 }
 add('/404.html', layout({ path: '/404.html', noindex: true, title: `Page not found | ${site.name}`, description: 'Page not found.', body: `<div class="wrap" style="padding:64px 16px;text-align:center"><h1>We couldn't find that page</h1><p class="muted">The car may have moved. Try browsing our catalogue or send us a request.</p><p><a class="btn btn-primary" href="/cars/">Browse cars</a> <a class="btn btn-ghost" href="/import-request/">Request a car</a></p></div>` }));
 
+// ---------------------------------------------------------------- related-search tags from the keyword research
+const tagged = addKeywordTags(pages, JSON.parse(await readFile(join(SRC, 'data', 'keywords.json'), 'utf8')), cars, MIN_YEAR);
+
 // ---------------------------------------------------------------- write
 await rm(OUT, { recursive: true, force: true });
 for (const p of pages) {
@@ -663,4 +669,5 @@ await writeFile(join(OUT, 'site.webmanifest'), JSON.stringify({ name: site.name,
 await writeFile(join(OUT, 'favicon.svg'), I.logo.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" '));
 const php = (await readFile(join(SRC, 'send-order.php'), 'utf8')).replace('{{TO}}', site.email).replace('{{FROM}}', site.mailFrom).replace(/{{NAME}}/g, site.name).replace('{{WA}}', site.whatsapp).replace('{{PHONE}}', site.phone);
 await writeFile(join(OUT, 'send-order.php'), php);
+console.log(`Keyword tags added to ${tagged} pages`);
 console.log(`Built ${pages.length} pages, ${uniq.length} URLs in sitemap → dist/`);

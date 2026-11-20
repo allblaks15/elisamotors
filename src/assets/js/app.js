@@ -310,4 +310,33 @@
       s.innerHTML = successHtml(r, url, 'Order sent!');
     });
   });
+
+  // ---------- garage booking ----------
+  const gForm = $('#garage-form');
+  if (gForm) {
+    const gErr = $('[data-form-error]', gForm);
+    // ?service=car-repair pre-selects the service chosen on a garage page
+    const want = new URLSearchParams(location.search).get('service');
+    const pick = want && $(`input[name="service"][data-slug="${CSS.escape(want)}"]`, gForm);
+    if (pick) pick.checked = true;
+    // Earliest bookable date is today
+    if (gForm.elements.date) gForm.elements.date.min = new Date().toISOString().slice(0, 10);
+    gForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      gErr.hidden = true;
+      if (!validate(gForm, ['make', 'model', 'date', 'name', 'phone'])) { gErr.textContent = 'Please fill in your car, preferred date, name and a valid phone number.'; gErr.hidden = false; return; }
+      const d = fd(gForm); const r = ref();
+      const car = `${d.make} ${d.model}${d.year ? ` ${d.year}` : ''}`;
+      const day = new Date(`${d.date}T12:00:00`).toLocaleDateString('en-KE', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+      const payload = { ...d, ref: r, car, date: day, page: location.href };
+      const text = `Hi, I would like to book a *${d.service.toLowerCase()}* for my *${car}* at ${EM.name} Garage.\n\n` +
+        `🔧 *Service:* ${d.service}\n🚗 *Car:* ${car}${d.reg ? `\n🔢 *Reg:* ${d.reg}` : ''}\n📅 *Preferred date:* ${day} (${d.time})${d.notes ? `\n📝 *Details:* ${d.notes}` : ''}\n\n` +
+        `👤 *Name:* ${d.name}\n📞 *Phone:* ${d.phone}${d.email ? `\n✉️ *Email:* ${d.email}` : ''}${d.town ? `\n📍 *Area:* ${d.town}` : ''}\n\n🧾 Ref: ${r}`;
+      const url = send(payload, text);
+      gForm.hidden = true;
+      const s = $('[data-success]', gForm.parentElement); s.hidden = false;
+      s.innerHTML = successHtml(r, url, 'Booking sent!').replace('reply with your free quote shortly', 'confirm your booking shortly');
+      s.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
 })();

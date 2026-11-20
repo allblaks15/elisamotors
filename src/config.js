@@ -24,4 +24,18 @@ export const site = {
   // Bing Webmaster Tools (optional)
   bingVerification: '',
   tagline: 'Car Imports from Japan, UK & South Africa to Kenya',
+
+  // ---------------- GARAGE (service, repairs & check-ups) ----------------
+  // Fill these in: they appear on the garage pages and in Google's local business data.
+  garage: {
+    name: 'Elisa Motors Garage',
+    // Street address / landmark of the workshop, e.g. 'Mombasa Road, opposite X, Nairobi'
+    address: '',
+    area: 'Nairobi',
+    // Google Maps link to the workshop (share link from Google Maps)
+    mapsUrl: '',
+    hours: 'Mon–Sat, 8:00am – 6:00pm',
+    // Only list insurers you are actually approved by, e.g. ['Jubilee', 'Britam']
+    insurers: [],
+  },
 };

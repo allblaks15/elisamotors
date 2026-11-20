@@ -6,6 +6,7 @@ import { site } from './config.js';
 import { cars, slugify, byRank, LEAD_MAKES } from './data/cars.js';
 import { makeRenderCar } from './render-car.js';
 import { addKeywordTags } from './keyword-tags.js';
+import { buildGarage } from './garage.js';
 import { blogPosts, CLUSTERS } from './data/blog/index.js';
 import { readdir, rename } from 'node:fs/promises';
 
@@ -84,7 +85,7 @@ const bodyIcon = (b) => `<svg viewBox="0 0 64 30" fill="none" stroke="currentCol
 
 // ---------------------------------------------------------------- layout
 const sitemap = [];
-const navLinks = [['/cars/', 'Browse Cars'], ['/import-from/japan/', 'From Japan'], ['/import-from/uk/', 'From UK'], ['/import-from/south-africa/', 'From South Africa'], ['/how-to-import-a-car-to-kenya/', 'How It Works'], ['/blog/', 'Blog']];
+const navLinks = [['/cars/', 'Browse Cars'], ['/import-from/japan/', 'From Japan'], ['/import-from/uk/', 'From UK'], ['/import-from/south-africa/', 'From South Africa'], ['/how-to-import-a-car-to-kenya/', 'How It Works'], ['/garage/', 'Garage'], ['/blog/', 'Blog']];
 
 function layout({ path, title, description, body, jsonld = [], image, bar = 'global', noindex = false, priority = 0.6, preload, images = [] }) {
   if (!noindex) sitemap.push({ path, priority, images });
@@ -133,6 +134,7 @@ ${ld}
   <a href="/">Home</a><a href="/cars/">Browse All Cars</a><a href="/import-request/">Request a Car Import</a><a href="/how-to-import-a-car-to-kenya/">How Importing Works</a><a href="/blog/">Blog & Price Guides</a>
   <div class="label">Import from</div>${Object.entries(ORIGINS).map(([n, o]) => `<a href="/import-from/${o.slug}/">${n}</a>`).join('')}
   <div class="label">Body type</div>${Object.entries(BODIES).map(([, b]) => `<a href="/body-type/${b.slug}/">${b.plural}</a>`).join('')}
+  <div class="label">Garage</div><a href="/garage/">Car service &amp; repairs</a><a href="/garage/book/">Book a service</a>
   <div class="label">Help</div><a href="/contact/">Contact Us</a><a href="/about/">About Elisa Motors</a>
   <a class="btn btn-wa" href="${waGeneral}" target="_blank" rel="noopener" style="margin-top:14px">${I.wa} Chat on WhatsApp</a>
 </nav></div>
@@ -148,11 +150,15 @@ ${noindex ? '' : '<!--KW_TAGS-->'}
     <div><h4>Popular imports</h4><ul>${[...cars].sort(byRank).slice(0, 8).map((c) => `<li><a href="/cars/${c.slug}/">${c.name}</a></li>`).join('')}</ul></div>
     <div><h4>Browse</h4><ul>${Object.values(BODIES).map((b) => `<li><a href="/body-type/${b.slug}/">${b.plural}</a></li>`).join('')}${Object.values(FUELS).map((f) => `<li><a href="/fuel/${f.slug}/">${f.slug[0].toUpperCase() + f.slug.slice(1)} cars</a></li>`).join('')}</ul></div>
     <div><h4>Elisa Motors</h4><ul><li><a href="/import-request/">Request a car</a></li><li><a href="/how-to-import-a-car-to-kenya/">How to import a car to Kenya</a></li><li><a href="/blog/">Blog & price guides</a></li>${Object.entries(ORIGINS).map(([n, o]) => `<li><a href="/import-from/${o.slug}/">Import from ${n}</a></li>`).join('')}<li><a href="/about/">About us</a></li><li><a href="/contact/">Contact</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/credits/">Image credits</a></li><li><a href="/sitemap/">Sitemap</a></li></ul></div>
+    <div><h4>Garage</h4><ul><li><a href="/garage/">Car garage in Nairobi</a></li><li><a href="/garage/car-service/">Car service</a></li><li><a href="/garage/car-repair/">Car repairs</a></li><li><a href="/garage/car-diagnostics/">Diagnostics &amp; electrical</a></li><li><a href="/garage/car-inspection/">Check-ups &amp; inspections</a></li><li><a href="/garage/book/">Book a service</a></li></ul></div>
   </div>
   <div class="foot-legal"><span>© ${YEAR} ${site.name}. All rights reserved.</span><span>Prices are indicative landed estimates and are confirmed in your written quote.</span></div>
 </div></footer>
-${bar === 'global' ? `<div class="action-bar global"><a class="btn btn-primary" href="/import-request/">${I.car} Import with Us</a></div>` : ''}
-<a class="import-float" href="/import-request/">${I.car} Import with Us</a>
+${(() => { // garage pages promote garage bookings; every other page promotes imports
+  const [href, text] = path.startsWith('/garage/') ? ['/garage/book/', 'Book a service'] : ['/import-request/', 'Import with Us'];
+  return `${bar === 'global' ? `<div class="action-bar global"><a class="btn btn-primary" href="${href}">${I.car} ${text}</a></div>` : ''}
+<a class="import-float" href="${href}">${I.car} ${text}</a>`;
+})()}
 <script>window.EM=${JSON.stringify({ wa: site.whatsapp, name: site.name, url: site.url })}</script>
 <script src="/assets/js/app.js?v=${BUILD}" defer></script>
 </body>
@@ -304,6 +310,12 @@ const add = (path, html) => pages.push({ path, html });
 <section class="block alt"><div class="wrap">
   <div class="section-head"><div><h2>How importing with Elisa Motors works</h2><p>Five simple steps, and we keep you updated on WhatsApp throughout.</p></div><a class="link-arrow" href="/how-to-import-a-car-to-kenya/">Full import guide →</a></div>
   ${stepsHtml}
+</div></section>
+
+<section class="block alt"><div class="wrap">
+  <div class="section-head"><div><h2>${site.garage.name}: service, repairs &amp; check-ups in Nairobi</h2><p>Book a car service, repair, diagnostic test or pre-purchase inspection online. We confirm on WhatsApp.</p></div><a class="link-arrow" href="/garage/">Visit the garage →</a></div>
+  <div class="svc-grid">${[['car-service', '🛠', 'Car service', 'Minor, major and full service'], ['car-repair', '⚙', 'Repairs', 'Engine, gearbox, suspension and brakes'], ['car-diagnostics', '⚡', 'Diagnostics', 'Warning lights, batteries and wiring'], ['car-inspection', '✓', 'Check-ups', 'Pre-purchase and NTSA inspection prep']].map(([s, ic, t, d]) => `<a class="svc-card" href="/garage/${s}/"><span class="svc-ic" aria-hidden="true">${ic}</span><b>${t}</b><span>${d}</span></a>`).join('')}</div>
+  <p style="margin-top:18px"><a class="btn btn-primary" href="/garage/book/">Book a service or repair</a></p>
 </div></section>
 
 <section class="block"><div class="wrap">
@@ -611,6 +623,8 @@ function simplePage(path, h1, title, description, html, priority = 0.5, noindex 
   const cr = crumbs([['Home', '/'], [h1, path]]);
   add(path, layout({ path, title, description, noindex, priority, jsonld: [cr.ld], body: `<div class="wrap">${cr.html}<header class="page-head"><h1>${h1}</h1></header><div class="prose" style="padding-bottom:48px">${html}</div></div>` }));
 }
+buildGarage({ site, YEAR, I, esc, waLink, abs, add, layout, crumbs, faqHtml, faqLd, MAKES });
+
 simplePage('/about/', `About ${site.name}`, `About ${site.name}: Trusted Car Importers in Kenya`, `${site.name} helps Kenyans import quality cars from Japan, the UK and South Africa with transparent pricing and WhatsApp support.`,
   `<p>${site.name} is a Kenyan car import company based in ${site.address}. We help individuals, families and businesses import quality vehicles from <a href="/import-from/japan/">Japan</a>, the <a href="/import-from/uk/">United Kingdom</a> and <a href="/import-from/south-africa/">South Africa</a>.</p>
   <p>Our approach is simple: you choose the exact car and spec, we give you an honest all-inclusive price, and we keep you updated until the keys are in your hand.</p>
@@ -633,6 +647,7 @@ simplePage('/privacy/', 'Privacy policy', `Privacy Policy | ${site.name}`, `How 
 {
   const sec = (h, links) => `<h2>${h}</h2><ul class="sitemap-list">${links.map(([t, u]) => `<li><a href="${u}">${esc(t)}</a></li>`).join('')}</ul>`;
   const html = sec('Main pages', [['Home', '/'], ['All cars', '/cars/'], ['Request a car import', '/import-request/'], ['How to import a car to Kenya', '/how-to-import-a-car-to-kenya/'], ['About', '/about/'], ['Contact', '/contact/']])
+    + sec('Garage', [['Car garage in Nairobi', '/garage/'], ['Car service', '/garage/car-service/'], ['Car repair', '/garage/car-repair/'], ['Car diagnostics & auto electrician', '/garage/car-diagnostics/'], ['Car check-up & pre-purchase inspection', '/garage/car-inspection/'], ['Book a service or repair', '/garage/book/']])
     + sec('Blog & price guides', [['All guides', '/blog/'], ...posts.map((p) => [p.crumb, `/blog/${p.slug}/`])])
     + sec('Import from', Object.entries(ORIGINS).map(([n, o]) => [`Import cars from ${n}`, `/import-from/${o.slug}/`]))
     + sec('Body types', Object.values(BODIES).map((b) => [b.plural, `/body-type/${b.slug}/`]))

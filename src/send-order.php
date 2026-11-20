@@ -35,7 +35,7 @@ if ($name === '' || !preg_match('/^[0-9+\s()-]{9,20}$/', $phone)) { http_respons
 $labels = [
   'ref' => 'Reference', 'type' => 'Type', 'car' => 'Car', 'variant_name' => 'Version / spec', 'price' => 'Est. landed price',
   'make' => 'Make', 'model' => 'Model', 'other_car' => 'Car (typed)', 'fuel' => 'Fuel', 'transmission' => 'Transmission',
-  'origin' => 'Import from', 'year' => 'Year', 'budget' => 'Budget', 'mileage' => 'Max mileage', 'colour' => 'Colour', 'timeline' => 'Timeline',
+  'service' => 'Garage service', 'date' => 'Preferred date', 'time' => 'Preferred time', 'reg' => 'Registration', 'origin' => 'Import from', 'year' => 'Year', 'budget' => 'Budget', 'mileage' => 'Max mileage', 'colour' => 'Colour', 'timeline' => 'Timeline',
   'name' => 'Name', 'phone' => 'Phone / WhatsApp', 'email' => 'Email', 'town' => 'Town', 'notes' => 'Notes', 'page' => 'Page',
 ];
 $lines = [];

@@ -407,3 +407,19 @@ table.spec.post-table th[scope="row"] { font-weight: 600; }
 .kw-tags { padding-top: 8px; padding-bottom: 40px; scroll-margin-top: 90px; }
 .kw-tags h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 12px; }
 .kw-tags .chip { font-weight: 500; font-size: .85rem; min-height: 36px; text-transform: none; }
+
+/* ---------- Garage ---------- */
+.svc-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 8px 0 8px; }
+.svc-card { display: grid; gap: 6px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; text-decoration: none; transition: border-color .15s, transform .15s; }
+.svc-card:hover { border-color: var(--ink); transform: translateY(-2px); }
+.svc-card b { font-size: 1.05rem; }
+.svc-card span:not(.svc-ic) { color: var(--muted); font-size: .9rem; }
+.svc-ic { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-size: 1.2rem; }
+.garage-nav { margin-top: 14px; }
+.garage-steps li { padding-top: 18px; }
+.garage-book-box .spec.kv { margin-top: 4px; }
+@media (min-width: 640px) { .svc-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 960px) { section .svc-grid { grid-template-columns: repeat(4, 1fr); } .garage-steps { grid-template-columns: repeat(4, 1fr); } .garage-steps li { padding-top: 64px; } }
+/* Footer with the Garage column: brand row on top for tablets, five columns on desktop */
+@media (min-width: 640px) { .foot-grid { grid-template-columns: repeat(4, 1fr); } .foot-brand { grid-column: 1 / -1; } }
+@media (min-width: 960px) { .foot-grid { grid-template-columns: 2fr repeat(4, 1fr); } .foot-brand { grid-column: auto; } }

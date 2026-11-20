@@ -7,7 +7,8 @@ const MAX_TAGS = 8;
 // words must all appear in a page's title, headings or model names for it to be tagged on that page.
 const GENERIC = new Set(tokens(`price prices kenya kenyan nairobi mombasa ksh shilling cost how much is the a an of in for to from on at with and or vs
   by what does do can i my buy for sale used second hand brand new cheap cheapest affordable best top latest locally showroom ex duty paid
-  import car vehicle list value review diesel petrol current today`));
+  import car vehicle list value review diesel petrol current today
+  garage mechanic workshop shop centre center specialist auto motor repair service servicing near me top trusted reliable honest professional recommended reputable quality modern digital`));
 // Searches that want to buy (send them to the car page) rather than read a guide
 const BUYING = new Set(tokens('price prices cost buy sale cheap cheapest affordable used showroom ksh shilling'));
 // Keyword research categories -> car makes they are about (4 = UK imports, 5 = Japan imports apply by origin)
@@ -40,10 +41,10 @@ export function addKeywordTags(pages, keywords, cars, minYear) {
     const [, slug, vid] = p.path.match(/^\/cars\/([^/]+)\/(?:([^/]+)\/)?$/) || [];
     const car = bySlug[slug];
     const isBlog = p.path.startsWith('/blog/');
-    const head = norm(`${grab(p.html, /<title>([\s\S]*?)<\/title>/g)} ${grab(p.html, /<h1[^>]*>([\s\S]*?)<\/h1>/g)} ${car ? `${car.name} ${car.aka.join(' ')}` : ''}`);
+    const head = norm(`${grab(p.html, /<title>([\s\S]*?)<\/title>/g).split(' | ')[0]} ${grab(p.html, /<h1[^>]*>([\s\S]*?)<\/h1>/g)} ${car ? `${car.name} ${car.aka.join(' ')}` : ''}`);
     const sub = isBlog ? norm(grab(p.html, /<h2[^>]*>([\s\S]*?)<\/h2>/g)) : ' '; // section headings, not sub-sections listing example cars
     return {
-      p, car, head, isBlog, isModel: !!car && !vid,
+      p, car, head, isBlog, isModel: !!car && !vid, isGarage: p.path.startsWith('/garage/'),
       text: `${head} ${norm(p.path.replace(/[-/]/g, ' '))}`, // car-model searches: title, headline and URL only
       textAll: `${head} ${sub} ${norm(p.path.replace(/[-/]/g, ' '))}`, // import-process searches may also match section headings
       urlText: norm(p.path.replace(/[-/]/g, ' ')),
@@ -55,7 +56,10 @@ export function addKeywordTags(pages, keywords, cars, minYear) {
     .map((k) => ({ ...k, old: k.t.some((t) => isYear(t) && +t < minYear), buying: k.t.some((t) => BUYING.has(t)) }));
 
   // A car page only takes searches about its own make (or general import searches for its origin)
-  const fits = (k, d) => !d.car || (CAT_MAKES[k.cat] ? CAT_MAKES[k.cat].includes(d.car.make) : d.car.origin.includes(CAT_ORIGIN[k.cat]));
+  // Garage searches (categories 101+) appear only on garage pages, and garage pages take only garage searches.
+  const isGarageKw = (k) => k.cat > 100;
+  const fits = (k, d) => d.isGarage ? isGarageKw(k) : isGarageKw(k) ? false
+    : !d.car || (CAT_MAKES[k.cat] ? CAT_MAKES[k.cat].includes(d.car.make) : d.car.origin.includes(CAT_ORIGIN[k.cat]));
 
   // Best page for each keyword: its specific words in the title/heading; then most keyword words in the
   // URL and in the title; buying searches go to car model pages first, others to guides; then the most focused title.
@@ -64,22 +68,27 @@ export function addKeywordTags(pages, keywords, cars, minYear) {
     cands.sort((a, b) => count(b.urlText, k.t) - count(a.urlText, k.t) || count(b.head, k.t) - count(a.head, k.t)
       || (k.buying ? (b.isModel - a.isModel) || (b.isBlog - a.isBlog) : (b.isBlog - a.isBlog) || (b.isModel - a.isModel))
       || a.head.length - b.head.length);
-    k.href = cands[0]?.p.path || TOPIC_PAGES.find(([re]) => re.test(k.kw))?.[1] || ORIGIN_PAGE[k.cat] || '/how-to-import-a-car-to-kenya/';
+    k.href = cands[0]?.p.path || TOPIC_PAGES.find(([re]) => re.test(k.kw))?.[1] || ORIGIN_PAGE[k.cat] || (isGarageKw(k) ? '/garage/' : '/how-to-import-a-car-to-kenya/');
   }
 
   // General import searches ("import cars from japan to kenya") fill pages that have few specific matches
-  const originKws = (o) => kws.filter((k) => k.e.length && k.e.every((t) => t === o)).sort((a, b) => a.n - b.n);
+  const originKws = (o) => kws.filter((k) => !isGarageKw(k) && k.e.length && k.e.every((t) => t === o)).sort((a, b) => a.n - b.n);
   // Searches that apply to any car shipped to Mombasa, whatever the source country (used for ex-South Africa cars)
   const NEUTRAL = ['car imports kenya', 'car carrier transport cost mombasa to nairobi', 'direct car container delivery from mombasa to nairobi',
     'driving newly imported car from mombasa to nairobi risks', 'shore handling fee mombasa port car import', 'simplified custom clearance for individual car importers', 'ucr number generation for car import kenya'];
   const fallback = { Japan: originKws('japan'), UK: originKws('uk'), 'South Africa': NEUTRAL.map((kw) => kws.find((k) => k.kw === kw)).filter(Boolean) };
+
+  const garageTop = kws.filter((k) => k.cat === 101).sort((a, b) => a.n - b.n);
 
   for (const d of docs) {
     // Order: current model years first, trim-specific searches first on version pages, then the research priority order
     const tags = kws.filter((k) => k.e.length && has(CAT_MAKES[k.cat] ? d.text : d.textAll, k.c) && fits(k, d))
       .sort((a, b) => a.old - b.old || count(d.version, b.e) - count(d.version, a.e) || a.n - b.n)
       .slice(0, MAX_TAGS);
-    if (tags.length < MAX_TAGS) {
+    if (tags.length < MAX_TAGS && d.isGarage) {
+      // fill with the top general garage searches ("best car garage nairobi", ...)
+      for (const k of garageTop) if (tags.length < MAX_TAGS && !tags.includes(k)) tags.push(k);
+    } else if (tags.length < MAX_TAGS) {
       const origins = d.car ? d.car.origin : ['Japan', 'UK'].filter((o) => d.head.includes(` ${o.toLowerCase()} `));
       const pools = (origins.length ? origins : ['Japan', 'UK']).map((o) => fallback[o]).filter(Boolean);
       for (let i = 0; tags.length < MAX_TAGS && pools.some((pool) => pool[i]); i++) {

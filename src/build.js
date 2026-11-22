@@ -125,7 +125,7 @@ ${ld}
 <a class="skip" href="#main">Skip to content</a>
 <div class="topbar"><div class="wrap"><span>Trusted car imports to Kenya <span class="hide-sm">· Japan · UK · South Africa</span></span><span><a href="tel:${site.phone.replace(/\s/g, '')}">${site.phone}</a></span></div></div>
 <header class="site"><div class="wrap">
-  <a class="logo" href="/" aria-label="${site.name} home">${I.logo}<span>${site.name}<small>Car Imports Kenya</small></span></a>
+  <a class="logo" href="/" aria-label="${site.name} Garage and Imports, home">${I.logo}<span>${site.name}<small>Garage &amp; Imports</small></span></a>
   <nav class="main" aria-label="Main">${navLinks.map(([h, t]) => `<a href="${h}"${cur(h)}>${t}</a>`).join('')}</nav>
   <a class="btn btn-primary header-cta" href="/import-request/">Request a Car</a>
   <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer" data-open-drawer>${I.menu}</button>
@@ -145,7 +145,7 @@ ${noindex ? '' : '<!--KW_TAGS-->'}
 </main>
 <footer class="site"><div class="wrap">
   <div class="foot-grid">
-    <div class="foot-brand"><a class="logo" href="/">${I.logo}<span>${site.name}<small>Car Imports Kenya</small></span></a>
+    <div class="foot-brand"><a class="logo" href="/">${I.logo}<span>${site.name}<small>Garage &amp; Imports</small></span></a>
       <p>We import quality used and new cars from Japan, the United Kingdom and South Africa for customers across Kenya. You pick the model and exact spec, and we handle sourcing, inspection, shipping, KRA clearing and registration.</p>
       <p>📞 <a href="tel:${site.phone.replace(/\s/g, '')}">${site.phone}</a><br>✉️ <a href="mailto:${site.email}">${site.email}</a><br>📍 ${site.address}<br>🕘 ${site.hours}</p></div>
     <div><h4>Popular imports</h4><ul>${[...cars].sort(byRank).slice(0, 8).map((c) => `<li><a href="/cars/${c.slug}/">${c.name}</a></li>`).join('')}</ul></div>
@@ -654,7 +654,7 @@ simplePage('/about/', `About ${site.name}`, `About ${site.name}: Trusted Car Imp
   <p>Our approach is simple: you choose the exact car and spec, we give you an honest all-inclusive price, and we keep you updated until the keys are in your hand.</p>
   <h2>What we do</h2><ul><li>Source cars from auctions and trusted dealers</li><li>Verify condition with auction sheets, photos and inspection reports</li><li>Arrange shipping and insurance to Mombasa</li><li>Handle KEBS inspection, KRA duty, clearing and NTSA registration</li><li>Deliver to you anywhere in Kenya</li></ul>
   <p><a class="btn btn-primary" href="/import-request/">Request a car</a></p>`);
-simplePage('/contact/', 'Contact us', `Contact ${site.name}: Car Imports Kenya`, `Contact ${site.name} on WhatsApp, phone or email to import your next car from Japan, the UK or South Africa.`,
+simplePage('/contact/', 'Contact us', `Contact ${site.name}: Garage & Car Imports, Nairobi`, `Contact ${site.name} on WhatsApp, phone or email to book a car service, repair or accident repair, or to import your next car from Japan, the UK or South Africa.`,
   `<p>The fastest way to reach us is WhatsApp. Our team replies during business hours (${site.hours}).</p>
   <p><a class="btn btn-wa" href="${waLink(`Hi, I am interested in importing a car with ${site.name}.`)}" target="_blank" rel="noopener">${I.wa} WhatsApp ${site.phone}</a></p>
   <table class="spec kv" style="background:#fff;border:1px solid var(--line);border-radius:12px"><tbody><tr><th>Phone</th><td><a href="tel:${site.phone.replace(/\s/g, '')}">${site.phone}</a></td></tr><tr><th>Email</th><td><a href="mailto:${site.email}">${site.email}</a></td></tr><tr><th>Location</th><td>${site.address}</td></tr><tr><th>Hours</th><td>${site.hours}</td></tr></tbody></table>

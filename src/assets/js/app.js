@@ -311,32 +311,78 @@
     });
   });
 
-  // ---------- garage booking ----------
-  const gForm = $('#garage-form');
-  if (gForm) {
-    const gErr = $('[data-form-error]', gForm);
-    // ?service=car-repair pre-selects the service chosen on a garage page
+  // ---------- order / request form (garage services, accident repair, body fabrication, imports) ----------
+  $$('[data-request-form]').forEach((form) => {
+    const err = $('[data-form-error]', form);
+    const radios = $$('input[name="service"]', form);
+    const slug = () => (radios.find((r) => r.checked) || radios[0]).dataset.slug;
+    // ?service=accident (from garage pages) pre-selects the service
     const want = new URLSearchParams(location.search).get('service');
-    const pick = want && $(`input[name="service"][data-slug="${CSS.escape(want)}"]`, gForm);
+    const pick = want && radios.find((r) => r.dataset.slug === want);
     if (pick) pick.checked = true;
-    // Earliest bookable date is today
-    if (gForm.elements.date) gForm.elements.date.min = new Date().toISOString().slice(0, 10);
-    gForm.addEventListener('submit', (e) => {
+    if (form.elements.date) form.elements.date.min = new Date().toISOString().slice(0, 10);
+
+    // Show only the questions that apply to the chosen service
+    const sync = () => {
+      const s = slug();
+      $$('[data-for]', form).forEach((el) => { el.hidden = !el.dataset.for.split(',').includes(s); });
+      const insured = (form.elements.insured && [...form.elements.insured].find((i) => i.checked)?.value) || '';
+      const ins = $('[data-insurer]', form); if (ins) ins.hidden = s !== 'accident' || insured === 'No';
+    };
+    form.addEventListener('change', sync);
+    sync();
+
+    // Photos: share them to WhatsApp together with the request where the phone supports it
+    const photos = () => [...(form.elements.photos?.files || [])].slice(0, 10);
+    const canSharePhotos = (files) => files.length && navigator.canShare && matchMedia('(pointer: coarse)').matches && navigator.canShare({ files });
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      gErr.hidden = true;
-      if (!validate(gForm, ['make', 'model', 'date', 'name', 'phone'])) { gErr.textContent = 'Please fill in your car, preferred date, name and a valid phone number.'; gErr.hidden = false; return; }
-      const d = fd(gForm); const r = ref();
+      err.hidden = true;
+      const s = slug();
+      if (!validate(form, ['make', 'model', 'name', 'phone'])) { err.textContent = 'Please fill in the car make and model, your name and a valid phone number.'; err.hidden = false; return; }
+      const d = fd(form); const r = ref(); const files = photos();
       const car = `${d.make} ${d.model}${d.year ? ` ${d.year}` : ''}`;
-      const day = new Date(`${d.date}T12:00:00`).toLocaleDateString('en-KE', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
-      const payload = { ...d, ref: r, car, date: day, page: location.href };
-      const text = `Hi, I would like to book a *${d.service.toLowerCase()}* for my *${car}* at ${EM.name} Garage.\n\n` +
-        `🔧 *Service:* ${d.service}\n🚗 *Car:* ${car}${d.reg ? `\n🔢 *Reg:* ${d.reg}` : ''}\n📅 *Preferred date:* ${day} (${d.time})${d.notes ? `\n📝 *Details:* ${d.notes}` : ''}\n\n` +
-        `👤 *Name:* ${d.name}\n📞 *Phone:* ${d.phone}${d.email ? `\n✉️ *Email:* ${d.email}` : ''}${d.town ? `\n📍 *Area:* ${d.town}` : ''}\n\n🧾 Ref: ${r}`;
-      const url = send(payload, text);
-      gForm.hidden = true;
-      const s = $('[data-success]', gForm.parentElement); s.hidden = false;
-      s.innerHTML = successHtml(r, url, 'Booking sent!').replace('reply with your free quote shortly', 'confirm your booking shortly');
-      s.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const day = d.date ? new Date(`${d.date}T12:00:00`).toLocaleDateString('en-KE', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) : '';
+      const line = (icon, label, value) => (value ? `\n${icon} *${label}:* ${value}` : '');
+      let details = '';
+      if (s === 'service') details += line('🛠️', 'Service type', d.service_type);
+      if (s === 'checkup') details += line('✅', 'Check-up', d.checkup_type);
+      if (s === 'fabrication') details += line('🏗️', 'Body type', d.body_type);
+      if (s === 'accident') details += line('🛡️', 'Insured', d.insured) + (d.insured !== 'No' ? line('🏢', 'Insurer', d.insurer) : '') + line('💳', 'Payment', d.payment) + line('🚙', 'Drivable', d.drivable);
+      if (s === 'import') details += line('💰', 'Budget', d.budget) + line('🌍', 'Import from', d.origin) + line('💳', 'Payment', d.finance);
+      const when = s !== 'import' && day ? `\n📅 *Preferred date:* ${day} (${d.time})` : '';
+      const text = (s === 'import'
+        ? `Hi, I am interested in importing a *${car}* with ${EM.name}.\n`
+        : `Hi, I would like to request *${d.service.toLowerCase()}* for my *${car}* at ${EM.name}.\n`) +
+        `\n🔧 *Service:* ${d.service}\n🚗 *${s === 'fabrication' ? 'Vehicle' : 'Car'}:* ${car}${line('🔢', 'Reg', s !== 'import' && d.reg)}${details}${when}${line('📝', 'Details', d.notes)}` +
+        `${files.length ? `\n📷 *Photos:* ${files.length} attached` : ''}\n\n` +
+        `👤 *Name:* ${d.name}\n📞 *Phone:* ${d.phone}${line('✉️', 'Email', d.email)}${line('📍', 'Area', d.town)}\n\n🧾 Ref: ${r}`;
+      const payload = { ...d, type: s === 'import' ? 'Import Request' : `${d.service} Request`, ref: r, car, date: day, photos: files.length ? `${files.length} photo(s) sent on WhatsApp` : '', page: location.href };
+      delete payload.website;
+      // Only email the answers that belong to the chosen service (hidden questions keep default values)
+      const ONLY = { service: ['service_type'], checkup: ['checkup_type'], fabrication: ['body_type'], accident: ['insured', 'insurer', 'payment', 'drivable'], import: ['budget', 'origin', 'finance'] };
+      Object.values(ONLY).flat().filter((k) => !(ONLY[s] || []).includes(k)).forEach((k) => delete payload[k]);
+      if (s === 'accident' && d.insured === 'No') delete payload.insurer;
+      if (s === 'import') ['reg', 'date', 'time'].forEach((k) => delete payload[k]);
+
+      let shared = false;
+      if (canSharePhotos(files)) {
+        // Phone share sheet: the customer picks WhatsApp and our chat; text + photos go together
+        try { await navigator.share({ files, text: `${text}\n\nSend to ${EM.name}: +${EM.wa}` }); shared = true; } catch (x) { /* cancelled or unsupported: fall back to the WhatsApp link */ }
+      }
+      let url = waUrl(text);
+      if (shared) {
+        try { fetch('/send-order.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {}); } catch (x) { /* ignore */ }
+      } else {
+        url = send(payload, text);
+      }
+      form.hidden = true;
+      const box = $('[data-success]', form.parentElement); box.hidden = false;
+      box.innerHTML = successHtml(r, url, s === 'import' ? 'Request sent!' : 'Request sent!')
+        .replace('reply with your free quote shortly', s === 'import' ? 'reply with your free quote shortly' : 'confirm your booking and quote shortly')
+        + (files.length && !shared ? `<p class="note" style="text-align:left"><b>Next step:</b> attach your ${files.length} photo${files.length > 1 ? 's' : ''} in the WhatsApp chat that just opened (tap the 📎 or camera icon), so we can quote accurately.</p>` : '');
+      box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-  }
+  });
 })();

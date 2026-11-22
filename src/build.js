@@ -7,6 +7,7 @@ import { cars, slugify, byRank, LEAD_MAKES } from './data/cars.js';
 import { makeRenderCar } from './render-car.js';
 import { addKeywordTags } from './keyword-tags.js';
 import { buildGarage } from './garage.js';
+import { requestFormHtml } from './request-form.js';
 import { blogPosts, CLUSTERS } from './data/blog/index.js';
 import { readdir, rename } from 'node:fs/promises';
 
@@ -150,12 +151,12 @@ ${noindex ? '' : '<!--KW_TAGS-->'}
     <div><h4>Popular imports</h4><ul>${[...cars].sort(byRank).slice(0, 8).map((c) => `<li><a href="/cars/${c.slug}/">${c.name}</a></li>`).join('')}</ul></div>
     <div><h4>Browse</h4><ul>${Object.values(BODIES).map((b) => `<li><a href="/body-type/${b.slug}/">${b.plural}</a></li>`).join('')}${Object.values(FUELS).map((f) => `<li><a href="/fuel/${f.slug}/">${f.slug[0].toUpperCase() + f.slug.slice(1)} cars</a></li>`).join('')}</ul></div>
     <div><h4>Elisa Motors</h4><ul><li><a href="/import-request/">Request a car</a></li><li><a href="/how-to-import-a-car-to-kenya/">How to import a car to Kenya</a></li><li><a href="/blog/">Blog & price guides</a></li>${Object.entries(ORIGINS).map(([n, o]) => `<li><a href="/import-from/${o.slug}/">Import from ${n}</a></li>`).join('')}<li><a href="/about/">About us</a></li><li><a href="/contact/">Contact</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/credits/">Image credits</a></li><li><a href="/sitemap/">Sitemap</a></li></ul></div>
-    <div><h4>Garage</h4><ul><li><a href="/garage/">Car garage in Nairobi</a></li><li><a href="/garage/car-service/">Car service</a></li><li><a href="/garage/car-repair/">Car repairs</a></li><li><a href="/garage/car-diagnostics/">Diagnostics &amp; electrical</a></li><li><a href="/garage/car-inspection/">Check-ups &amp; inspections</a></li><li><a href="/garage/book/">Book a service</a></li></ul></div>
+    <div><h4>Garage</h4><ul><li><a href="/garage/">Car garage in Nairobi</a></li><li><a href="/garage/car-service/">Car service</a></li><li><a href="/garage/car-repair/">Car repairs</a></li><li><a href="/garage/car-diagnostics/">Diagnostics &amp; electrical</a></li><li><a href="/garage/car-inspection/">Check-ups &amp; inspections</a></li><li><a href="/garage/accident-repair/">Accident repair</a></li><li><a href="/garage/hybrid-car-service/">Hybrid cars</a></li><li><a href="/garage/body-fabrication/">Truck &amp; van body fabrication</a></li><li><a href="/garage/book/">Order form</a></li></ul></div>
   </div>
   <div class="foot-legal"><span>© ${YEAR} ${site.name}. All rights reserved.</span><span>Prices are indicative landed estimates and are confirmed in your written quote.</span></div>
 </div></footer>
 ${(() => { // garage pages promote garage bookings; every other page promotes imports
-  const [href, text] = path.startsWith('/garage/') ? ['/garage/book/', 'Book a service'] : ['/import-request/', 'Import with Us'];
+  const [href, text] = path.startsWith('/garage/') ? ['/garage/book/', 'Book a service'] : path === '/' ? ['#order-form', 'Book or order'] : ['/import-request/', 'Import with Us'];
   return `${bar === 'global' ? `<div class="action-bar global"><a class="btn btn-primary" href="${href}">${I.car} ${text}</a></div>` : ''}
 <a class="import-float" href="${href}">${I.car} ${text}</a>`;
 })()}
@@ -258,42 +259,72 @@ const orderModal = (c) => `
 const pages = [];
 const add = (path, html) => pages.push({ path, html });
 
+// GARAGE (built first: the home page leads with it)
+const garage = buildGarage({ site, YEAR, I, esc, waLink, abs, add, layout, crumbs, faqHtml, faqLd, MAKES, carImg: mainImg });
+
 // HOME
 {
   const popular = cars.filter((c) => c.popular);
   const showcase = [...LEAD_MAKES.flatMap((m) => cars.filter((c) => c.make === m).sort(byRank).slice(0, 3)), ...cars.filter((c) => c.popular && !LEAD_MAKES.includes(c.make)).sort(byRank).slice(0, 9)];
   const bodyCounts = Object.keys(BODIES).map((b) => [b, cars.filter((c) => c.body === b).length]);
-  const heroImg = mainImg('toyota-land-cruiser-prado');
+  const heroImg = garage.img('hero');
+  const gName = site.garage.name;
   const body = `
-<section class="hero">
-  <img class="hero-img" src="${heroImg}" alt="Toyota Land Cruiser Prado imported to Kenya from Japan by ${site.name}" title="Import cars from Japan to Kenya" width="1200" height="800" fetchpriority="high">
+<section class="hero hero-garage">
+  <img class="hero-img" src="${heroImg}" alt="Mechanics repairing a car at ${gName}, Nairobi" title="Car garage in Nairobi for Range Rover, Mercedes-Benz, BMW, Audi, Porsche and Toyota" width="1200" height="800" fetchpriority="high">
   <div class="wrap">
-    <span class="eyebrow">Japan · United Kingdom · South Africa</span>
-    <h1>Import your next car to Kenya, the easy way</h1>
-    <p class="lede">Pick a model, choose the exact version and order in minutes on WhatsApp. We source, inspect, ship to Mombasa, clear KRA and hand you the keys, with the landed price agreed upfront.</p>
-    <form class="search-card" action="/cars/" method="get" role="search">
-      <div class="search-row">
-        <div><label for="s-make">Make</label><select id="s-make" name="make"><option value="">Any make</option>${MAKES.map((m) => `<option>${m}</option>`).join('')}</select></div>
-        <div><label for="s-body">Body type</label><select id="s-body" name="body"><option value="">Any type</option>${Object.keys(BODIES).map((b) => `<option>${b}</option>`).join('')}</select></div>
-      </div>
-      <div><label for="s-budget">Budget (landed)</label><select id="s-budget" name="budget"><option value="">Any budget</option><option value="0-1.5">Under KES 1.5M</option><option value="1.5-3">KES 1.5M – 3M</option><option value="3-5">KES 3M – 5M</option><option value="5-10">KES 5M – 10M</option><option value="10-99">Above KES 10M</option></select></div>
-      <button class="btn btn-primary" type="submit">${I.car} Find cars</button>
-    </form>
+    <span class="eyebrow">Garage · Accident repair · Car imports</span>
+    <h1>Range Rover, Mercedes, BMW, Audi, Porsche &amp; Toyota garage in Nairobi</h1>
+    <p class="lede">Specialist servicing, repairs, accident repairs, hybrid cars and diagnostics, plus body fabrication for vans and trucks. And when you are ready for your next car, we import it from Japan, the UK or South Africa.</p>
+    <div class="hero-ctas"><a class="btn btn-primary" href="#order-form">Book a service or repair</a><a class="btn btn-light" href="/cars/">${I.car} Import a car</a><a class="btn btn-wa" href="${waLink(`Hi, I would like to book my car in at ${gName}.`)}" target="_blank" rel="noopener">${I.wa} WhatsApp us</a></div>
     <div class="trust">
-      ${['Right-hand drive only', `8-year rule compliant (${MIN_YEAR}+)`, 'KEBS pre-shipment inspection', 'All-inclusive KES quote'].map((t) => `<div>${I.check}<span>${t}</span></div>`).join('')}
+      ${['Range Rover, Mercedes, BMW, Audi, Porsche &amp; Toyota specialists', 'Accident repairs: insurance or cash', 'Honest quotes before any work', 'Car imports from Japan, UK &amp; South Africa'].map((t) => `<div>${I.check}<span>${t}</span></div>`).join('')}
     </div>
   </div>
 </section>
+
+<section class="block"><div class="wrap">
+  <div class="section-head"><div><h2>Specialist garage for luxury cars and Toyota</h2><p>Servicing, diagnostics and repairs by mechanics who work on these makes every day.</p></div><a class="link-arrow" href="/garage/">Visit the garage →</a></div>
+  <div class="brand-grid">${garage.BRAND_PAGES.map((b) => `<a class="brand-card" href="/garage/${b.slug}/"><img src="${b.img.replace('.webp', '-sm.webp')}" alt="${esc(`${b.name} specialist garage Nairobi`)}" title="${esc(`${b.name} specialist garage Nairobi`)}" width="600" height="400" loading="lazy"><b>${esc(b.name)}</b><span>Service &amp; repair</span></a>`).join('')}</div>
+</div></section>
+
+<section class="block alt"><div class="wrap">
+  <div class="section-head"><div><h2>Garage services</h2><p>From routine servicing to accident repairs, hybrids and truck bodies.</p></div><a class="link-arrow" href="/garage/">All garage services →</a></div>
+  <div class="svc-grid svc-grid-home">${garage.SERVICES.map((x) => `<a class="svc-card" href="/garage/${x.slug}/">${x.img ? `<img src="${garage.img(x.img, true)}" alt="${esc(`${x.short} in Nairobi`)}" title="${esc(`${x.short} in Nairobi`)}" width="600" height="400" loading="lazy">` : `<span class="svc-ic" aria-hidden="true">${x.icon}</span>`}<b>${x.short}</b><span>${x.blurb}</span></a>`).join('')}</div>
+</div></section>
+
+<section class="block" id="order-form"><div class="wrap">
+  <div class="section-head"><div><h2>Order form: book a service, accident repair or car import</h2><p>Choose what you need and send it straight to our WhatsApp. Add photos for accident repairs; tell us if your insurer is paying.</p></div></div>
+  <div class="two-col">
+    <div class="wizard">${requestFormHtml({ makes: MAKES, I, service: 'accident' })}</div>
+    <aside><div class="order-box" style="position:sticky;top:84px">
+      <h3 style="margin:0">Prefer to talk?</h3>
+      <p class="muted" style="margin:0">Call or WhatsApp us. ${esc(site.garage.hours)}.</p>
+      <a class="btn btn-wa btn-block" href="${waLink(`Hi, I would like to book my car in at ${gName}.`)}" target="_blank" rel="noopener">${I.wa} WhatsApp us</a>
+      <a class="btn btn-ghost btn-block" href="tel:${site.phone.replace(/\s/g, '')}">Call ${site.phone}</a>
+      <table class="spec kv"><tbody><tr><th>Garage</th><td>${esc(site.garage.address || site.garage.area)}</td></tr><tr><th>Hours</th><td>${esc(site.garage.hours)}</td></tr></tbody></table>
+    </div></aside>
+  </div>
+</div></section>
+
+<section class="block alt"><div class="wrap">
+  <div class="section-head"><div><h2>Import a car: Range Rover, Mercedes, Porsche &amp; Kenya's favourites</h2><p>Tap any car to see every version, full specs and landed prices, then order the spec you want.</p></div><a class="link-arrow" href="/cars/">View all ${cars.length} models →</a></div>
+  <form class="search-card search-card-light" action="/cars/" method="get" role="search">
+    <div class="search-row">
+      <div><label for="s-make">Make</label><select id="s-make" name="make"><option value="">Any make</option>${MAKES.map((m) => `<option>${m}</option>`).join('')}</select></div>
+      <div><label for="s-body">Body type</label><select id="s-body" name="body"><option value="">Any type</option>${Object.keys(BODIES).map((b) => `<option>${b}</option>`).join('')}</select></div>
+    </div>
+    <div><label for="s-budget">Budget (landed)</label><select id="s-budget" name="budget"><option value="">Any budget</option><option value="0-1.5">Under KES 1.5M</option><option value="1.5-3">KES 1.5M – 3M</option><option value="3-5">KES 3M – 5M</option><option value="5-10">KES 5M – 10M</option><option value="10-99">Above KES 10M</option></select></div>
+    <button class="btn btn-primary" type="submit">${I.car} Find cars</button>
+  </form>
+  <div style="margin-top:22px">${grid(showcase)}</div>
+</div></section>
 
 <section class="block"><div class="wrap">
   <div class="section-head"><div><h2>Shop by body type</h2><p>From fuel-saving hatchbacks to 4x4 SUVs and double cabs.</p></div></div>
   <div class="tiles">${bodyCounts.map(([b, n]) => `<a class="tile" href="/body-type/${BODIES[b].slug}/">${bodyIcon(b)}<b>${BODIES[b].plural.split(' &')[0]}</b><span>${plural(n, 'model')}</span></a>`).join('')}</div>
 </div></section>
 
-<section class="block alt"><div class="wrap">
-  <div class="section-head"><div><h2>Range Rover, Mercedes, Porsche &amp; Kenya's most imported cars</h2><p>Tap any car to see every version, full specs and landed prices, then order the spec you want.</p></div><a class="link-arrow" href="/cars/">View all ${cars.length} models →</a></div>
-  ${grid(showcase)}
-</div></section>
 
 <section class="block dark"><div class="wrap">
   <div class="section-head"><div><h2>Where do you want to import from?</h2><p>All three markets drive on the left, just like Kenya.</p></div></div>
@@ -312,11 +343,6 @@ const add = (path, html) => pages.push({ path, html });
   ${stepsHtml}
 </div></section>
 
-<section class="block alt"><div class="wrap">
-  <div class="section-head"><div><h2>${site.garage.name}: service, repairs &amp; check-ups in Nairobi</h2><p>Book a car service, repair, diagnostic test or pre-purchase inspection online. We confirm on WhatsApp.</p></div><a class="link-arrow" href="/garage/">Visit the garage →</a></div>
-  <div class="svc-grid">${[['car-service', '🛠', 'Car service', 'Minor, major and full service'], ['car-repair', '⚙', 'Repairs', 'Engine, gearbox, suspension and brakes'], ['car-diagnostics', '⚡', 'Diagnostics', 'Warning lights, batteries and wiring'], ['car-inspection', '✓', 'Check-ups', 'Pre-purchase and NTSA inspection prep']].map(([s, ic, t, d]) => `<a class="svc-card" href="/garage/${s}/"><span class="svc-ic" aria-hidden="true">${ic}</span><b>${t}</b><span>${d}</span></a>`).join('')}</div>
-  <p style="margin-top:18px"><a class="btn btn-primary" href="/garage/book/">Book a service or repair</a></p>
-</div></section>
 
 <section class="block"><div class="wrap">
   <div class="section-head"><div><h2>Car price guides & import tips</h2><p>Honest, up-to-date prices and step-by-step import advice for Kenyan buyers.</p></div><a class="link-arrow" href="/blog/">All guides →</a></div>
@@ -329,7 +355,7 @@ ${ctaBand()}
   <div class="section-head"><div><h2>Car import FAQs</h2></div></div>
   ${faqHtml(generalFaq)}
 </div></section>`;
-  add('/', layout({ path: '/', title: `Car Import Kenya: Import from Japan, UK & South Africa | ${site.name}`, description: `Import cars to Kenya from Japan, the UK and South Africa. Browse ${cars.length}+ models, compare versions and specs, see landed prices in KES and order on WhatsApp. KEBS compliant.`, body, priority: 1.0, preload: heroImg,
+  add('/', layout({ path: '/', title: fit(`Range Rover, Mercedes, BMW, Audi & Toyota Garage Nairobi | ${site.name}`, `Range Rover, Mercedes, BMW & Toyota Garage in Nairobi`), description: `${site.name}: specialist garage in Nairobi for Range Rover, Mercedes-Benz, BMW, Audi, Porsche and Toyota. Servicing, repairs, accident repairs, hybrids, truck body fabrication, plus car imports from Japan and the UK.`, body, priority: 1.0, preload: heroImg,
     jsonld: [faqLd(generalFaq), { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url, potentialAction: { '@type': 'SearchAction', target: abs('/cars/?q={search_term_string}'), 'query-input': 'required name=search_term_string' } }] }));
 }
 
@@ -623,8 +649,6 @@ function simplePage(path, h1, title, description, html, priority = 0.5, noindex 
   const cr = crumbs([['Home', '/'], [h1, path]]);
   add(path, layout({ path, title, description, noindex, priority, jsonld: [cr.ld], body: `<div class="wrap">${cr.html}<header class="page-head"><h1>${h1}</h1></header><div class="prose" style="padding-bottom:48px">${html}</div></div>` }));
 }
-buildGarage({ site, YEAR, I, esc, waLink, abs, add, layout, crumbs, faqHtml, faqLd, MAKES });
-
 simplePage('/about/', `About ${site.name}`, `About ${site.name}: Trusted Car Importers in Kenya`, `${site.name} helps Kenyans import quality cars from Japan, the UK and South Africa with transparent pricing and WhatsApp support.`,
   `<p>${site.name} is a Kenyan car import company based in ${site.address}. We help individuals, families and businesses import quality vehicles from <a href="/import-from/japan/">Japan</a>, the <a href="/import-from/uk/">United Kingdom</a> and <a href="/import-from/south-africa/">South Africa</a>.</p>
   <p>Our approach is simple: you choose the exact car and spec, we give you an honest all-inclusive price, and we keep you updated until the keys are in your hand.</p>
@@ -641,13 +665,16 @@ simplePage('/privacy/', 'Privacy policy', `Privacy Policy | ${site.name}`, `How 
   <p>We handle personal data in line with the Kenya Data Protection Act, 2019. To access or delete your information, contact <a href="mailto:${site.email}">${site.email}</a>.</p>`, 0.2);
 {
   const rows = cars.flatMap((c) => imgs(c.slug).map((g) => `<li><b>${esc(c.name)}</b>: <a href="${esc(g.source)}" target="_blank" rel="noopener nofollow">${esc(g.title)}</a> by ${esc(g.artist)}, ${esc(g.license)}</li>`)).join('');
+  // Garage photos (mechanics, servicing, accident repair, hybrids) - see scripts/fetch_garage_images.py
+  const gCredits = existsSync(join(SRC, 'data', 'garage-image-credits.json')) ? Object.values(JSON.parse(await readFile(join(SRC, 'data', 'garage-image-credits.json'), 'utf8'))) : [];
+  const gRows = gCredits.map((g) => `<li><b>Garage photo</b>: <a href="${esc(g.source)}" target="_blank" rel="noopener nofollow">${esc(g.title)}</a> by ${esc(g.artist)}, ${esc(g.license)}</li>`).join('');
   simplePage('/credits/', 'Image credits', `Image Credits | ${site.name}`, 'Credits and licences for vehicle photographs used on this website.',
-    `<p>Vehicle photographs on this site are representative images sourced from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> under the free licences listed below. They were cropped, resized and watermarked ("Import car with Elisa Motors") for this website; the watermark does not claim authorship of the original photographs. Actual imported vehicles will differ.</p><ul class="credits-list">${rows}</ul>`, 0.1);
+    `<p>Vehicle photographs on this site are representative images sourced from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> under the free licences listed below. They were cropped, resized and watermarked ("Import car with Elisa Motors") for this website; the watermark does not claim authorship of the original photographs. Actual imported vehicles will differ.</p><ul class="credits-list">${rows}</ul><h2>Garage photographs</h2><p>Representative photos used on the garage pages, cropped and resized.</p><ul class="credits-list">${gRows}</ul>`, 0.1);
 }
 {
   const sec = (h, links) => `<h2>${h}</h2><ul class="sitemap-list">${links.map(([t, u]) => `<li><a href="${u}">${esc(t)}</a></li>`).join('')}</ul>`;
   const html = sec('Main pages', [['Home', '/'], ['All cars', '/cars/'], ['Request a car import', '/import-request/'], ['How to import a car to Kenya', '/how-to-import-a-car-to-kenya/'], ['About', '/about/'], ['Contact', '/contact/']])
-    + sec('Garage', [['Car garage in Nairobi', '/garage/'], ['Car service', '/garage/car-service/'], ['Car repair', '/garage/car-repair/'], ['Car diagnostics & auto electrician', '/garage/car-diagnostics/'], ['Car check-up & pre-purchase inspection', '/garage/car-inspection/'], ['Book a service or repair', '/garage/book/']])
+    + sec('Garage', [['Car garage in Nairobi', '/garage/'], ['Car service', '/garage/car-service/'], ['Car repair', '/garage/car-repair/'], ['Car diagnostics & auto electrician', '/garage/car-diagnostics/'], ['Car check-up & pre-purchase inspection', '/garage/car-inspection/'], ['Accident repair', '/garage/accident-repair/'], ['Hybrid car service', '/garage/hybrid-car-service/'], ['Truck & van body fabrication', '/garage/body-fabrication/'], ['Range Rover & Land Rover specialist', '/garage/range-rover-specialist/'], ['Mercedes-Benz specialist', '/garage/mercedes-benz-specialist/'], ['BMW specialist', '/garage/bmw-specialist/'], ['Audi specialist', '/garage/audi-specialist/'], ['Porsche specialist', '/garage/porsche-specialist/'], ['Toyota specialist', '/garage/toyota-specialist/'], ['Order form', '/garage/book/']])
     + sec('Blog & price guides', [['All guides', '/blog/'], ...posts.map((p) => [p.crumb, `/blog/${p.slug}/`])])
     + sec('Import from', Object.entries(ORIGINS).map(([n, o]) => [`Import cars from ${n}`, `/import-from/${o.slug}/`]))
     + sec('Body types', Object.values(BODIES).map((b) => [b.plural, `/body-type/${b.slug}/`]))

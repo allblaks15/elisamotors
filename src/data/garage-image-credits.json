@@ -1,0 +1,51 @@
+{
+ "hero": {
+  "file": "car-mechanic-garage-nairobi.webp",
+  "title": "Motor Mechanic.jpg",
+  "artist": "Achodanick",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Motor_Mechanic.jpg"
+ },
+ "repair": {
+  "file": "car-engine-repair-nairobi.webp",
+  "title": "Mechanic repairing car engine.jpg",
+  "artist": "Bembety",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Mechanic_repairing_car_engine.jpg"
+ },
+ "service": {
+  "file": "car-service-oil-check-nairobi.webp",
+  "title": "Close up of a car mechanic pulling the oil stick from the car and checking oil levels.jpg",
+  "artist": "Shixart1985",
+  "license": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Close_up_of_a_car_mechanic_pulling_the_oil_stick_from_the_car_and_checking_oil_levels.jpg"
+ },
+ "accident": {
+  "file": "accident-car-repair-nairobi.webp",
+  "title": "Crashed Citroën C3.jpg",
+  "artist": "Tommi Nummelin",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Crashed_Citro%C3%ABn_C3.jpg"
+ },
+ "hybrid": {
+  "file": "hybrid-car-service-nairobi.webp",
+  "title": "TOYOTA T24A-FTS ENGINE.jpg",
+  "artist": "Dinkun Chen",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:TOYOTA_T24A-FTS_ENGINE.jpg"
+ },
+ "diagnostics": {
+  "file": "car-diagnostics-nairobi.webp",
+  "title": "Man holding Obd2 jack for car software diagnostic.jpg",
+  "artist": "Nenad Stojkovic",
+  "license": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Man_holding_Obd2_jack_for_car_software_diagnostic.jpg"
+ },
+ "inspection": {
+  "file": "car-inspection-garage-nairobi.webp",
+  "title": "Small team gets BLM firetrucks to America’s wildfires (22213384953).jpg",
+  "artist": "Bureau of Land Management Oregon and Washington from Portland, America",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Small_team_gets_BLM_firetrucks_to_America%E2%80%99s_wildfires_(22213384953).jpg"
+ }
+}

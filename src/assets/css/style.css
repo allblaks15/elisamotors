@@ -423,3 +423,25 @@ table.spec.post-table th[scope="row"] { font-weight: 600; }
 /* Footer with the Garage column: brand row on top for tablets, five columns on desktop */
 @media (min-width: 640px) { .foot-grid { grid-template-columns: repeat(4, 1fr); } .foot-brand { grid-column: 1 / -1; } }
 @media (min-width: 960px) { .foot-grid { grid-template-columns: 2fr repeat(4, 1fr); } .foot-brand { grid-column: auto; } }
+
+/* ---------- Garage photos, brand cards, order form ---------- */
+.garage-photo { margin: 0 0 22px; }
+.garage-photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius); background: #e9e5dc; }
+.garage-photo figcaption { font-size: .72rem; color: var(--muted); margin-top: 6px; }
+.svc-card img { width: calc(100% + 36px); margin: -18px -18px 6px; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius) var(--radius) 0 0; max-width: none; }
+.svc-card { overflow: hidden; }
+.brand-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 6px 0 8px; }
+.brand-card { display: grid; gap: 2px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; text-decoration: none; padding-bottom: 12px; transition: border-color .15s, transform .15s; }
+.brand-card:hover { border-color: var(--ink); transform: translateY(-2px); }
+.brand-card img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; margin-bottom: 8px; }
+.brand-card b, .brand-card span { padding: 0 12px; }
+.brand-card span { color: var(--muted); font-size: .85rem; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.hero-garage h1 { max-width: 22ch; }
+.search-card-light { box-shadow: none; border: 1px solid var(--line); margin-top: 0; }
+.rf-group { border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin: 0; display: grid; gap: 14px; background: var(--paper); }
+.rf-group legend { font-weight: 800; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 0 6px; }
+.rf-photos input[type=file] { padding: 10px; background: var(--paper); }
+@media (min-width: 640px) { .brand-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 960px) { .brand-grid { grid-template-columns: repeat(6, 1fr); } .svc-grid-home { grid-template-columns: repeat(4, 1fr); } .prose .brand-grid { grid-template-columns: repeat(3, 1fr); } }
+.hero-garage .eyebrow { color: #ffd7c2; }

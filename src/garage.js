@@ -1,7 +1,9 @@
 // Elisa Motors Garage: car service, repairs, diagnostics and check-ups in Nairobi, with online booking.
 // Facts about the workshop (address, hours, insurers) come from site.garage in src/config.js.
+import { requestFormHtml } from './request-form.js';
+
 export function buildGarage(h) {
-  const { site, YEAR, I, esc, waLink, abs, add, layout, crumbs, faqHtml, faqLd, MAKES } = h;
+  const { site, YEAR, I, esc, waLink, abs, add, layout, crumbs, faqHtml, faqLd, MAKES, carImg } = h;
   const g = site.garage;
   const tel = site.phone.replace(/\s/g, '');
   const where = g.address ? `${g.address}` : `${g.area}`;
@@ -14,13 +16,50 @@ export function buildGarage(h) {
   const ROADS = ['Mombasa Road', 'Thika Road', 'Ngong Road', 'Waiyaki Way', 'Kiambu Road', 'Jogoo Road', 'the Eastern and Southern Bypass'];
   const BRANDS = ['Toyota', 'Subaru', 'Mazda', 'Nissan', 'Honda', 'Mitsubishi', 'Suzuki', 'Lexus', 'Mercedes-Benz', 'BMW', 'Audi', 'Volkswagen', 'Land Rover and Range Rover', 'Porsche', 'Volvo', 'Ford', 'Isuzu', 'Hyundai and Kia'];
 
+  // Garage photos (Wikimedia Commons, credited on /credits/) live in assets/img/garage/
+  const IMG = { hero: 'car-mechanic-garage-nairobi', repair: 'car-engine-repair-nairobi', service: 'car-service-oil-check-nairobi', accident: 'accident-car-repair-nairobi',
+    hybrid: 'hybrid-car-service-nairobi', diagnostics: 'car-diagnostics-nairobi', inspection: 'car-inspection-garage-nairobi' };
+  const img = (slot, sm) => `/assets/img/garage/${IMG[slot]}${sm ? '-sm' : ''}.webp`;
+  const photo = (slot, alt) => `<figure class="garage-photo"><img src="${img(slot)}" alt="${esc(alt)}" title="${esc(alt)}" width="1200" height="800" loading="lazy"><figcaption>Representative photo. See <a href="/credits/">image credits</a>.</figcaption></figure>`;
   const SERVICES = [
-    { slug: 'car-service', short: 'Car service', icon: '🛠', blurb: 'Minor, major and full car service with genuine-grade oil, filters and fluids.' },
-    { slug: 'car-repair', short: 'Repairs', icon: '⚙', blurb: 'Engine, gearbox, suspension, steering, brakes, cooling and AC repairs.' },
-    { slug: 'car-diagnostics', short: 'Diagnostics & electrical', icon: '⚡', blurb: 'Computerised diagnostics, warning lights, batteries, alternators and wiring.' },
-    { slug: 'car-inspection', short: 'Check-ups & inspections', icon: '✓', blurb: 'Car check-ups, pre-purchase inspections and NTSA inspection preparation.' },
+    { slug: 'accident-repair', form: 'accident', short: 'Accident repair', icon: '🚗', img: 'accident', blurb: 'Panel beating, spray painting and mechanical repairs after an accident. Insurance or cash.' },
+    { slug: 'car-repair', form: 'repair', short: 'Repairs', icon: '⚙', img: 'repair', blurb: 'Engine, gearbox, suspension, steering, brakes, cooling and AC repairs.' },
+    { slug: 'car-service', form: 'service', short: 'Car service', icon: '🛠', img: 'service', blurb: 'Minor, major and full car service with genuine-grade oil, filters and fluids.' },
+    { slug: 'car-diagnostics', form: 'diagnostics', short: 'Diagnostics & electrical', icon: '⚡', img: 'diagnostics', blurb: 'Computerised diagnostics, warning lights, batteries, alternators and wiring.' },
+    { slug: 'hybrid-car-service', form: 'hybrid', short: 'Hybrid cars', icon: '🔋', img: 'hybrid', blurb: 'Servicing and repair for Toyota, Honda and Nissan hybrids.' },
+    { slug: 'car-inspection', form: 'checkup', short: 'Check-ups & inspections', icon: '✓', img: 'inspection', blurb: 'Car check-ups, pre-purchase inspections and NTSA inspection preparation.' },
+    { slug: 'body-fabrication', form: 'fabrication', short: 'Body fabrication', icon: '🏗', img: '', blurb: 'Box, dropside, flatbed, high-side, cattle and tipper bodies for vans, trucks and lorries.' },
   ];
-  const bookHref = (service) => `/garage/book/${service ? `?service=${encodeURIComponent(service)}` : ''}`;
+  // Specialist makes (the core of the garage business)
+  const BRAND_PAGES = [
+    { slug: 'range-rover-specialist', name: 'Range Rover & Land Rover', make: 'land-rover', car: 'land-rover-range-rover-sport',
+      models: ['Range Rover', 'Range Rover Sport', 'Velar', 'Evoque', 'Discovery', 'Discovery Sport', 'Defender'],
+      lead: 'Range Rovers and Land Rovers are complex luxury 4x4s that reward a garage that knows them.',
+      jobs: ['Air suspension: compressors, air struts and height sensors', 'Land Rover diagnostics and warning lights', 'Coolant leaks and cooling system repairs', 'Oil leaks and engine repairs on V6 and V8 engines', 'ZF automatic gearbox fluid service', 'Brakes, suspension and steering'] },
+    { slug: 'mercedes-benz-specialist', name: 'Mercedes-Benz', make: 'mercedes-benz', car: 'mercedes-benz-g-class',
+      models: ['C-Class', 'E-Class', 'S-Class', 'GLC', 'GLE', 'G-Class (G-Wagon)', 'ML and GL'],
+      lead: 'From the C-Class to the G-Wagon, we keep Mercedes-Benz cars running the way they should.',
+      jobs: ['7G-Tronic and 9G-Tronic gearbox service', 'Airmatic air suspension repairs', 'Mercedes diagnostics and warning lights', 'Oil leaks and engine mountings', 'Diesel AdBlue and emissions faults', 'Brakes, suspension and steering'] },
+    { slug: 'bmw-specialist', name: 'BMW', make: 'bmw', car: 'bmw-x5',
+      models: ['3 Series', '5 Series', '7 Series', 'X1', 'X3', 'X5', 'X6'],
+      lead: 'BMWs are built to drive well, and they need careful maintenance to stay that way.',
+      jobs: ['Cooling system: water pump, thermostat and expansion tank', 'Oil leaks: valve cover and oil filter housing gaskets', 'Timing chain and VANOS faults', 'xDrive transfer case service', 'BMW diagnostics and electrical faults', 'Brakes, suspension and steering'] },
+    { slug: 'audi-specialist', name: 'Audi', make: 'audi', car: 'audi-q7',
+      models: ['A3', 'A4', 'A6', 'Q3', 'Q5', 'Q7', 'Q8'],
+      lead: 'Audis combine quattro grip with advanced electronics, so diagnosis and servicing matter.',
+      jobs: ['S tronic and DSG gearbox service', 'Timing chain tensioner checks on 2.0 TFSI engines', 'Oil consumption diagnosis', 'Coolant pump and cooling system leaks', 'Audi diagnostics and electrical faults', 'quattro, brakes and suspension'] },
+    { slug: 'porsche-specialist', name: 'Porsche', make: 'porsche', car: 'porsche-cayenne',
+      models: ['Cayenne', 'Macan', 'Panamera', '911', '718 Cayman and Boxster'],
+      lead: 'Porsches deserve careful servicing and precise repairs to keep their performance and value.',
+      jobs: ['PDK gearbox service', 'Air suspension and PASM repairs', 'Cooling system and coolant pipe repairs', 'High-performance brake service', 'Porsche diagnostics and warning lights', 'Major and minor servicing'] },
+    { slug: 'toyota-specialist', name: 'Toyota', make: 'toyota', car: 'toyota-land-cruiser-prado',
+      models: ['Land Cruiser V8 and LC300', 'Prado', 'Harrier', 'RAV4', 'Hilux', 'Fielder and Axio', 'Toyota hybrids'],
+      lead: 'Toyota is Kenya\'s favourite make, from the Land Cruiser V8 and Prado to the Harrier and Fielder.',
+      jobs: ['D-4D diesel injector problems', 'DPF faults on 2.8 diesel engines', 'CVT and automatic gearbox service', 'Hybrid system servicing and repairs', 'Suspension bushes and shock absorbers', 'Major and minor servicing'] },
+  ].map((b) => ({ ...b, img: carImg(b.car) }));
+  const formSlug = (pageSlug) => SERVICES.find((x) => x.slug === pageSlug)?.form || (BRAND_PAGES.some((x) => x.slug === pageSlug) ? 'repair' : '');
+
+  const bookHref = (pageSlug) => `/garage/book/${formSlug(pageSlug) ? `?service=${formSlug(pageSlug)}` : ''}`;
   const waBook = (text) => waLink(`Hi, I would like to book ${text} at ${g.name}.`);
 
   // Local business data for Google (AutoRepair)
@@ -74,10 +113,18 @@ export function buildGarage(h) {
     title: `Car Garage in Nairobi: Service, Repairs & Check-ups | ${g.name}`,
     description: `${g.name} is a trusted car garage in Nairobi for car service, engine and gearbox repairs, computerised diagnostics and pre-purchase inspections. Book online or on WhatsApp.`,
     h1: 'Car Garage in Nairobi: Service, Repairs &amp; Check-ups',
-    lead: `Looking for a reliable car mechanic in Nairobi? ${g.name} services, repairs and checks Japanese, German and British cars, with honest quotes before any work starts. Book a service, repair or check-up online in a minute.`,
+    lead: `${g.name} specialises in Range Rover, Mercedes-Benz, BMW, Audi, Porsche and Toyota: servicing, repairs, accident repairs, hybrid cars and diagnostics, with honest quotes before any work starts. We also build bodies for vans and trucks.`,
     serviceName: 'Car service and repair',
     body: `
-<div class="svc-grid">${SERVICES.map((s) => `<a class="svc-card" href="/garage/${s.slug}/"><span class="svc-ic" aria-hidden="true">${s.icon}</span><b>${s.short}</b><span>${s.blurb}</span></a>`).join('')}</div>
+${photo('inspection', 'Car check-up and inspection at a garage in Nairobi')}
+${photo('diagnostics', 'Computerised car diagnostics with an OBD2 scanner in Nairobi')}
+${photo('repair', 'Mechanic repairing a car engine in Nairobi')}
+${photo('service', 'Mechanic checking engine oil during a car service in Nairobi')}
+${photo('hero', 'Mechanics repairing a car at Elisa Motors Garage, Nairobi')}
+<h2>Specialists in Range Rover, Mercedes-Benz, BMW, Audi, Porsche &amp; Toyota</h2>
+<div class="brand-grid">${BRAND_PAGES.map((b) => `<a class="brand-card" href="/garage/${b.slug}/"><img src="${b.img.replace('.webp', '-sm.webp')}" alt="${esc(`${b.name} specialist garage Nairobi`)}" title="${esc(`${b.name} specialist garage Nairobi`)}" width="600" height="400" loading="lazy"><b>${esc(b.name)}</b><span>Service &amp; repair</span></a>`).join('')}</div>
+<h2>Our garage services</h2>
+<div class="svc-grid">${SERVICES.map((s) => `<a class="svc-card" href="/garage/${s.slug}/">${s.img ? `<img src="${img(s.img, true)}" alt="${esc(`${s.short} in Nairobi`)}" title="${esc(`${s.short} in Nairobi`)}" width="600" height="400" loading="lazy">` : `<span class="svc-ic" aria-hidden="true">${s.icon}</span>`}<b>${s.short}</b><span>${s.blurb}</span></a>`).join('')}</div>
 <h2>Why drivers choose us as their car garage in Nairobi</h2>
 ${checks([
   '<b>Honest mechanics, clear quotes:</b> we diagnose first, explain the problem and agree the price with you before any work starts.',
@@ -243,50 +290,129 @@ ${areasHtml}`,
     ],
   });
 
+  // ------------------------------------------------------------ accident repair
+  page({
+    slug: 'accident-repair', label: 'an accident repair',
+    title: `Accident Repair in Nairobi: Panel Beating, Spray Painting & Insurance Claims | ${g.name}`,
+    description: `Accident car repair in Nairobi: panel beating, bumper and body repairs, spray painting and mechanical repairs after a crash. Insurance claims or cash. Send photos for a quote.`,
+    h1: 'Accident Repair in Nairobi: Panel Beating, Painting &amp; Insurance Claims',
+    lead: 'Had an accident? Send us photos of the damage and we will quote the repair, whether your insurer is paying or you are paying cash. We repair the body, paint and the mechanical damage underneath.',
+    serviceName: 'Accident repair',
+    body: `
+${photo('accident', 'Accident damaged car awaiting repair at a garage in Nairobi')}
+<h2>Accident car repair, from bodywork to mechanicals</h2>
+<p>A collision rarely damages only the panels you can see. Therefore, we inspect the whole car: body, chassis alignment, suspension, steering, radiator, lights, airbags and sensors. Then we repair the body, paint it to match and fix the mechanical damage underneath.</p>
+${checks(['Panel beating and dent repair', 'Bumper, bonnet, fender and door repair or replacement', 'Spray painting with colour matching', 'Chassis and body alignment checks', 'Radiator, suspension and steering damage', 'Headlights, sensors and airbag warning lights'])}
+<h2>Insurance claims or cash: both welcome</h2>
+<p>If your car is insured, tell us your insurer when you send the request. We prepare the repair estimate and photos your insurer needs for the claim. Paying cash? We quote clearly before any work starts, so you know the full cost.</p>
+<h2>How to get an accident repair quote</h2>
+<ol class="steps garage-steps"><li><h3>Send photos</h3><p>Use our order form: choose "Accident repair" and add photos of the damage.</p></li><li><h3>Insurance or cash</h3><p>Tell us if the car is insured and how you will pay.</p></li><li><h3>Inspection &amp; quote</h3><p>We inspect the car and confirm the full repair quote.</p></li><li><h3>Repair &amp; handover</h3><p>We repair, paint, road test and hand back your car.</p></li></ol>
+${areasHtml}`,
+    faq: [
+      ['Do you repair accident cars in Nairobi?', 'Yes. We repair accident damage to the body, paint and mechanical parts, from minor bumper damage to bigger collision repairs.'],
+      ['Can I pay for an accident repair through my insurance?', 'Yes. Tell us your insurer when you request a quote. We prepare the estimate and photos your insurer needs. You can also pay cash.'],
+      ['How do I get a quote for accident repair?', 'Send photos of the damage through our order form or WhatsApp. We give an estimate from the photos and confirm the final quote after inspecting the car.'],
+      ['What if my car cannot be driven after the accident?', 'Tell us in the form that the car is not drivable and we will advise on getting it to the workshop.'],
+      ['Do you do spray painting and panel beating?', 'Yes. Panel beating, dent repair and spray painting with colour matching are part of our accident repair service.'],
+    ],
+  });
+
+  // ------------------------------------------------------------ hybrid car service
+  page({
+    slug: 'hybrid-car-service', label: 'a hybrid car service',
+    title: `Hybrid Car Service & Repair in Nairobi | ${g.name}`,
+    description: `Hybrid car service and repair in Nairobi for Toyota Aqua, Prius, Harrier Hybrid, Honda Fit Hybrid, Vezel and Nissan Note e-Power: hybrid diagnostics, servicing and repairs.`,
+    h1: 'Hybrid Car Service &amp; Repair in Nairobi',
+    lead: 'Hybrids save fuel, but they need a garage that understands both the engine and the hybrid system. We service, diagnose and repair the hybrids Kenyans drive most.',
+    serviceName: 'Hybrid car service and repair',
+    body: `
+${photo('hybrid', 'Hybrid car engine bay with orange high-voltage cables, serviced in Nairobi')}
+<h2>Hybrid cars we service</h2>
+<p>We work on Toyota hybrids such as the Aqua, Prius, Fielder and Axio Hybrid, Harrier Hybrid, RAV4 Hybrid and C-HR, as well as the Honda Fit Hybrid, Vezel Hybrid and Nissan Note and Serena e-Power.</p>
+<h2>Hybrid servicing</h2>
+<p>A hybrid service covers the engine (oil, filters, spark plugs and coolant) and the hybrid system: inverter coolant, the battery cooling fan and air intake filter, brake system checks and a full hybrid system scan. Moreover, a blocked battery cooling filter is a common cause of hybrid battery problems in dusty Nairobi.</p>
+<h2>Hybrid diagnostics and repairs</h2>
+${checks(['Hybrid system warning lights and "check hybrid system" messages', 'Hybrid battery health checks', 'Inverter and inverter coolant pump faults', 'e-CVT and hybrid gearbox problems, including Honda Fit Hybrid gearbox faults', '12V battery problems that stop a hybrid from starting', 'Regenerative braking and brake system faults'])}
+${areasHtml}`,
+    faq: [
+      ['Do you service hybrid cars?', 'Yes. We service and repair Toyota, Honda and Nissan hybrids, including the Aqua, Prius, Harrier Hybrid, Fit Hybrid, Vezel and Note e-Power.'],
+      ['What does a hybrid car service include?', 'Engine servicing plus hybrid checks: inverter coolant, battery cooling fan and filter, brakes and a full hybrid system scan.'],
+      ['Why is my hybrid showing a check hybrid system warning?', 'Common causes include hybrid battery cooling problems, inverter faults or a weak 12V battery. A hybrid diagnostic scan finds the exact cause.'],
+      ['How often should a hybrid be serviced?', 'Follow the same intervals as the engine service, usually every 5,000 to 10,000 km, and have the hybrid system checked at each service.'],
+    ],
+  });
+
+  // ------------------------------------------------------------ body fabrication
+  page({
+    slug: 'body-fabrication', label: 'body fabrication',
+    title: `Truck & Van Body Fabrication in Nairobi | ${g.name}`,
+    description: `Body fabrication in Nairobi for vans, trucks and lorries: box bodies, dropside and flatbed bodies, high-side, cattle and tipper bodies, van shelving and body repairs.`,
+    h1: 'Truck, Lorry &amp; Van Body Fabrication in Nairobi',
+    lead: 'We build and repair bodies for vans, pickups, trucks and lorries, designed around what you carry. Tell us your vehicle and your load, and we quote the body that fits.',
+    serviceName: 'Vehicle body fabrication',
+    body: `
+<h2>Bodies we build</h2>
+${checks(['Box (closed) bodies for goods and deliveries', 'Dropside and flatbed bodies', 'High-side bodies for bulk loads', 'Cattle and livestock bodies', 'Tipper bodies', 'Van shelving, racks and partitions', 'Pickup canopies and carriers', 'Repairs and modifications to existing bodies'])}
+<h2>Vehicles we fabricate for</h2>
+<p>We fabricate bodies for light and medium trucks such as the Isuzu NKR, NPR and FRR, Mitsubishi Fuso Canter, Toyota Dyna, Hino and FAW, as well as vans and pickups such as the Toyota Hiace, Nissan NV350, Toyota Probox and Hilux.</p>
+<h2>Built for your business</h2>
+<p>A good body matches the vehicle's payload, the load you carry and how you load it. Therefore, we agree the size, material and features with you before we start, and give you a clear quote and timeline.</p>
+<h2>How to order a body</h2>
+<p>Use our order form, choose "Body fabrication", and tell us the vehicle, the type of body and what you carry. Photos of the vehicle help us quote faster.</p>
+${areasHtml}`,
+    faq: [
+      ['Do you build truck bodies in Nairobi?', 'Yes. We fabricate box, dropside, flatbed, high-side, cattle and tipper bodies for trucks and lorries, plus shelving and partitions for vans.'],
+      ['Which trucks do you fabricate bodies for?', 'Light and medium trucks such as the Isuzu NKR, NPR and FRR, Mitsubishi Fuso Canter, Toyota Dyna, Hino and FAW, as well as vans and pickups.'],
+      ['How do I get a quote for body fabrication?', 'Send the vehicle make and model, the body type and what you carry through our order form or WhatsApp. Photos of the vehicle help us quote faster.'],
+      ['Do you repair existing truck bodies?', 'Yes. We repair and modify existing bodies, including floors, sides, doors and frames.'],
+    ],
+  });
+
+  // ------------------------------------------------------------ brand specialist pages
+  for (const b of BRAND_PAGES) {
+    page({
+      slug: b.slug, label: `your ${b.name}`,
+      title: `${b.name} Specialist Garage in Nairobi: Service & Repair | ${g.name}`,
+      description: `${b.name} service and repair in Nairobi: ${b.models.slice(0, 4).join(', ')} and more. Diagnostics, servicing, ${b.jobs.slice(0, 2).join(' and ').toLowerCase()}. Book with ${g.name}.`,
+      h1: `${b.name} Service &amp; Repair in Nairobi`,
+      lead: `${b.lead} Book a service, repair or diagnostic check for your ${b.name} online or on WhatsApp.`,
+      serviceName: `${b.name} service and repair`,
+      body: `
+${b.img ? `<figure class="garage-photo"><img src="${b.img}" alt="${esc(`${b.name} service and repair in Nairobi`)}" title="${esc(`${b.name} specialist garage Nairobi`)}" width="1200" height="800" loading="lazy"><figcaption>${esc(b.name)}: representative photo.</figcaption></figure>` : ''}
+<h2>${b.name} models we service</h2>
+<p>We service and repair ${b.models.slice(0, -1).join(', ')} and ${b.models.at(-1)}, whether bought locally or imported from Japan or the UK.</p>
+<h2>Common ${b.name} jobs we handle</h2>
+${checks(b.jobs)}
+<h2>${b.name} servicing</h2>
+<p>We service your ${b.name} with the correct oil specification, quality filters and parts, and reset the service indicator. Moreover, a full diagnostic scan at every service catches faults early, before they become expensive repairs.</p>
+<p>Want to buy one? See our ${b.make ? `<a href="/make/${b.make}/">${b.name} import prices</a>` : 'import catalogue'}.</p>
+${areasHtml}`,
+      faq: [
+        [`Do you service and repair ${b.name} in Nairobi?`, `Yes. We service and repair ${b.models.slice(0, 4).join(', ')} and other ${b.name} models, including diagnostics, servicing and mechanical repairs.`],
+        [`What ${b.name} problems do you fix?`, `Common jobs include ${b.jobs.slice(0, 4).map((j) => j.toLowerCase()).join(', ')}.`],
+        [`How do I book my ${b.name} in?`, `Use our order form, choose the service you need and select ${b.name} as the make, or WhatsApp us on ${site.phone}.`],
+      ],
+    });
+  }
+
   // ------------------------------------------------------------ booking page
   {
     const path = '/garage/book/';
     const cr = crumbs([['Home', '/'], ['Garage', '/garage/'], ['Book a service or repair', path]]);
-    const year = new Date().getFullYear();
-    const opt = (arr) => arr.map((x) => `<option>${x}</option>`).join('');
-    const SVC = [['car-service', 'Car service'], ['car-repair', 'Repair'], ['car-diagnostics', 'Diagnostics / electrical'], ['car-inspection', 'Check-up / inspection'], ['other', 'Other']];
     add(path, layout({ path, priority: 0.8,
-      title: `Book a Car Service or Repair in Nairobi | ${g.name}`,
+      title: `Book a Car Service, Repair or Accident Repair in Nairobi | ${g.name}`,
       description: `Book a car service, repair, diagnostic test or check-up at ${g.name} in Nairobi. Choose a date and we confirm on WhatsApp.`,
       jsonld: [cr.ld, autoRepairLd],
       body: `<div class="wrap">${cr.html}
-<header class="page-head" style="padding-bottom:12px"><span class="eyebrow" style="color:var(--accent)">${esc(g.name)}</span><h1>Book a car service, repair or check-up</h1><p>Takes under a minute. We confirm your slot on WhatsApp and agree the price before any work starts.</p>${serviceNav('book')}</header>
+<header class="page-head" style="padding-bottom:12px"><span class="eyebrow" style="color:var(--accent)">${esc(g.name)}</span><h1>Order form: garage services, accident repair &amp; car imports</h1><p>Choose what you need, tell us about your car and send it straight to our WhatsApp. Add photos for accident repairs.</p>${serviceNav('book')}</header>
 <div class="two-col" style="padding-bottom:48px">
   <div class="wizard">
-    <form id="garage-form" class="stack" novalidate>
-      <input type="hidden" name="type" value="Garage Booking">
-      <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
-      <div class="field"><span class="field-label">What do you need? <b class="req">*</b></span><div class="chips">${SVC.map(([v, t], i) => `<label class="chip"><input type="radio" name="service" value="${t}" data-slug="${v}"${i === 0 ? ' checked' : ''}>${t}</label>`).join('')}</div></div>
-      <div class="grid-2">
-        <label class="field"><span>Car make <b class="req">*</b></span><select name="make" required><option value="">Choose make…</option>${opt(MAKES)}<option>Other</option></select></label>
-        <label class="field"><span>Model <b class="req">*</b></span><input name="model" required placeholder="e.g. Harrier, Fielder, C200"></label>
-        <label class="field"><span>Year</span><select name="year"><option value="">Select year</option>${opt(Array.from({ length: 25 }, (_, i) => year - i))}</select></label>
-        <label class="field"><span>Registration no. <span class="muted small">(optional)</span></span><input name="reg" placeholder="e.g. KDA 123A" autocomplete="off"></label>
-        <label class="field"><span>Preferred date <b class="req">*</b></span><input name="date" type="date" required></label>
-        <label class="field"><span>Preferred time</span><select name="time">${opt(['Morning (8–11am)', 'Midday (11am–2pm)', 'Afternoon (2–5pm)', 'Any time'])}</select></label>
-      </div>
-      <label class="field"><span>Describe the problem or service needed</span><textarea name="notes" rows="3" placeholder="e.g. Major service due at 60,000 km, AC not cooling, check engine light on…"></textarea></label>
-      <div class="grid-2">
-        <label class="field"><span>Your name <b class="req">*</b></span><input name="name" autocomplete="name" required></label>
-        <label class="field"><span>Phone / WhatsApp <b class="req">*</b></span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="07XX XXX XXX" required></label>
-        <label class="field"><span>Email <span class="muted small">(optional)</span></span><input name="email" type="email" autocomplete="email"></label>
-        <label class="field"><span>Your area</span><input name="town" placeholder="e.g. Westlands, South B, Ruaka"></label>
-      </div>
-      <p class="error-msg" data-form-error hidden></p>
-      <button class="btn btn-wa btn-block" type="submit">${I.wa} Send booking via WhatsApp</button>
-      <p class="hint" style="text-align:center;margin:0">Your booking is also emailed to our team. No payment is needed to book.</p>
-    </form>
-    <div class="success" hidden data-success></div>
+    ${requestFormHtml({ makes: MAKES, I, service: 'repair' })}
   </div>
   <aside>${bookBox(null, 'by phone or WhatsApp')}</aside>
 </div></div>`,
     }));
   }
 
-  return SERVICES;
+  return { SERVICES, BRAND_PAGES, img, IMG };
 }

@@ -18,7 +18,8 @@ export function buildGarage(h) {
 
   // Garage photos (Wikimedia Commons, credited on /credits/) live in assets/img/garage/
   const IMG = { hero: 'car-mechanic-garage-nairobi', repair: 'car-engine-repair-nairobi', service: 'car-service-oil-check-nairobi', accident: 'accident-car-repair-nairobi',
-    hybrid: 'hybrid-car-service-nairobi', diagnostics: 'car-diagnostics-nairobi', inspection: 'car-inspection-garage-nairobi' };
+    hybrid: 'hybrid-car-service-nairobi', diagnostics: 'car-diagnostics-nairobi', inspection: 'car-inspection-garage-nairobi',
+    fabrication: 'truck-body-fabrication-nairobi', fabrication2: 'lorry-dropside-body-fabrication-nairobi' };
   const img = (slot, sm) => `/assets/img/garage/${IMG[slot]}${sm ? '-sm' : ''}.webp`;
   const photo = (slot, alt) => `<figure class="garage-photo"><img src="${img(slot)}" alt="${esc(alt)}" title="${esc(alt)}" width="1200" height="800" loading="lazy"><figcaption>Representative photo. See <a href="/credits/">image credits</a>.</figcaption></figure>`;
   const SERVICES = [
@@ -28,7 +29,7 @@ export function buildGarage(h) {
     { slug: 'car-diagnostics', form: 'diagnostics', short: 'Diagnostics & electrical', icon: '⚡', img: 'diagnostics', blurb: 'Computerised diagnostics, warning lights, batteries, alternators and wiring.' },
     { slug: 'hybrid-car-service', form: 'hybrid', short: 'Hybrid cars', icon: '🔋', img: 'hybrid', blurb: 'Servicing and repair for Toyota, Honda and Nissan hybrids.' },
     { slug: 'car-inspection', form: 'checkup', short: 'Check-ups & inspections', icon: '✓', img: 'inspection', blurb: 'Car check-ups, pre-purchase inspections and NTSA inspection preparation.' },
-    { slug: 'body-fabrication', form: 'fabrication', short: 'Body fabrication', icon: '🏗', img: '', blurb: 'Box, dropside, flatbed, high-side, cattle and tipper bodies for vans, trucks and lorries.' },
+    { slug: 'body-fabrication', form: 'fabrication', short: 'Body fabrication', icon: '🏗', img: 'fabrication', blurb: 'Box, dropside, flatbed, high-side, cattle and tipper bodies for vans, trucks and lorries.' },
   ];
   // Specialist makes (the core of the garage business)
   const BRAND_PAGES = [
@@ -92,7 +93,7 @@ export function buildGarage(h) {
 
   function page({ slug, title, description, h1, lead, body, faq, serviceName, label }) {
     const path = slug ? `/garage/${slug}/` : '/garage/';
-    const cr = crumbs(slug ? [['Home', '/'], ['Garage', '/garage/'], [h1.split(':')[0], path]] : [['Home', '/'], ['Garage', '/garage/']]);
+    const cr = crumbs(slug ? [['Home', '/'], ['Garage', '/garage/'], [h1.split(':')[0].replace(/&amp;/g, '&'), path]] : [['Home', '/'], ['Garage', '/garage/']]);
     const serviceLd = serviceName ? { '@context': 'https://schema.org', '@type': 'Service', name: serviceName, serviceType: serviceName, url: abs(path), provider: { '@id': abs('/garage/#autorepair') }, areaServed: { '@type': 'City', name: 'Nairobi' } } : null;
     add(path, layout({ path, title, description, priority: slug ? 0.8 : 0.9,
       jsonld: [cr.ld, autoRepairLd, ...(serviceLd ? [serviceLd] : []), faqLd(faq)],
@@ -351,8 +352,10 @@ ${areasHtml}`,
     lead: 'We build and repair bodies for vans, pickups, trucks and lorries, designed around what you carry. Tell us your vehicle and your load, and we quote the body that fits.',
     serviceName: 'Vehicle body fabrication',
     body: `
+${photo('fabrication', 'Isuzu lorry with a fabricated box body, truck body fabrication in Nairobi')}
 <h2>Bodies we build</h2>
 ${checks(['Box (closed) bodies for goods and deliveries', 'Dropside and flatbed bodies', 'High-side bodies for bulk loads', 'Cattle and livestock bodies', 'Tipper bodies', 'Van shelving, racks and partitions', 'Pickup canopies and carriers', 'Repairs and modifications to existing bodies'])}
+${photo('fabrication2', 'Mitsubishi Fuso Canter lorry with a dropside body, Nairobi body fabrication')}
 <h2>Vehicles we fabricate for</h2>
 <p>We fabricate bodies for light and medium trucks such as the Isuzu NKR, NPR and FRR, Mitsubishi Fuso Canter, Toyota Dyna, Hino and FAW, as well as vans and pickups such as the Toyota Hiace, Nissan NV350, Toyota Probox and Hilux.</p>
 <h2>Built for your business</h2>

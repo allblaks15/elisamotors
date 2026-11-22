@@ -47,5 +47,19 @@
   "artist": "Bureau of Land Management Oregon and Washington from Portland, America",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Small_team_gets_BLM_firetrucks_to_America%E2%80%99s_wildfires_(22213384953).jpg"
+ },
+ "fabrication": {
+  "file": "truck-body-fabrication-nairobi.webp",
+  "title": "Isuzu NQR, White Truck,.jpg",
+  "artist": "Mj-bird",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Isuzu_NQR,_White_Truck,.jpg"
+ },
+ "fabrication2": {
+  "file": "lorry-dropside-body-fabrication-nairobi.webp",
+  "title": "6th Gen 2000s Mitsubishi Fuso Canter Philippines.jpg",
+  "artist": "Chaz Mikhael",
+  "license": "Copyrighted free use",
+  "source": "https://commons.wikimedia.org/wiki/File:6th_Gen_2000s_Mitsubishi_Fuso_Canter_Philippines.jpg"
  }
 }

@@ -706,6 +706,8 @@ await cp(join(SRC, 'static'), OUT, { recursive: true });
 const uniq = [...new Map(sitemap.map((s) => [s.path, s])).values()];
 const xmlEsc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 await writeFile(join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${uniq.map((s) => `<url><loc>${abs(s.path)}</loc><lastmod>${today}</lastmod><priority>${s.priority.toFixed(1)}</priority>${(s.images || []).map((i) => `<image:image><image:loc>${xmlEsc(i.loc)}</image:loc><image:title>${xmlEsc(i.title)}</image:title><image:caption>${xmlEsc(i.caption)}</image:caption></image:image>`).join('')}</url>`).join('\n')}\n</urlset>\n`);
+const blogUrls = uniq.filter((s) => s.path.startsWith('/blog/') && s.path !== '/blog/');
+await writeFile(join(OUT, 'sitemap-blog.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${blogUrls.map((s) => `<url><loc>${abs(s.path)}</loc><lastmod>${today}</lastmod><priority>${s.priority.toFixed(1)}</priority></url>`).join('\n')}\n</urlset>\n`);
 await writeFile(join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /send-order.php\n\nSitemap: ${abs('/sitemap.xml')}\n`);
 await writeFile(join(OUT, 'site.webmanifest'), JSON.stringify({ name: site.name, short_name: 'Elisa Motors', start_url: '/', display: 'standalone', background_color: '#faf8f4', theme_color: '#0e2a3a', icons: [{ src: '/assets/img/logo.png', sizes: '512x512', type: 'image/png' }] }));
 await writeFile(join(OUT, 'favicon.svg'), I.logo.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" '));

@@ -10,7 +10,7 @@ const POSTS = await Promise.all(readdirSync(DIR).filter((f) => f.endsWith('.js')
   .map(async (f) => (await import(pathToFileURL(join(DIR, f)))).default));
 
 // Topic clusters, in the order they appear on /blog/
-export const CLUSTERS = ['Range Rover & Land Rover', 'Toyota Land Cruiser', 'Mercedes-Benz & G-Wagon', 'SUVs & crossovers', 'Import from Japan', 'Import from the UK', 'Import costs, duty & clearing'];
+export const CLUSTERS = ['Range Rover & Land Rover', 'Toyota Land Cruiser', 'Mercedes-Benz & G-Wagon', 'SUVs & crossovers', 'Import from Japan', 'Import from the UK', 'Import costs, duty & clearing', 'Garage & body fabrication'];
 
 export function blogPosts({ cars, site, YEAR, MIN_YEAR, M, range, esc }) {
   const bySlug = Object.fromEntries(cars.map((c) => [c.slug, c]));

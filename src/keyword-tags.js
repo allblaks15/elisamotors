@@ -58,7 +58,9 @@ export function addKeywordTags(pages, keywords, cars, minYear) {
   // A car page only takes searches about its own make (or general import searches for its origin)
   // Garage searches (categories 101+) appear only on garage pages, and garage pages take only garage searches.
   const isGarageKw = (k) => k.cat > 100;
-  const fits = (k, d) => d.isGarage ? isGarageKw(k) : isGarageKw(k) ? false
+  const fits = (k, d) => isGarageKw(k)
+    ? (d.isGarage || d.isBlog)
+    : d.isGarage ? false
     : !d.car || (CAT_MAKES[k.cat] ? CAT_MAKES[k.cat].includes(d.car.make) : d.car.origin.includes(CAT_ORIGIN[k.cat]));
 
   // Best page for each keyword: its specific words in the title/heading; then most keyword words in the

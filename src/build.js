@@ -577,30 +577,63 @@ ${stepsHtml}
 const blogOrderForm = (p) => {
   const list = p.cars.map((s) => cars.find((c) => c.slug === s));
   const data = list.map((c) => ({ slug: c.slug, name: c.name, variants: c.variants.map((v) => ({ name: v.name, price: range(...v.price) })) }));
+  const TRUCK_MAKES = ['Hino', 'FAW', 'Tata', 'Scania', 'MAN', 'Foton', 'Sinotruk'];
+  const makes = {};
+  cars.forEach((c) => { (makes[c.make] ||= []).push(c.model); });
+  new Set([...Object.keys(makes), ...TRUCK_MAKES]).forEach((m) => { makes[m] = [...new Set(makes[m] || [])].sort(); });
+  const sortedMakes = Object.keys(makes).sort();
   const opt = (arr) => arr.map((x) => `<option>${x}</option>`).join('');
+  const chips = (name, arr) => `<div class="chips">${arr.map((t) => `<label class="chip"><input type="radio" name="${name}" value="${t}">${t}</label>`).join('')}</div>`;
   return `<div class="order-box blog-order" id="order" data-blog-order>
-  <div><div class="step-label">Car order form</div><h2 class="blog-order-h">Order your car with ${site.name}</h2><p class="muted small" style="margin:0">Free, all-inclusive landed quote. No payment needed now.</p></div>
+  <div><div class="step-label">Order / booking form</div><h2 class="blog-order-h">Order your car with ${site.name}</h2><p class="muted small" style="margin:0">Import a car, book a garage service or request a body build. No payment needed now.</p></div>
   <form class="stack" novalidate>
     <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
-    <label class="field"><span>Car <b class="req">*</b></span><select name="car">${list.map((c) => `<option value="${c.slug}">${esc(c.name)}</option>`).join('')}<option value="other">Another car…</option></select></label>
-    <label class="field" data-other-car hidden><span>Type the make & model <b class="req">*</b></span><input name="other_car" placeholder="e.g. Toyota Land Cruiser 79"></label>
-    <label class="field"><span>Version / spec</span><select name="variant"></select></label>
-    <div class="grid-2">
-      <label class="field"><span>Import from</span><select name="origin">${opt(['Best price (any)', 'Japan', 'UK', 'South Africa'])}</select></label>
-      <label class="field"><span>Year from</span><select name="year">${opt(Array.from({ length: YEAR - MIN_YEAR + 1 }, (_, i) => MIN_YEAR + i))}</select></label>
+    <div class="field"><span class="field-label">What do you need? <b class="req">*</b></span>
+      <div class="chips">
+        <label class="chip"><input type="radio" name="mode" value="import" checked>Order / import a car</label>
+        <label class="chip"><input type="radio" name="mode" value="garage">Book a garage service</label>
+        <label class="chip"><input type="radio" name="mode" value="fabrication">Body fabrication</label>
+      </div></div>
+
+    <div data-mode="import">
+      <label class="field"><span>Car <b class="req">*</b></span><select name="car">${list.map((c) => `<option value="${c.slug}">${esc(c.name)}</option>`).join('')}<option value="other">Another car…</option></select></label>
+      <label class="field" data-other-car hidden><span>Type the make & model <b class="req">*</b></span><input name="other_car" placeholder="e.g. Toyota Land Cruiser 79"></label>
+      <label class="field"><span>Version / spec</span><select name="variant"></select></label>
+      <div class="grid-2">
+        <label class="field"><span>Import from</span><select name="origin">${opt(['Best price (any)', 'Japan', 'UK', 'South Africa'])}</select></label>
+        <label class="field"><span>Year from</span><select name="year">${opt(Array.from({ length: YEAR - MIN_YEAR + 1 }, (_, i) => MIN_YEAR + i))}</select></label>
+      </div>
+      <label class="field"><span>Budget (landed, KES)</span><select name="budget">${opt(['Not sure yet', 'Under 2M', '2M – 3M', '3M – 5M', '5M – 8M', '8M – 12M', '12M – 20M', 'Above 20M'])}</select></label>
     </div>
-    <label class="field"><span>Budget (landed, KES)</span><select name="budget">${opt(['Not sure yet', 'Under 2M', '2M – 3M', '3M – 5M', '5M – 8M', '8M – 12M', '12M – 20M', 'Above 20M'])}</select></label>
-    <label class="field"><span>Your name <b class="req">*</b></span><input name="name" autocomplete="name" required></label>
-    <label class="field"><span>Phone / WhatsApp <b class="req">*</b></span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="07XX XXX XXX" required></label>
-    <label class="field"><span>Email <span class="muted small">(optional)</span></span><input name="email" type="email" autocomplete="email"></label>
-    <label class="field"><span>Town / County</span><input name="town" autocomplete="address-level2" placeholder="e.g. Nairobi, Mombasa, Nakuru"></label>
-    <label class="field"><span>Anything else?</span><textarea name="notes" rows="2" placeholder="Colour, mileage, trade-in, finance…"></textarea></label>
+
+    <div data-mode="garage,fabrication" hidden>
+      <div class="grid-2">
+        <label class="field"><span>Brand / make <b class="req">*</b></span><select name="make"><option value="">Choose brand…</option>${opt(sortedMakes)}<option value="other">Other / not listed</option></select></label>
+        <label class="field"><span>Model <b class="req">*</b></span><select name="model"><option value="">Choose model…</option></select>
+          <input name="other_model" hidden placeholder="Type the model (or make & model)"></label>
+      </div>
+      <div class="field" data-mode="garage"><span class="field-label">Type of service needed</span>${chips('service_type', ['Minor service', 'Major service', 'Full service', 'Repair & diagnostics', 'Pre-purchase inspection', 'Hybrid service', 'Accident repair', 'Not sure'])}</div>
+      <div class="field" data-mode="fabrication" hidden><span class="field-label">Type of body needed</span>${chips('body_type', ['Box / closed body', 'Dropside / flatbed', 'High-side body', 'Tipper body', 'Van body / shelving', 'Water tanker', 'Body repair', 'Other'])}</div>
+      <label class="field"><span>Your budget</span><select name="service_budget">${opt(['Not sure yet', 'Under KES 10,000', 'KES 10,000 – 30,000', 'KES 30,000 – 80,000', 'KES 80,000 – 200,000', 'Above KES 200,000'])}</select></label>
+      <div class="grid-2">
+        <label class="field"><span>Preferred date</span><input name="date" type="date"></label>
+        <label class="field"><span>Preferred time</span><select name="time">${opt(['Any time', 'Morning (8–11am)', 'Midday (11am–2pm)', 'Afternoon (2–5pm)'])}</select></label>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <label class="field"><span>Your name <b class="req">*</b></span><input name="name" autocomplete="name" required></label>
+      <label class="field"><span>Phone / WhatsApp <b class="req">*</b></span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="07XX XXX XXX" required></label>
+      <label class="field"><span>Email <span class="muted small">(optional)</span></span><input name="email" type="email" autocomplete="email"></label>
+      <label class="field"><span>Town / County</span><input name="town" autocomplete="address-level2" placeholder="e.g. Nairobi, Mombasa, Nakuru"></label>
+    </div>
+    <label class="field"><span data-mode="import">Anything else?</span><span data-mode="garage,fabrication" hidden>Anything we should know? (size, material, use, current issue…)</span><textarea name="notes" rows="2" placeholder="Colour, mileage, trade-in, finance…"></textarea></label>
     <p class="error-msg" data-form-error hidden></p>
-    <button class="btn btn-wa btn-block" type="submit">${I.wa} Send order via WhatsApp</button>
+    <button class="btn btn-wa btn-block" type="submit">${I.wa} Send to WhatsApp to book</button>
     <p class="hint" style="text-align:center;margin:0">Or call <a href="tel:${site.phone.replace(/\s/g, '')}">${site.phone}</a> · ${site.hours}</p>
   </form>
   <div class="success" hidden data-success></div>
-  <script type="application/json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>
+  <script type="application/json">${JSON.stringify({ cars: data, makes }).replace(/</g, '\\u003c')}</script>
 </div>`;
 };
 {

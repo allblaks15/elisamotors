@@ -275,39 +275,105 @@
     show(0);
   }
 
-  // ---------- blog order forms ----------
+  // ---------- blog order forms (car import + garage service + body fabrication) ----------
   $$('[data-blog-order]').forEach((box) => {
     const form = $('form', box);
-    const cars = JSON.parse($('script[type="application/json"]', box).textContent);
+    const cfg = JSON.parse($('script[type="application/json"]', box).textContent);
+    const cars = Array.isArray(cfg) ? cfg : cfg.cars;
+    const makes = cfg.makes || {};
+    const modes = $$('input[name="mode"]', form);
+    const mode = () => (modes.find((m) => m.checked) || modes[0]).value;
     const carSel = form.elements.car, varSel = form.elements.variant;
     const other = $('[data-other-car]', form);
+    const makeSel = form.elements.make, modelSel = form.elements.model, otherModel = form.elements.other_model;
     const err = $('[data-form-error]', form);
+
+    const fillModels = () => {
+      const models = makes[makeSel.value] || [];
+      modelSel.innerHTML = '<option value="">Choose model…</option>' + models.map((m) => `<option>${m}</option>`).join('') + '<option value="other">Another model…</option>';
+      otherModel.hidden = !(modelSel.value === 'other' || makeSel.value === 'other');
+    };
+    const sync = () => {
+      const m = mode();
+      $$('[data-mode]', form).forEach((el) => { el.hidden = !el.dataset.mode.split(',').includes(m); });
+      if (m !== 'import') fillModels();
+      if (form.elements.date) form.elements.date.min = new Date().toISOString().slice(0, 10);
+    };
     const fill = () => {
       const c = cars.find((x) => x.slug === carSel.value);
       varSel.innerHTML = '<option value="">Not sure / any</option>' + (c ? c.variants.map((v) => `<option>${v.name} (${v.price})</option>`).join('') : '');
       varSel.closest('.field').hidden = !c;
       other.hidden = carSel.value !== 'other';
     };
+    makeSel.addEventListener('change', fillModels);
+    modelSel.addEventListener('change', () => { otherModel.hidden = !(modelSel.value === 'other' || makeSel.value === 'other'); });
     carSel.addEventListener('change', fill);
+    modes.forEach((m) => m.addEventListener('change', sync));
+    fillModels();
     fill();
+    sync();
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       err.hidden = true;
-      const need = other.hidden ? ['name', 'phone'] : ['other_car', 'name', 'phone'];
-      if (!validate(form, need)) { err.textContent = other.hidden ? 'Please enter your name and a valid phone number.' : 'Please type the car you want, your name and phone.'; err.hidden = false; return; }
+      const m = mode();
+      let ok = true;
+      if (m === 'import') {
+        ok = validate(form, other.hidden ? ['name', 'phone'] : ['other_car', 'name', 'phone']);
+        if (!ok) err.textContent = other.hidden ? 'Please enter your name and a valid phone number.' : 'Please type the car you want, your name and phone.';
+      } else {
+        ok = validate(form, ['make', 'name', 'phone']);
+        const needTyped = makeSel.value === 'other' || modelSel.value === 'other';
+        const modelBad = needTyped ? !otherModel.value.trim() : !modelSel.value;
+        modelSel.closest('.field')?.classList.toggle('invalid', modelBad);
+        otherModel.closest('.field')?.classList.toggle('invalid', needTyped && modelBad);
+        if (modelBad) { ok = false; (needTyped ? otherModel : modelSel).focus(); }
+        if (!ok) err.textContent = 'Please choose the brand and model, and enter your name and a valid phone number.';
+      }
+      if (!ok) { err.hidden = false; return; }
+
       const d = fd(form); const r = ref();
-      const c = cars.find((x) => x.slug === d.car);
-      const car = c ? c.name : d.other_car;
-      const link = c ? `${EM.url}/cars/${c.slug}/` : '';
-      const payload = { ...d, type: 'Blog Car Order', ref: r, car, variant_name: d.variant, page: location.href };
-      const text = `Hi, I am interested in importing the *${car}${d.variant ? ' ' + d.variant : ''}* with ${EM.name}.\n\n` +
-        `🚗 *Car:* ${car}\n🔧 *Version:* ${d.variant || 'Not sure / any'}\n🌍 Import from: ${d.origin}\n📅 Year from: ${d.year}\n💰 Budget: ${d.budget}${d.notes ? `\n📝 ${d.notes}` : ''}\n\n` +
-        `👤 *Name:* ${d.name}\n📞 *Phone:* ${d.phone}${d.email ? `\n✉️ *Email:* ${d.email}` : ''}${d.town ? `\n📍 *Town:* ${d.town}` : ''}\n\n` +
-        `${link ? `🔗 *Car link:* ${link}\n` : ''}📰 Read: ${location.href}\n🧾 Ref: ${r}`;
+      let payload, text;
+      if (m === 'import') {
+        const c = cars.find((x) => x.slug === d.car);
+        const car = c ? c.name : d.other_car;
+        const link = c ? `${EM.url}/cars/${c.slug}/` : '';
+        payload = { ...d, type: 'Blog Car Order', ref: r, car, variant_name: d.variant, page: location.href };
+        ['make', 'model', 'other_model', 'service_type', 'body_type', 'service_budget', 'date', 'time', 'mode', 'website'].forEach((k) => delete payload[k]);
+        text = `Hi, I am interested in importing the *${car}${d.variant ? ' ' + d.variant : ''}* with ${EM.name}.\n\n` +
+          `🚗 *Car:* ${car}\n🔧 *Version:* ${d.variant || 'Not sure / any'}\n🌍 Import from: ${d.origin}\n📅 Year from: ${d.year}\n💰 Budget: ${d.budget}${d.notes ? `\n📝 ${d.notes}` : ''}\n\n` +
+          `👤 *Name:* ${d.name}\n📞 *Phone:* ${d.phone}${d.email ? `\n✉️ *Email:* ${d.email}` : ''}${d.town ? `\n📍 *Town:* ${d.town}` : ''}\n\n` +
+          `${link ? `🔗 *Car link:* ${link}\n` : ''}📰 Read: ${location.href}\n🧾 Ref: ${r}`;
+      } else {
+        const typedUsed = d.model === 'other' || d.make === 'other';
+        const typed = typedUsed ? d.other_model.trim() : '';
+        const vehicle = `${d.make === 'other' ? '' : d.make} ${d.model === 'other' ? typed : d.model}`.trim();
+        const service = m === 'garage' ? d.service_type : d.body_type;
+        const day = d.date ? new Date(`${d.date}T12:00:00`).toLocaleDateString('en-KE', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) : '';
+        payload = {
+          ...d,
+          type: m === 'garage' ? 'Garage Service Booking' : 'Body Fabrication Booking',
+          ref: r,
+          car: vehicle,
+          model: d.model === 'other' ? typed : d.model,
+          date: day,
+          page: location.href,
+        };
+        ['other_car', 'variant', 'origin', 'year', 'budget', 'mode', 'website'].forEach((k) => delete payload[k]);
+        if (!typedUsed) delete payload.other_model;
+        if (m === 'garage') delete payload.body_type; else delete payload.service_type;
+        text = `Hi, I would like to book *${m === 'garage' ? 'a garage service' : 'body fabrication'}* with ${EM.name}.\n\n` +
+          `🚗 *Vehicle:* ${vehicle}\n🔧 *${m === 'garage' ? 'Service needed' : 'Body needed'}:* ${service || 'Not sure yet'}\n💰 *Budget:* ${d.service_budget}\n` +
+          (day ? `📅 *Preferred:* ${day}${d.time && d.time !== 'Any time' ? ` (${d.time})` : ''}\n` : '') +
+          (d.notes ? `📝 *Details:* ${d.notes}\n` : '') + `\n` +
+          `👤 *Name:* ${d.name}\n📞 *Phone:* ${d.phone}${d.email ? `\n✉️ *Email:* ${d.email}` : ''}${d.town ? `\n📍 *Town:* ${d.town}` : ''}\n\n` +
+          `📰 Read: ${location.href}\n🧾 Ref: ${r}`;
+      }
       const url = send(payload, text);
       form.hidden = true;
       const s = $('[data-success]', box); s.hidden = false;
-      s.innerHTML = successHtml(r, url, 'Order sent!');
+      s.innerHTML = successHtml(r, url, m === 'import' ? 'Order sent!' : 'Booking sent!')
+        .replace('reply with your free quote shortly', m === 'import' ? 'reply with your free quote shortly' : 'confirm your booking and quote shortly');
     });
   });
 

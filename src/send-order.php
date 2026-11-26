@@ -35,7 +35,7 @@ if ($name === '' || !preg_match('/^[0-9+\s()-]{9,20}$/', $phone)) { http_respons
 $labels = [
   'ref' => 'Reference', 'type' => 'Type', 'car' => 'Car', 'variant_name' => 'Version / spec', 'price' => 'Est. landed price',
   'make' => 'Make', 'model' => 'Model', 'other_car' => 'Car (typed)', 'fuel' => 'Fuel', 'transmission' => 'Transmission',
-  'service' => 'Service', 'service_type' => 'Service type', 'checkup_type' => 'Check-up type', 'body_type' => 'Body type', 'insured' => 'Insured', 'insurer' => 'Insurer', 'payment' => 'Payment', 'drivable' => 'Drivable', 'finance' => 'Finance', 'photos' => 'Photos', 'date' => 'Preferred date', 'time' => 'Preferred time', 'reg' => 'Registration', 'origin' => 'Import from', 'year' => 'Year', 'budget' => 'Budget', 'mileage' => 'Max mileage', 'colour' => 'Colour', 'timeline' => 'Timeline',
+  'service' => 'Service', 'service_type' => 'Service type', 'checkup_type' => 'Check-up type', 'body_type' => 'Body type', 'insured' => 'Insured', 'insurer' => 'Insurer', 'payment' => 'Payment', 'drivable' => 'Drivable', 'finance' => 'Finance', 'photos' => 'Photos', 'date' => 'Preferred date', 'time' => 'Preferred time', 'reg' => 'Registration', 'origin' => 'Import from', 'year' => 'Year', 'budget' => 'Budget', 'service_budget' => 'Budget', 'other_model' => 'Model (typed)', 'mode' => 'Booking type', 'mileage' => 'Max mileage', 'colour' => 'Colour', 'timeline' => 'Timeline',
   'name' => 'Name', 'phone' => 'Phone / WhatsApp', 'email' => 'Email', 'town' => 'Town', 'notes' => 'Notes', 'page' => 'Page',
 ];
 $lines = [];
@@ -59,9 +59,9 @@ $sent = @mail($TO, $subject, $body, $headers, "-f{$FROM}");
 
 // Acknowledge the customer
 if ($sent && $email) {
-  $ack = "Hi {$name},\n\nThank you for your interest in importing with {$NAME}. We have received your {$type}. Your reference is {$ref}.\n\n" . implode("\n", $lines) .
-         "\n\nOur team will contact you shortly on {$phone} with a free, all-inclusive landed quote.\n\n{$NAME}\nWhatsApp: https://wa.me/{{WA}}  ·  {{PHONE}}\n";
+  $ack = "Hi {$name},\n\nThank you for your request with {$NAME}. We have received your {$type}. Your reference is {$ref}.\n\n" . implode("\n", $lines) .
+         "\n\nOur team will confirm your booking or quote shortly on {$phone}.\n\n{$NAME}\nWhatsApp: https://wa.me/{{WA}}  ·  {{PHONE}}\n";
   @mail($email, "=?UTF-8?B?" . base64_encode("Your {$NAME} request {$ref}") . "?=", $ack,
-        "From: {$NAME} <{$FROM}>\r\nReply-To: {$TO}\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n", "-f{$FROM}");
+        "From: {$NAME} <{$FROM}>\r\nReply-To: {$TO}\r\nCc: {$TO}\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n", "-f{$FROM}");
 }
 out($sent, $sent ? 'Sent' : 'Email could not be sent');

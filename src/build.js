@@ -32,6 +32,12 @@ const imgs = (slug) => (credits[slug] || []).filter((c) => existsSync(join(SRC, 
 // Published image names carry keywords, e.g. toyota-land-cruiser-prado-for-sale-kenya-1.webp
 const pub = (file) => file.replace(/-(\d+)(-sm)?\.webp$/, '-for-sale-kenya-$1$2.webp');
 const mainImg = (slug, sm = false) => { const i = imgs(slug)[0]; return i ? `/assets/img/cars/${pub(sm ? i.file.replace('.webp', '-sm.webp') : i.file)}` : '/assets/img/placeholder-car.svg'; };
+// Body-fabrication guides show purpose-built truck bodies, not the pickup used as a generic car stand-in
+const FAB_HEROES = ['elisa-fabrication-commercial-solutions', 'elisa-fabrication-fleet-showcase', 'elisa-fabrication-vehicle-showcase'];
+const fabIndex = (slug) => [...slug].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % FAB_HEROES.length;
+const heroOf = (p, sm = false) => p.cluster === 'Garage & body fabrication'
+  ? `/assets/img/garage/${FAB_HEROES[fabIndex(p.slug)]}${sm ? '-sm' : ''}.webp`
+  : mainImg(p.cars[0], sm);
 const cc = (v) => v.cc ? `${(v.cc / 1000).toFixed(1)}L (${v.cc.toLocaleString('en')} cc)` : 'Electric motor';
 const kmL = (v) => parseFloat(v.economy) * (v.economy.includes('km/L') ? 1 : 0);
 
@@ -194,7 +200,7 @@ const wordCount = (html) => html.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Bo
 const readMin = (p) => Math.ceil(wordCount(p.html) / 220);
 const fmtDate = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 const postCard = (p) => `<article class="car-card post-card">
-  <div class="ph"><img src="${mainImg(p.cars[0], true)}" alt="${esc(p.crumb)}: ${esc(site.name)} guide" title="${esc(p.title)}" width="600" height="400" loading="lazy" decoding="async"></div>
+  <div class="ph"><img src="${heroOf(p, true)}" alt="${esc(p.cluster === 'Garage & body fabrication' ? `${p.crumb}: truck body fabrication guide` : `${p.crumb}: ${site.name} guide`)}" title="${esc(p.title)}" width="600" height="400" loading="lazy" decoding="async"></div>
   <div class="body"><span class="make">${esc(p.tag)} · ${readMin(p)} min read</span><h3><a href="/blog/${p.slug}/">${esc(p.crumb)}</a></h3><p class="small muted" style="margin:0">${esc(p.excerpt)}</p></div>
 </article>`;
 const postGrid = (list) => `<div class="car-grid">${list.map(postCard).join('')}</div>`;
@@ -649,7 +655,8 @@ ${CLUSTERS.map((cl) => `<section class="block" id="${slugify(cl)}" style="paddin
 for (const p of posts) {
   const path = `/blog/${p.slug}/`;
   const cr = crumbs([['Home', '/'], ['Blog', '/blog/'], [p.crumb, path]]);
-  const hero = mainImg(p.cars[0]);
+  const hero = heroOf(p);
+  const heroAlt = p.cluster === 'Garage & body fabrication' ? `${p.keyword}: commercial vehicle body fabrication by ${site.name} Garage` : `${p.keyword}: ${p.cars[0] && cars.find((c) => c.slug === p.cars[0])?.name} imported by ${site.name}`;
   const featured = p.cars.map((s) => cars.find((c) => c.slug === s));
   const more = [...posts.filter((x) => x !== p && x.cluster === p.cluster), ...posts.filter((x) => x.cluster !== p.cluster)];
   const body = `<div class="wrap">${cr.html}
@@ -657,7 +664,7 @@ for (const p of posts) {
   <p class="post-meta">By the ${site.name} import team · Updated <time datetime="${p.updated}">${fmtDate(p.updated)}</time> · ${readMin(p)} min read</p></header>
 <div class="two-col post-layout">
   <div>
-    <img class="post-hero" src="${hero}" alt="${esc(`${p.keyword}: ${featured[0].name} imported by ${site.name}`)}" title="${esc(p.title)}" width="1200" height="800" fetchpriority="high">
+    <img class="post-hero" src="${hero}" alt="${esc(heroAlt)}" title="${esc(p.title)}" width="1200" height="800" fetchpriority="high">
     <article class="prose post-body">${p.html}
       <h2>${esc(p.keyword)}: FAQs</h2>${faqHtml(p.faq)}
     </article>

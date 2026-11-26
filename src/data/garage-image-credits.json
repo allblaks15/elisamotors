@@ -55,11 +55,32 @@
   "license": "CC BY-SA 4.0",
   "source": "https://commons.wikimedia.org/wiki/File:Isuzu_NQR,_White_Truck,.jpg"
  },
- "fabrication2": {
-  "file": "lorry-dropside-body-fabrication-nairobi.webp",
-  "title": "6th Gen 2000s Mitsubishi Fuso Canter Philippines.jpg",
-  "artist": "Chaz Mikhael",
-  "license": "Copyrighted free use",
-  "source": "https://commons.wikimedia.org/wiki/File:6th_Gen_2000s_Mitsubishi_Fuso_Canter_Philippines.jpg"
- }
+  "fabrication2": {
+   "file": "lorry-dropside-body-fabrication-nairobi.webp",
+   "title": "6th Gen 2000s Mitsubishi Fuso Canter Philippines.jpg",
+   "artist": "Chaz Mikhael",
+   "license": "Copyrighted free use",
+   "source": "https://commons.wikimedia.org/wiki/File:6th_Gen_2000s_Mitsubishi_Fuso_Canter_Philippines.jpg"
+  },
+  "elisaFab1": {
+   "file": "elisa-fabrication-commercial-solutions.webp",
+   "title": "Elisa Motors Commercial Vehicle Fabrication & Body Building",
+   "artist": "Elisa Motors",
+   "license": "Own artwork",
+   "source": "https://elisamotors.co.ke/garage/body-fabrication/"
+  },
+  "elisaFab2": {
+   "file": "elisa-fabrication-fleet-showcase.webp",
+   "title": "Elisa Motors Truck & Trailer Fabrication Services",
+   "artist": "Elisa Motors",
+   "license": "Own artwork",
+   "source": "https://elisamotors.co.ke/garage/body-fabrication/"
+  },
+  "elisaFab3": {
+   "file": "elisa-fabrication-vehicle-showcase.webp",
+   "title": "Elisa Motors Commercial Vehicle Fabrication Showcase",
+   "artist": "Elisa Motors",
+   "license": "Own artwork",
+   "source": "https://elisamotors.co.ke/garage/body-fabrication/"
+  }
 }

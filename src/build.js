@@ -275,28 +275,81 @@ const garage = buildGarage({ site, YEAR, I, esc, waLink, abs, add, layout, crumb
   const bodyCounts = Object.keys(BODIES).map((b) => [b, cars.filter((c) => c.body === b).length]);
   const heroImg = garage.img('hero');
   const gName = site.garage.name;
+  const garageFaq = [
+    ['Where is your garage in Nairobi and when is it open?', `${gName} is in ${esc(site.garage.address || site.garage.area)}. We are open ${esc(site.garage.hours)}. Book a slot on this page or WhatsApp us on ${site.phone} and we will confirm your appointment and send directions.`],
+    ['Do you give a quote before starting any repair?', 'Yes. We diagnose the fault first, explain what needs fixing and agree the price with you before any work starts. No surprise bills, and we show you the old parts on request.'],
+    ['Can I pay for accident repairs through my insurance?', site.garage.insurers.length ? `Yes. We are approved by ${site.garage.insurers.join(', ')}. Tell us your insurer when you send the request and we prepare the estimate and photos your claim needs. You can also pay cash.` : 'Yes. Tell us your insurer when you request the repair and we prepare the estimate and photos your claim needs. Cash payments are welcome too.'],
+    ['Do you service hybrid and luxury cars?', 'Yes. We service and repair hybrids such as the Toyota Aqua, Prius and Honda Fit Hybrid, and we specialise in Range Rover, Mercedes-Benz, BMW, Audi, Porsche and Toyota. All cars get a computerised diagnostic scan as part of the check-up.'],
+    ['Can you build or repair a truck or van body?', `Yes. ${gName} builds box, dropside, flatbed, high-side, cattle and tipper bodies for trucks and lorries, plus shelving and partitions for vans. We also repair and modify existing bodies. See our <a href="/garage/body-fabrication/">body fabrication page</a> for details.`],
+    ['How do I book a car service or repair?', `Use the order form on this page, call ${site.phone} or WhatsApp us. Tell us your car, the service or repair you need and your preferred date, and we will confirm your slot.`],
+  ];
   const body = `
 <section class="hero hero-garage">
   <img class="hero-img" src="${heroImg}" alt="Mechanics repairing a car at ${gName}, Nairobi" title="Car garage in Nairobi for Range Rover, Mercedes-Benz, BMW, Audi, Porsche and Toyota" width="1200" height="800" fetchpriority="high">
   <div class="wrap">
-    <span class="eyebrow">Garage · Accident repair · Car imports</span>
-    <h1>Range Rover, Mercedes, BMW, Audi, Porsche &amp; Toyota garage in Nairobi</h1>
-    <p class="lede">Specialist servicing, repairs, accident repairs, hybrid cars and diagnostics, plus body fabrication for vans and trucks. And when you are ready for your next car, we import it from Japan, the UK or South Africa.</p>
-    <div class="hero-ctas"><a class="btn btn-primary" href="#order-form">Book a service or repair</a><a class="btn btn-light" href="/cars/">${I.car} Import a car</a><a class="btn btn-wa" href="${waLink(`Hi, I would like to book my car in at ${gName}.`)}" target="_blank" rel="noopener">${I.wa} WhatsApp us</a></div>
+    <span class="eyebrow">Car repair · Service · Accident repair · Body fabrication · Car imports</span>
+    <h1>Car repair, service &amp; body fabrication garage in Nairobi</h1>
+    <p class="lede">Elisa Motors Garage keeps cars running: routine servicing, engine and gearbox repairs, computerised diagnostics, electrical and hybrid work, panel beating and spray painting after an accident, and custom bodies for vans, trucks and lorries. Our mechanics specialise in Range Rover, Mercedes-Benz, BMW, Audi, Porsche and Toyota, and when you are ready for your next car we import it from Japan, the UK or South Africa.</p>
+    <div class="hero-ctas"><a class="btn btn-primary" href="#order-form">Book a service or repair</a><a class="btn btn-light" href="/garage/body-fabrication/">Body fabrication</a><a class="btn btn-wa" href="${waLink(`Hi, I would like to book my car in at ${gName}.`)}" target="_blank" rel="noopener">${I.wa} WhatsApp us</a></div>
     <div class="trust">
-      ${['Range Rover, Mercedes, BMW, Audi, Porsche &amp; Toyota specialists', 'Accident repairs: insurance or cash', 'Honest quotes before any work', 'Car imports from Japan, UK &amp; South Africa'].map((t) => `<div>${I.check}<span>${t}</span></div>`).join('')}
+      ${['Car servicing, repairs &amp; diagnostics for all makes', 'Range Rover, Mercedes, BMW, Audi, Porsche &amp; Toyota specialists', 'Accident repair: panel beating, painting &amp; insurance claims', 'Box, dropside, flatbed &amp; tipper body fabrication', 'Honest quotes before any work starts', 'Car imports from Japan, UK &amp; South Africa'].map((t) => `<div>${I.check}<span>${t}</span></div>`).join('')}
     </div>
   </div>
 </section>
 
 <section class="block"><div class="wrap">
-  <div class="section-head"><div><h2>Specialist garage for luxury cars and Toyota</h2><p>Servicing, diagnostics and repairs by mechanics who work on these makes every day.</p></div><a class="link-arrow" href="/garage/">Visit the garage →</a></div>
+  <div class="section-head"><div><h2>Specialist car repair for luxury cars and Toyota</h2><p>Servicing, diagnostics, mechanical repairs and accident work by mechanics who work on these makes every day. Tap a make to see the jobs we handle most.</p></div><a class="link-arrow" href="/garage/">Visit the garage →</a></div>
   <div class="brand-grid">${garage.BRAND_PAGES.map((b) => `<a class="brand-card" href="/garage/${b.slug}/"><img src="${b.img.replace('.webp', '-sm.webp')}" alt="${esc(`${b.name} specialist garage Nairobi`)}" title="${esc(`${b.name} specialist garage Nairobi`)}" width="600" height="400" loading="lazy"><b>${esc(b.name)}</b><span>Service &amp; repair</span></a>`).join('')}</div>
 </div></section>
 
 <section class="block alt"><div class="wrap">
-  <div class="section-head"><div><h2>Garage services</h2><p>From routine servicing to accident repairs, hybrids and truck bodies.</p></div><a class="link-arrow" href="/garage/">All garage services →</a></div>
+  <div class="section-head"><div><h2>Garage services at Elisa Motors</h2><p>From routine servicing, repairs and diagnostics to accident repair, hybrid care and truck and van body fabrication. Choose a service to see what is included and book a slot.</p></div><a class="link-arrow" href="/garage/">All garage services →</a></div>
   <div class="svc-grid svc-grid-home">${garage.SERVICES.map((x) => `<a class="svc-card" href="/garage/${x.slug}/">${x.img ? `<img src="${garage.img(x.img, true)}" alt="${esc(`${x.short} in Nairobi`)}" title="${esc(`${x.short} in Nairobi`)}" width="600" height="400" loading="lazy">` : `<span class="svc-ic" aria-hidden="true">${x.icon}</span>`}<b>${x.short}</b><span>${x.blurb}</span></a>`).join('')}</div>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="section-head"><div><h2>Car repair and servicing in Nairobi</h2><p>From a minor service to an engine overhaul, we diagnose first, explain the problem and agree the price before any work starts.</p></div><a class="link-arrow" href="/garage/car-repair/">See all repairs →</a></div>
+  <div class="two-col">
+    <div class="prose">
+      <p>Elisa Motors Garage is a full-service car repair workshop in Nairobi. We service and repair Japanese, German and British cars every day: Toyota, Nissan, Subaru, Mazda and Honda, plus Range Rover, Mercedes-Benz, BMW, Audi, Porsche and Volkswagen. Whether it is routine maintenance or a warning light you cannot ignore, we find the cause and fix it properly.</p>
+      <h3>Engine, gearbox, suspension and brake repairs</h3>
+      <p>We handle engine repairs and overhauls, timing belts and chains, head gaskets and oil leaks, turbocharger and injector faults, automatic and CVT gearbox servicing, clutch replacement, shock absorbers, control arm bushings, wheel bearings, steering racks, brake pads, discs and ABS faults. Kenyan roads are hard on suspension and cooling systems, so we check both at every service.</p>
+      <h3>Diagnostics, auto electrical and hybrid cars</h3>
+      <p>Modern cars need more than a spanner. Our computerised diagnostics scan every control module, so a check-engine, ABS, airbag or gearbox warning light is traced to the real fault instead of guessed at. We also test batteries and alternators, trace wiring faults, repair starters and service Toyota, Honda and Nissan hybrids, including battery cooling and inverter checks.</p>
+      <h3>Accident repair, panel beating and spray painting</h3>
+      <p>After a collision we inspect the body, chassis alignment and the mechanical damage underneath. We repair dents and panels, colour-match the paint and fix what is underneath, working with insurers or cash customers. Send photos through the order form below and we will quote the repair.</p>
+    </div>
+    <div>
+      <figure class="garage-photo"><img src="${garage.img('repair', true)}" alt="Mechanic repairing a car engine at a garage in Nairobi" title="Car engine repair Nairobi" width="600" height="400" loading="lazy"></figure>
+      <figure class="garage-photo"><img src="${garage.img('diagnostics', true)}" alt="Computerised car diagnostics scanning a car in Nairobi" title="Car diagnostics Nairobi" width="600" height="400" loading="lazy"></figure>
+    </div>
+  </div>
+  <h3 style="margin-top:26px">Common problems we fix</h3>
+  <div class="spec-table-wrap"><table class="spec kv"><tbody>
+    <tr><th>Car won't start</th><td>Battery, starter, alternator, immobiliser or fuel supply faults</td></tr>
+    <tr><th>Knocking or vibrating</th><td>Worn suspension joints, engine mountings, CV joints or brake discs</td></tr>
+    <tr><th>Overheating</th><td>Radiator, water pump, thermostat, cooling fan or a blown head gasket</td></tr>
+    <tr><th>Warning lights on</th><td>Engine, ABS, airbag, battery and gearbox faults diagnosed by scan tool</td></tr>
+    <tr><th>Smoke from the exhaust</th><td>Head gasket on petrol cars; injectors, turbo or EGR on diesels</td></tr>
+    <tr><th>Gearbox jerking or slipping</th><td>Old fluid, sensors, software or worn clutch packs in automatic and CVT gearboxes</td></tr>
+  </tbody></table></div>
+  <p style="margin-top:18px"><a class="link-arrow" href="/garage/car-service/">Minor &amp; major car service →</a> &nbsp;·&nbsp; <a class="link-arrow" href="/garage/car-diagnostics/">Diagnostics &amp; electrical →</a> &nbsp;·&nbsp; <a class="link-arrow" href="/garage/hybrid-car-service/">Hybrid car service →</a> &nbsp;·&nbsp; <a class="link-arrow" href="/garage/accident-repair/">Accident repair →</a></p>
+</div></section>
+
+<section class="block alt"><div class="wrap">
+  <div class="section-head"><div><h2>Truck, lorry and van body fabrication</h2><p>We build and repair bodies for vans, pickups, trucks and lorries, designed around the load you carry and the vehicle you drive.</p></div><a class="link-arrow" href="/garage/body-fabrication/">Body fabrication details →</a></div>
+  <div class="two-col">
+    <div class="prose">
+      <p>Need a box body for deliveries, a dropside for building materials, a high-side for grain or a tipper for site work? We fabricate bodies to match your vehicle's payload and how you load it. We agree the size, material and features with you before we start, then give you a clear quote and timeline.</p>
+      <ul class="feature-list">${['Box (closed) bodies for goods and deliveries', 'Dropside and flatbed bodies', 'High-side bodies for bulk loads', 'Cattle and livestock bodies', 'Tipper bodies', 'Van shelving, racks and partitions', 'Pickup canopies and carriers', 'Repairs and modifications to existing bodies'].map((x) => `<li>${I.check}<span>${x}</span></li>`).join('')}</ul>
+      <p>We fabricate for light and medium trucks such as the Isuzu NKR, NPR and FRR, Mitsubishi Fuso Canter, Toyota Dyna, Hino and FAW, and for vans and pickups such as the Toyota Hiace, Nissan NV350, Probox and Hilux. Existing bodies can be repaired or modified too. Tell us your vehicle and what you carry, and we will quote the right body.</p>
+    </div>
+    <div>
+      <figure class="garage-photo"><img src="/assets/img/garage/elisa-fabrication-commercial-solutions.webp" alt="Commercial truck body fabrication by Elisa Motors in Nairobi" title="Truck body fabrication Nairobi" width="1200" height="800" loading="lazy"></figure>
+      <figure class="garage-photo"><img src="/assets/img/garage/elisa-fabrication-fleet-showcase.webp" alt="Fabricated vehicle bodies for a fleet built by Elisa Motors" title="Van and lorry body fabrication Kenya" width="1200" height="800" loading="lazy"></figure>
+    </div>
+  </div>
+  <p style="margin-top:18px"><a class="link-arrow" href="/garage/book/?service=fabrication">Order a body on the order form →</a></p>
 </div></section>
 
 <section class="block" id="order-form"><div class="wrap">
@@ -358,11 +411,16 @@ const garage = buildGarage({ site, YEAR, I, esc, waLink, abs, add, layout, crumb
 ${ctaBand()}
 
 <section class="block"><div class="wrap">
+  <div class="section-head"><div><h2>Garage FAQs: service, repairs and body fabrication</h2><p>Quick answers about booking, quotes, insurance, hybrids and custom bodies.</p></div><a class="link-arrow" href="/garage/">Visit the garage →</a></div>
+  ${faqHtml(garageFaq)}
+</div></section>
+
+<section class="block alt"><div class="wrap">
   <div class="section-head"><div><h2>Car import FAQs</h2></div></div>
   ${faqHtml(generalFaq)}
 </div></section>`;
-  add('/', layout({ path: '/', title: fit(`Range Rover, Mercedes, BMW, Audi & Toyota Garage Nairobi | ${site.name}`, `Range Rover, Mercedes, BMW & Toyota Garage in Nairobi`), description: `${site.name}: specialist garage in Nairobi for Range Rover, Mercedes-Benz, BMW, Audi, Porsche and Toyota. Servicing, repairs, accident repairs, hybrids, truck body fabrication, plus car imports from Japan and the UK.`, body, priority: 1.0, preload: heroImg,
-    jsonld: [faqLd(generalFaq), { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url, potentialAction: { '@type': 'SearchAction', target: abs('/cars/?q={search_term_string}'), 'query-input': 'required name=search_term_string' } }] }));
+  add('/', layout({ path: '/', title: fit('Car Repair, Service & Body Fabrication in Nairobi | Elisa Motors', 'Car Repair & Body Fabrication Nairobi | Elisa Motors'), description: `${site.name}: car repair, servicing, diagnostics, accident repair, hybrid care and truck & van body fabrication in Nairobi. Range Rover, Mercedes, BMW, Audi, Porsche and Toyota specialists. Car imports from Japan, the UK and South Africa.`, body, priority: 1.0, preload: heroImg,
+    jsonld: [faqLd([...garageFaq, ...generalFaq]), { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url, potentialAction: { '@type': 'SearchAction', target: abs('/cars/?q={search_term_string}'), 'query-input': 'required name=search_term_string' } }] }));
 }
 
 // ALL CARS (filterable)
